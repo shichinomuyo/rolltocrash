@@ -327,7 +327,6 @@
     UIImage *img = nil;
     CGRect rect;
     
-    int adjustPosition; // 位置調整
     
     // ビットマップ形式のコンテキストの生成
     UIGraphicsBeginImageContextWithOptions(size, NO, 0); // (scale)は 0 を指定することで使用デバイスに適した倍率が自動的に採用される
@@ -335,16 +334,8 @@
     // 現在のコンテキストを取得する
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    if (color == [UIColor greenColor]) {
-        // 線で描画する範囲を決める
-        adjustPosition = 24; // 30
-        rect = CGRectMake(adjustPosition/2, adjustPosition/2, (int)(size.width -adjustPosition), (int)(size.height -adjustPosition));
-    } else {
-        // 線で描画する範囲を決める
-        adjustPosition = 8;
-        rect = CGRectMake(adjustPosition/2, adjustPosition/2, (int)(size.width -adjustPosition), (int)(size.height -adjustPosition));
-    }
-    
+    rect = CGRectMake(lineWidth, lineWidth, (int)(size.width - 2*lineWidth), (int)(size.height - 2*lineWidth));
+
     // 線の太さを決める
     CGContextSetLineWidth(context, lineWidth);
     
