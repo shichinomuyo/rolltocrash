@@ -27,12 +27,6 @@
     // 【アニメーション】ロール再生中のコマを入れる配列
     NSArray *animationSeq;
     
-    // 【アニメーション】円を描画用のUIImageview
-    UIImageView *imgViewCircle;
-    UIImageView *imgViewCircle_small;
-    
-
-    
     // 【debug】ループ回数確認用
     int i;
     int p;
@@ -313,72 +307,6 @@
     
 }
 
-// pauseBtnの出現アニメーション
-- (void)pauseBtnAnimation_appear{
-    self.startStopBtn.imageView.alpha = 0;
-    self.startStopBtn.hidden = 0;
-    self.startStopBtn.imageView.transform = CGAffineTransformMakeScale(0.01, 0.01);
-    CGAffineTransform t1 = CGAffineTransformMakeRotation(M_PI/2.0f);
-    CGAffineTransform t2 = CGAffineTransformRotate(t1, M_PI/2.0f);
-    CGAffineTransform t3 = CGAffineTransformRotate(t2, M_PI/2.0f);
-    CGAffineTransform t4 = CGAffineTransformRotate(t3, M_PI/2.0f);
-    CGAffineTransform t5 = CGAffineTransformMakeScale(1.25, 1.25);
-    CGAffineTransform t6 = CGAffineTransformScale(t5, 1.25, 1.25);
-    CGAffineTransform t7 = CGAffineTransformScale(t6, 1.25, 1.25);
-    CGAffineTransform t8 = CGAffineTransformScale(t7, 1.25, 1.25);
-
-
-    
-    [UIView animateWithDuration:0.12f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.startStopBtn.imageView.alpha = 0.5;
-                         self.startStopBtn.imageView.transform =  CGAffineTransformConcat(t1, t5);
-                     }
-                     completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.12f
-                                               delay:0.0f
-                                             options:UIViewAnimationOptionCurveLinear
-                                          animations:^{
-                                              self.startStopBtn.imageView.alpha = 1;
-                                              self.startStopBtn.imageView.transform =  CGAffineTransformConcat(t2, t6);
-                                          }
-                                          completion:^(BOOL finished){
-                                              [UIView animateWithDuration:0.12f
-                                                                    delay:0.0f
-                                                                  options:UIViewAnimationOptionCurveLinear
-                                                               animations:^{
-                                                                   self.startStopBtn.imageView.alpha = 1;
-                                                                   self.startStopBtn.imageView.transform =  CGAffineTransformConcat(t3, t7);
-                                                               }
-                                                               completion:^(BOOL finished){
-                                                                   [UIView animateWithDuration:0.12f
-                                                                                         delay:0.0f
-                                                                                       options:UIViewAnimationOptionCurveEaseOut
-                                                                                    animations:^{
-                                                                                        self.startStopBtn.imageView.alpha = 1;
-                                                                                        self.startStopBtn.imageView.transform =  CGAffineTransformConcat(t4, t8);
-                                                                                        // アニメーションが再生されるまでボタンを無効化
-                                                                                        [self.ctrlBtn setEnabled:1];
-                                                                                        [self.startStopBtn setEnabled:1];
-                                                                                    }
-                                                                                    completion:nil];
-                                                                   
-                                                               }];
-                                              
-                                          }];
-                     }];
- 
-}
-
-// startStopBtnをhiddenかつ無効にする
--(void)btnToHiddenDisable:(UIButton *)btn{
-    btn.hidden = 1;
-    [btn setEnabled:0];
-}
-
-
 - (void)viewWillDisappear:(BOOL)animated{
     // 画面が隠れたらNend定期ロード中断
     [self.nadView pause];
@@ -501,7 +429,7 @@
         [lastCircle circleAnimationFinish:0.17 secondDuration:0.17];
         
         // startStopBtnをhiddenかつ無効にする
-        [self btnToHiddenDisable:self.startStopBtn];
+        [UIButtonAnimation btnToHiddenDisable:self.startStopBtn];
         
 
             [self viewDidAppear:1];
@@ -546,7 +474,6 @@
 */
 
         // transform初期化
-        imgViewCircle.transform = CGAffineTransformIdentity;
         self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
         
         // 【アニメーション】円の縮小アニメーションを0.7秒間隔で呼び出すタイマーを作る
@@ -558,7 +485,8 @@
         // statStopBtn がhiddenのときだけ実行
         if (self.startStopBtn.hidden == 1) {
             // 【アニメーション】startStopBtnを拡大/回転しながら表示
-            [self pauseBtnAnimation_appear];
+            [UIButtonAnimation appearWithRotateAndUnAlpha:self.startStopBtn];
+            [self.ctrlBtn setEnabled:1];
         }
 
         
@@ -596,7 +524,7 @@
         self.ctrlBtn.imageView.image = [UIImage imageNamed:@"default_v07.png"];
       
         // startStopBtnをhiddenかつ無効にする
-        [self btnToHiddenDisable:self.startStopBtn];
+        [UIButtonAnimation btnToHiddenDisable:self.startStopBtn];
         // 初期画面を呼び出す
         [self viewDidAppear:1];
         
