@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 560392A5198C7C7500785494 /* ImageViewCircle.m */; };
+		560392A9198CBAB000785494 /* UIButtonAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 560392A8198CBAB000785494 /* UIButtonAnimation.m */; };
 		560D1B52197BF62C00AE9390 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B51197BF62C00AE9390 /* Foundation.framework */; };
 		560D1B54197BF62C00AE9390 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B53197BF62C00AE9390 /* CoreGraphics.framework */; };
 		560D1B56197BF62C00AE9390 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B55197BF62C00AE9390 /* UIKit.framework */; };
@@ -74,6 +76,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		560392A4198C7C7500785494 /* ImageViewCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewCircle.h; sourceTree = "<group>"; };
+		560392A5198C7C7500785494 /* ImageViewCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewCircle.m; sourceTree = "<group>"; };
+		560392A7198CBAB000785494 /* UIButtonAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIButtonAnimation.h; sourceTree = "<group>"; };
+		560392A8198CBAB000785494 /* UIButtonAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIButtonAnimation.m; sourceTree = "<group>"; };
 		560D1B4E197BF62C00AE9390 /* rollToCrash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rollToCrash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		560D1B51197BF62C00AE9390 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		560D1B53197BF62C00AE9390 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -246,6 +252,10 @@
 				560D1B66197BF62C00AE9390 /* Main_iPad.storyboard */,
 				560D1B69197BF62C00AE9390 /* ViewController.h */,
 				560D1B6A197BF62C00AE9390 /* ViewController.m */,
+				560392A4198C7C7500785494 /* ImageViewCircle.h */,
+				560392A5198C7C7500785494 /* ImageViewCircle.m */,
+				560392A7198CBAB000785494 /* UIButtonAnimation.h */,
+				560392A8198CBAB000785494 /* UIButtonAnimation.m */,
 				560D1B6C197BF62C00AE9390 /* Images.xcassets */,
 				560D1B58197BF62C00AE9390 /* Supporting Files */,
 			);
@@ -499,6 +509,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				560392A9198CBAB000785494 /* UIButtonAnimation.m in Sources */,
+				560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */,
 				560D1B6B197BF62C00AE9390 /* ViewController.m in Sources */,
 				560D1B62197BF62C00AE9390 /* AppDelegate.m in Sources */,
 				560D1B5E197BF62C00AE9390 /* main.m in Sources */,
