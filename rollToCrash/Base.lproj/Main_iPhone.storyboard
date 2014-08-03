@@ -35,7 +35,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="startStopBtn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="8iS-Yw-w8Y"/>
+                                    <action selector="pauseBtn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="3kU-d4-t3T"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -43,7 +43,7 @@
                     </view>
                     <connections>
                         <outlet property="ctrlBtn" destination="fRx-QP-7Su" id="IfP-0K-7sf"/>
-                        <outlet property="startStopBtn" destination="lMj-uX-DMS" id="2nI-9q-pYE"/>
+                        <outlet property="pauseBtn" destination="lMj-uX-DMS" id="bGa-Ok-wjh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
