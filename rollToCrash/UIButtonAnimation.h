@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface UIButtonAnimation : NSObject
-+ (void)appearWithRotateAndUnAlpha:(UIButton *)btn;
++ (void)appearWithRotate:(UIButton *)btn;
 + (void)btnToHiddenDisable:(UIButton *)btn;
++ (void)disAppearWithRotate:(UIButton *)btn;
 @end
