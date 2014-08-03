@@ -205,7 +205,7 @@
     // transform初期化
     self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
     
-    CGAffineTransform t1 = CGAffineTransformMakeScale(1.1, 1.1);
+    CGAffineTransform t1 = CGAffineTransformMakeScale(1.05, 1.05);
     self.ctrlBtn.imageView.transform = t1;
     
     // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
@@ -225,9 +225,9 @@
     self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
     
     CGAffineTransform t1 = CGAffineTransformMakeScale(0.98, 0.98);
-    
+    self.ctrlBtn.imageView.transform = t1;
     // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
-    [UIView animateWithDuration:1.25f
+    [UIView animateWithDuration:0.7f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
