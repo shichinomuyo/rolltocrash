@@ -82,8 +82,8 @@
     self.transform = CGAffineTransformIdentity;
     // アルファ値初期化
     self.alpha = 1;
-    
-    CGAffineTransform t2 = CGAffineTransformMakeScale(1.25, 1.25);
+
+    CGAffineTransform t1 = CGAffineTransformMakeScale(1.25, 1.25);
     
     // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
     [UIView animateWithDuration:1.25f
@@ -92,7 +92,7 @@
                      animations:^{
                          self.hidden = 0;
                          self.alpha = 0;
-                         self.transform = t2;
+                         self.transform = t1;
                      } completion:nil];
 }
 
@@ -103,7 +103,7 @@
     // アルファ値初期化
     self.alpha = 1;
     
-    CGAffineTransform t2 = CGAffineTransformMakeScale(0.9, 0.9);
+    CGAffineTransform t1 = CGAffineTransformMakeScale(0.9, 0.9);
     // 【アニメーション】クラッシュ再生ボタンが押されるまで赤のサークルの縮小、alpha減少を繰り返す
     [UIView animateWithDuration:0.3f // ロールアニメーションが1.5秒
                           delay:0.0f
@@ -111,7 +111,7 @@
                      animations:^{
                          self.hidden = 0;
                          self.alpha = 0;
-                         self.transform = t2;
+                         self.transform = t1;
                          
                      } completion:nil];
 }
