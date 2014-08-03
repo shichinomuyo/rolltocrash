@@ -20,6 +20,7 @@
     // タイマー
     NSTimer *_playTimer; // オーディオコントロール用
     NSTimer *_circleAnimationTimer; // サークルアニメーションコントロール用
+    NSTimer *_btnAnimationTimer; // ボタンアニメーションコントロール用
     
     // プレイヤーのdurationを格納
     int duration; // オーディオコントロール用
@@ -35,8 +36,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *ctrlBtn;
 - (IBAction)ctrlBtn:(UIButton *)sender;
-@property (weak, nonatomic) IBOutlet UIButton *startStopBtn;
-- (IBAction)startStopBtn:(UIButton *)sender;
+@property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
+- (IBAction)pauseBtn:(UIButton *)sender;
 
 
 // _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
@@ -139,6 +140,8 @@
     
     // アニメーションタイマーを破棄する
     [_circleAnimationTimer invalidate];
+    [_btnAnimationTimer invalidate];
+    
     // アニメーションが再生されるまでボタンを無効化
     [self.ctrlBtn setEnabled:0];
     // ボタンをデフォルトの画像に戻す
@@ -182,7 +185,7 @@
 */
 }
 
-// プレイヤーの再生を止めてクロスフェード管理用フラグを非アクティブにするメソッド
+// プレイヤーの再生を止めてcurrentTimeを0.0にセット
 - (void)stopPlayer:(AVAudioPlayer *)player{
     // playerをストップしplayer.currentTimeを0.0に戻す
     [player stop];
@@ -194,6 +197,42 @@
     NSLog(@"rollPlayer_alt.volume %f", _rollPlayer_alt.volume);
     NSLog(@"_rollPlayer_tmp.playing:%d _rollPlayer_alt.playing:%d", _rollPlayer_tmp.playing, _rollPlayer_alt.playing);
     NSLog(@"--------------------------------------------");
+}
+
+// ctrlBtnは繰り返しアニメーションさせる必要があるため、scaleUpBtn、scaleDownBtnを別クラスに抽出することができなかった。
+// ctrlBtnアニメーション　ロール停止時
+- (void)scaleUpBtn{
+    // transform初期化
+    self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
+    
+    CGAffineTransform t1 = CGAffineTransformMakeScale(1.1, 1.1);
+    self.ctrlBtn.imageView.transform = t1;
+    
+    // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
+    [UIView animateWithDuration:1.0f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.ctrlBtn.imageView.transform = t1;
+                     }
+                     completion:nil];
+
+}
+
+// ctrlBtnアニメーション　ロール停止時
+- (void)scaleDownBtn{
+    // transform初期化
+    self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
+    
+    CGAffineTransform t1 = CGAffineTransformMakeScale(0.98, 0.98);
+    
+    // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
+    [UIView animateWithDuration:1.25f
+                          delay:0.0f
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.ctrlBtn.imageView.transform = t1;
+                     } completion:nil];
 }
 
 
@@ -353,14 +392,23 @@
     
     // タイマーを破棄する
     [_circleAnimationTimer invalidate];
+    [_btnAnimationTimer invalidate];
     
     // 【アニメーション】円の拡大アニメーションを2.0秒間隔で呼び出すタイマーを作る
+
     _circleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f
                                                              target:greenCircle
                                                            selector:@selector(scaleUpAnimation)
-                                                userInfo:nil
-                                                 repeats:YES];
+                                                           userInfo:nil
+                                                            repeats:YES];
     
+    _btnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f
+                                                          target:self
+                                                        selector:@selector(scaleUpBtn)
+                                                        userInfo:nil
+                                                         repeats:YES];
+
+
 }
 
 - (void)dealloc{
@@ -428,9 +476,11 @@
         // crash再生時のアニメーション再生
         [lastCircle circleAnimationFinish:0.17 secondDuration:0.17];
         
-        // startStopBtnをhiddenかつ無効にする
-        [UIButtonAnimation btnToHiddenDisable:self.startStopBtn];
+        // pauseBtnをhiddenかつ無効にする
+        [UIButtonAnimation btnToHiddenDisable:self.pauseBtn];
         
+        // ctrlBtnを有効にする
+        [self.ctrlBtn setEnabled:1];
 
             [self viewDidAppear:1];
 
@@ -445,11 +495,13 @@
         [self.ctrlBtn.imageView startAnimating];
         // サークルアニメーションタイマーを破棄する
         [_circleAnimationTimer invalidate];
+        [_btnAnimationTimer invalidate];
+        
         // アニメーションが再生されるまでボタンを無効化
         [self.ctrlBtn setEnabled:0];
         
         // ボタンをデフォルトの画像に戻す
-        [self.startStopBtn setImage:[UIImage imageNamed:@"pause_v07.png"] forState:UIControlStateDisabled]; // startstopbtnがdisableのときに色を薄くしない
+        [self.pauseBtn setImage:[UIImage imageNamed:@"pause_v07.png"] forState:UIControlStateDisabled]; // pauseBtnがdisableのときに色を薄くしない
         
         // ストロークカラーを赤に設定
         UIColor *color = [UIColor redColor];
@@ -482,10 +534,15 @@
                                                                selector:@selector(scaleDownAnimation)
                                                                userInfo:nil
                                                                 repeats:YES];
+        _btnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.7f
+                                                                 target:self
+                                                               selector:@selector(scaleDownBtn)
+                                                               userInfo:nil
+                                                                repeats:YES];
         // statStopBtn がhiddenのときだけ実行
-        if (self.startStopBtn.hidden == 1) {
-            // 【アニメーション】startStopBtnを拡大/回転しながら表示
-            [UIButtonAnimation appearWithRotateAndUnAlpha:self.startStopBtn];
+        if (self.pauseBtn.hidden == 1) {
+            // 【アニメーション】pauseBtnを拡大/回転しながら表示
+            [UIButtonAnimation appearWithRotate:self.pauseBtn];
             [self.ctrlBtn setEnabled:1];
         }
 
@@ -498,10 +555,10 @@
 }
 
 // ctrlBtnの下のボタンを押した時に実行される処理を実装
-- (IBAction)startStopBtn:(UIButton *)sender {
-    NSLog(@"startStopBtnLabel tapped!");
+- (IBAction)pauseBtn:(UIButton *)sender {
+    NSLog(@"pauseBtnLabel tapped!");
     if (_rollPlayer_tmp.playing || _rollPlayer_alt.playing) {
-        // ドラムロールが再生中にstartStopBtnが押されたとき
+        // ドラムロールが再生中にpauseBtnが押されたとき
         // ループしているドラムロールを止める
         [_rollPlayer_tmp stop];
         _rollPlayer_tmp.currentTime = 0.0;
@@ -513,6 +570,7 @@
         
         // アニメーションタイマーを破棄する
         [_circleAnimationTimer invalidate];
+        [_btnAnimationTimer invalidate];
         
         // 【アニメーション】ロールのアニメーションを停止する
         [self.ctrlBtn.imageView stopAnimating];
@@ -523,8 +581,8 @@
         // ctrlBtnの画像をデフォルトの画像に設定
         self.ctrlBtn.imageView.image = [UIImage imageNamed:@"default_v07.png"];
       
-        // startStopBtnをhiddenかつ無効にする
-        [UIButtonAnimation btnToHiddenDisable:self.startStopBtn];
+        // pauseBtnをhiddenかつ無効にする
+        [UIButtonAnimation btnToHiddenDisable:self.pauseBtn];
         // 初期画面を呼び出す
         [self viewDidAppear:1];
         
