@@ -37,6 +37,7 @@
 		563401FC1982B96A001D582F /* hit_R2v07.png in Resources */ = {isa = PBXBuildFile; fileRef = 563401F71982B96A001D582F /* hit_R2v07.png */; };
 		5634020319834139001D582F /* pause_v07.png in Resources */ = {isa = PBXBuildFile; fileRef = 5634020119834139001D582F /* pause_v07.png */; };
 		5634020419834139001D582F /* play_v07.png in Resources */ = {isa = PBXBuildFile; fileRef = 5634020219834139001D582F /* play_v07.png */; };
+		5692B1DE198F629D004169F2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5692B1DD198F629D004169F2 /* .gitignore */; };
 		56A79DF51980BD060066AA87 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79DF41980BD060066AA87 /* StoreKit.framework */; };
 		56A79DF71980BD190066AA87 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79DF61980BD190066AA87 /* MessageUI.framework */; };
 		56A79DF91980BD280066AA87 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79DF81980BD280066AA87 /* SystemConfiguration.framework */; };
@@ -47,7 +48,6 @@
 		56A79E0B1981F0D40066AA87 /* NADView_readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 56A79E091981F0D40066AA87 /* NADView_readme.txt */; };
 		56A79E0D1981F13B0066AA87 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E0C1981F13B0066AA87 /* Security.framework */; };
 		56A79E0F1981F14B0066AA87 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E0E1981F14B0066AA87 /* ImageIO.framework */; };
-		56AD5E3D198F5639004933FD /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 56AD5E3C198F5639004933FD /* .gitignore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +99,7 @@
 		563401F71982B96A001D582F /* hit_R2v07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hit_R2v07.png; sourceTree = "<group>"; };
 		5634020119834139001D582F /* pause_v07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause_v07.png; sourceTree = "<group>"; };
 		5634020219834139001D582F /* play_v07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_v07.png; sourceTree = "<group>"; };
+		5692B1DD198F629D004169F2 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		56A79DE61980BCCB0066AA87 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
 		56A79DE71980BCCB0066AA87 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
 		56A79DE81980BCCB0066AA87 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
@@ -126,7 +127,6 @@
 		56A79E091981F0D40066AA87 /* NADView_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NADView_readme.txt; sourceTree = "<group>"; };
 		56A79E0C1981F13B0066AA87 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		56A79E0E1981F14B0066AA87 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		56AD5E3C198F5639004933FD /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = rollToCrash/.gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,7 +168,7 @@
 		560D1B45197BF62C00AE9390 = {
 			isa = PBXGroup;
 			children = (
-				56AD5E3C198F5639004933FD /* .gitignore */,
+				5692B1DD198F629D004169F2 /* .gitignore */,
 				560D1B57197BF62C00AE9390 /* rollToCrash */,
 				560D1B79197BF62C00AE9390 /* rollToCrashTests */,
 				560D1B50197BF62C00AE9390 /* Frameworks */,
@@ -403,7 +403,7 @@
 				560D1B65197BF62C00AE9390 /* Main_iPhone.storyboard in Resources */,
 				560D1BA3197C00EE00AE9390 /* crash.aif in Resources */,
 				560D1BA4197C00EE00AE9390 /* roll.aiff in Resources */,
-				56AD5E3D198F5639004933FD /* .gitignore in Resources */,
+				5692B1DE198F629D004169F2 /* .gitignore in Resources */,
 				563401F81982B96A001D582F /* default_v07.png in Resources */,
 				563401FB1982B96A001D582F /* hit_R1v07.png in Resources */,
 				5634020419834139001D582F /* play_v07.png in Resources */,
