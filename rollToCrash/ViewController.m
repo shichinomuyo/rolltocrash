@@ -43,6 +43,38 @@
 
 @implementation ViewController
 
+// _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
+- (void)playerControll{
+    
+    
+    // playerの開始位置を以下で　2.0にしているためdurfation -3 にしないと、pleyerが再生完了してしまう
+    
+    if (_rollPlayer_tmp.playing) {
+        [RollToCrashPlayer startAltPlayer:_rollPlayer_alt setStartTime:2.0 setVolume:0.2];
+        NSLog(@"クロスフェード");
+        NSLog(@"alt start!!");
+        // クロスフェード処理
+        while ((int)_rollPlayer_alt.volume !=1) {
+            [RollToCrashPlayer crossFadePlayer:_rollPlayer_tmp :_rollPlayer_alt];
+        }
+        NSLog(@"プレイヤーの停止とフラグの更新");
+        // プレイヤーの再生を止めてcurrentTimeを0.0にセット
+        [RollToCrashPlayer stopPlayer:_rollPlayer_tmp];
+        NSLog(@"_rollPlayer_tmp 止まったお");
+    } else if(_rollPlayer_alt.playing) {
+        [RollToCrashPlayer startAltPlayer:_rollPlayer_tmp setStartTime:2.0 setVolume:0.2];
+        NSLog(@"クロスフェード");
+        NSLog(@"tmp start!!");
+        // クロスフェード処理
+        while ((int)_rollPlayer_tmp.volume !=1) {
+            [RollToCrashPlayer crossFadePlayer:_rollPlayer_alt :_rollPlayer_tmp];
+        }
+        NSLog(@"プレイヤーの停止とフラグの更新");
+        // プレイヤーの再生を止めてcurrentTimeを0.0にセット
+        [RollToCrashPlayer stopPlayer:_rollPlayer_alt];
+        NSLog(@"_rollPlayer_alt 止まったお");
+    }
+}
 
 
 // ctrlBtnは繰り返しアニメーションさせる必要があるため、scaleUpBtn、scaleDownBtnを別クラスに抽出することができなかった。
@@ -347,15 +379,14 @@
         
     } else {
         // ドラムロールが停止中にctrlBtnが押されたとき
-        NSDictionary *dictionary =[NSDictionary dictionaryWithObjectsAndKeys:
-                                   @"_rollPlayer_tmp",      @"_rollPlayer_alt",nil];
+
         // ドラムロールを再生する
         [_rollPlayer_tmp playRollStopCrash:_crashPlayer setVolumeZero:_rollPlayer_alt ];
         // playerControllを1.0秒間隔で呼び出すタイマーを作る
         _playTimer = [NSTimer scheduledTimerWithTimeInterval:(duration - 3)
-                                                      target:_rollPlayer_tmp
-                                                    selector:@selector(playerControll: :)
-                                                    userInfo:dictionary
+                                                      target:self
+                                                    selector:@selector(playerControll)
+                                                    userInfo:nil
                                                      repeats:YES];
         // 【アニメーション】ロールのアニメーションを再生する
         [self.ctrlBtn.imageView startAnimating];

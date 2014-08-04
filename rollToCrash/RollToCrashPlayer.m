@@ -40,7 +40,7 @@
 }
 
 // ロールをループさせるためにaltPlayerを再生しクロスフェード管理用フラグをアクティブにするメソッドを実装
-- (void)startAltPlayer:(AVAudioPlayer *)player setStartTime:(float)startTime setVolume:(float)volume{
++ (void)startAltPlayer:(AVAudioPlayer *)player setStartTime:(float)startTime setVolume:(float)volume{
     // altPlayerのボリュームと開始位置を設定し再生
     player.volume = volume;
     player.currentTime = startTime;
@@ -48,7 +48,7 @@
 }
 
 // 2つのロールプレイヤーをクロスフェードさせるメソッド
-- (void)crossFadePlayer:(AVAudioPlayer *)tmpPlayer :(AVAudioPlayer *)altPlayer{
++ (void)crossFadePlayer:(AVAudioPlayer *)tmpPlayer :(AVAudioPlayer *)altPlayer{
     // tmpPlayerとaltPlayerのボリュームを0.1ずつ上げ下げ
     tmpPlayer.volume = tmpPlayer.volume - 0.1;
     altPlayer.volume = altPlayer.volume + 0.1;
@@ -56,48 +56,11 @@
 }
 
 // プレイヤーの再生を止めてcurrentTimeを0.0にセット
-- (void)stopPlayer:(AVAudioPlayer *)player{
++ (void)stopPlayer:(AVAudioPlayer *)player{
     // playerをストップしplayer.currentTimeを0.0に戻す
     [player stop];
     player.currentTime = 0.0;
     
 }
-
-// _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
-- (void)playerControll:(AVAudioPlayer *)rollPlayer_tmp :(AVAudioPlayer *)rollPlayer_alt{
-
-    
-    // playerの開始位置を以下で　2.0にしているためdurfation -3 にしないと、pleyerが再生完了してしまう
-    
-    if (rollPlayer_tmp.playing) {
-        [self startAltPlayer:rollPlayer_alt setStartTime:2.0 setVolume:0.2];
-        NSLog(@"クロスフェード");
-        NSLog(@"alt start!!");
-        // クロスフェード処理
-        while ((int)rollPlayer_alt.volume !=1) {
-            [self crossFadePlayer:rollPlayer_tmp :rollPlayer_alt];
-        }
-        NSLog(@"プレイヤーの停止とフラグの更新");
-        // プレイヤーの再生を止めてcurrentTimeを0.0にセット
-        [self stopPlayer:rollPlayer_tmp];
-        NSLog(@"_rollPlayer_tmp 止まったお");
-    } else if(rollPlayer_alt.playing) {
-        [self startAltPlayer:rollPlayer_tmp setStartTime:2.0 setVolume:0.2];
-        NSLog(@"クロスフェード");
-        NSLog(@"tmp start!!");
-        // クロスフェード処理
-        while ((int)rollPlayer_tmp.volume !=1) {
-            [self crossFadePlayer:rollPlayer_alt :rollPlayer_tmp];
-        }
-        NSLog(@"プレイヤーの停止とフラグの更新");
-        // プレイヤーの再生を止めてcurrentTimeを0.0にセット
-        [self stopPlayer:rollPlayer_alt];
-        NSLog(@"_rollPlayer_alt 止まったお");
-    }
-}
-
-
-
-
 
 @end
