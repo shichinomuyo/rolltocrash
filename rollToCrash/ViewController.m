@@ -13,9 +13,9 @@
 @interface ViewController ()<AVAudioPlayerDelegate>
 {
     // オーディオプレイヤー
-    AVAudioPlayer *_rollPlayer_tmp;
-    AVAudioPlayer *_rollPlayer_alt;
-    AVAudioPlayer *_crashPlayer;
+    RollToCrashPlayer *_rollPlayer_tmp;
+    RollToCrashPlayer *_rollPlayer_alt;
+    RollToCrashPlayer *_crashPlayer;
     
     // タイマー
     NSTimer *_playTimer; // オーディオコントロール用
@@ -39,165 +39,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
 - (IBAction)pauseBtn:(UIButton *)sender;
 
-
-// _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
-- (void)playerControll;
-
-// 最初にロールを再生するメソッド
-- (void)playRoll;
-// クラッシュを再生するメソッド
-- (void)playCrash;
-
-// ロールをループさせるために別のPlayerを再生するメソッド
-- (void)startAltPlayer:(AVAudioPlayer *)player :(float)startTime;
-
-// 2つのロールプレイヤーをクロスフェードさせるメソッド
-- (void)crossFadePlayer:(AVAudioPlayer *)tmpPlayer :(AVAudioPlayer *)altPlayer;
-
-// プレイヤーの再生を止めるメソッド
-- (void)stopPlayer:(AVAudioPlayer *)player;
 @end
 
 @implementation ViewController
-// _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
-- (void)playerControll{
-    // debugログを出力
-    ++p;
-    NSLog(@"%d回目:playerControll", p);
-    NSLog(@"duration:%d",(int)duration);
-    
-    // playerの開始位置を以下で　2.0にしているためdurfation -3 にしないと、pleyerが再生完了してしまう
-    
-    if (_rollPlayer_tmp.playing) {
-        [self startAltPlayer:_rollPlayer_alt :2.0];
-        NSLog(@"クロスフェード");
-        NSLog(@"alt start!!");
-        // クロスフェード処理
-        while ((int)_rollPlayer_alt.volume !=1) {
-            [self crossFadePlayer:_rollPlayer_tmp :_rollPlayer_alt];
-        }
-        NSLog(@"プレイヤーの停止とフラグの更新");
-        // プレイヤーを止める。フラグを更新
-        [self stopPlayer:_rollPlayer_tmp];
-        NSLog(@"_rollPlayer_tmp 止まったお");
-    } else if(_rollPlayer_alt.playing) {
-        [self startAltPlayer:_rollPlayer_tmp :2.0];
-        NSLog(@"クロスフェード");
-        NSLog(@"tmp start!!");
-        // クロスフェード処理
-        while ((int)_rollPlayer_tmp.volume !=1) {
-            [self crossFadePlayer:_rollPlayer_alt :_rollPlayer_tmp];
-        }
-        NSLog(@"プレイヤーの停止とフラグの更新");
-        // プレイヤーを止める。フラグを更新
-        [self stopPlayer:_rollPlayer_alt];
-        NSLog(@"_rollPlayer_alt 止まったお");
-    }
-}
-
-// 最初にロールを再生するメソッドを実装
-- (void)playRoll{
-    NSLog(@"playRoll!");
-    // 再生位置を最初に設定
-    _rollPlayer_tmp.currentTime = 0.0;
-    // スネアスプラッシュを停止し最初まで戻す
-    [_crashPlayer stop];
-    _crashPlayer.currentTime = 0.0;
-    
-    // ドラムロールを再生する
-    _rollPlayer_tmp.volume = 1.0;
-    [_rollPlayer_tmp play];
-    
-    // alt.volumeを0に設定
-    _rollPlayer_alt.volume = 0.0;
-    
-    // playerControllを1.0秒間隔で呼び出すタイマーを作る
-    _playTimer = [NSTimer scheduledTimerWithTimeInterval:(duration - 3)
-                                                  target:self
-                                                selector:@selector(playerControll)
-                                                userInfo:nil
-                                                 repeats:YES];
-    
 
 
-}
-
-// クラッシュを再生するメソッドを実装
--(void)playCrash{
-    // ループしているドラムロールを止める
-    [_rollPlayer_tmp stop];
-    _rollPlayer_tmp.currentTime = 0.0;
-    [_rollPlayer_alt stop];
-    _rollPlayer_alt.currentTime = 0.0;
-    
-    // クラッシュを再生する
-    [_crashPlayer play];
-    // プレイヤータイマーを破棄する
-    [_playTimer invalidate];
-    
-    // 【アニメーション】ロールのアニメーションを停止する
-    [self.ctrlBtn.imageView stopAnimating];
-    
-    // アニメーションタイマーを破棄する
-    [_circleAnimationTimer invalidate];
-    [_btnAnimationTimer invalidate];
-    
-    // アニメーションが再生されるまでボタンを無効化
-    [self.ctrlBtn setEnabled:0];
-    // ボタンをデフォルトの画像に戻す
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"default_v07.png"] forState:UIControlStateDisabled]; // ctrlBtnがdisableのときに色を薄くしない
-    
-
-    //debug用ログを出力
-    NSLog(@"splash!-------------------------------------");
-    NSLog(@"タイマー破棄");
-    NSLog(@"--------------------------------------------");
-    
-}
-
-// ロールをループさせるためにaltPlayerを再生しクロスフェード管理用フラグをアクティブにするメソッドを実装
-- (void)startAltPlayer:(AVAudioPlayer *)player :(float)startTime{
-    // debug用変数
-    ++i;
-    // debug用ログを出力
-    NSLog(@"----------------------");
-    NSLog(@"%d回目:交換用Player再生開始", i);
-    
-    // altPlayerのボリュームと開始位置を設定し再生
-    player.volume = 0.2;
-    player.currentTime = startTime;
-    [player play];
-    
-    //クロスフェード管理フラグをアクティブに変更
-    NSLog(@"rollPlayer_tmp.volume %f", _rollPlayer_tmp.volume);
-    NSLog(@"rollPlayer_alt.volume %f", _rollPlayer_alt.volume);
-}
-
-// 2つのロールプレイヤーをクロスフェードさせるメソッド
-- (void)crossFadePlayer:(AVAudioPlayer *)tmpPlayer :(AVAudioPlayer *)altPlayer{
-    // tmpPlayerとaltPlayerのボリュームを0.1ずつ上げ下げ
-    tmpPlayer.volume = tmpPlayer.volume - 0.1;
-    altPlayer.volume = altPlayer.volume + 0.1;
-/*
-    // debug用ログを出力
-    NSLog(@"rollPlayer_tmp.volume %f", _rollPlayer_tmp.volume);
-    NSLog(@"rollPlayer_alt.volume %f", _rollPlayer_alt.volume);
-*/
-}
-
-// プレイヤーの再生を止めてcurrentTimeを0.0にセット
-- (void)stopPlayer:(AVAudioPlayer *)player{
-    // playerをストップしplayer.currentTimeを0.0に戻す
-    [player stop];
-    player.currentTime = 0.0;
-    
-    // debug用ログを出力
-    NSLog(@"[stopPlayer]--------------------------------");
-    NSLog(@"rollPlayer_tmp.volume %f", _rollPlayer_tmp.volume);
-    NSLog(@"rollPlayer_alt.volume %f", _rollPlayer_alt.volume);
-    NSLog(@"_rollPlayer_tmp.playing:%d _rollPlayer_alt.playing:%d", _rollPlayer_tmp.playing, _rollPlayer_alt.playing);
-    NSLog(@"--------------------------------------------");
-}
 
 // ctrlBtnは繰り返しアニメーションさせる必要があるため、scaleUpBtn、scaleDownBtnを別クラスに抽出することができなかった。
 // ctrlBtnアニメーション　ロール停止時
@@ -280,16 +126,16 @@
     // ドラムロール
     NSString *path_roll = [[NSBundle mainBundle] pathForResource:@"roll" ofType:@"aiff"];
     NSURL *url_roll = [NSURL fileURLWithPath:path_roll];
-    _rollPlayer_tmp = [[AVAudioPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
+    _rollPlayer_tmp = [[RollToCrashPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
     
     // ロールalt
-    _rollPlayer_alt = [[AVAudioPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
+    _rollPlayer_alt = [[RollToCrashPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
     
     
     // クラッシュ
     NSString *path_clash = [[NSBundle mainBundle] pathForResource:@"crash" ofType:@"aif"];
     NSURL *url_clash = [NSURL fileURLWithPath:path_clash];
-    _crashPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_clash error:NULL];
+    _crashPlayer = [[RollToCrashPlayer alloc] initWithContentsOfURL:url_clash error:NULL];
     
     // ドラムロールだけループさせるのでデリゲートに指定
     // audioPlayer を作ったあとにデリゲート指定しないと機能しない
@@ -427,12 +273,24 @@
 // ボタンを押したときに実行される処理を実装
 - (IBAction)ctrlBtn:(UIButton *)sender {
     
-    // ドラムロールの再生
+    // ドラムロールの再生 or クラッシュの再生
     if (_rollPlayer_tmp.playing || _rollPlayer_alt.playing) {
         // ドラムロールが再生中にctrlBtnが押されたとき
-
+        
+        // 【アニメーション】ロールのアニメーションを停止する
+        [self.ctrlBtn.imageView stopAnimating];
         // ドラムロールを止めcrash再生
-        [self playCrash];
+        [_crashPlayer playCrashStopRolls:_rollPlayer_tmp :_rollPlayer_alt];
+
+        // プレイヤータイマーを破棄する
+        [_playTimer invalidate];
+        // アニメーションタイマーを破棄する
+        [_circleAnimationTimer invalidate];
+        [_btnAnimationTimer invalidate];
+        // アニメーションが再生されるまでボタンを無効化
+        [self.ctrlBtn setEnabled:0];
+        // ボタンをデフォルトの画像に戻す
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"default_v07.png"] forState:UIControlStateDisabled]; // ctrlBtnがdisableのときに色を薄くしない
         
         // ストロークカラーを赤に設定
         UIColor *color = [UIColor redColor];
@@ -489,8 +347,16 @@
         
     } else {
         // ドラムロールが停止中にctrlBtnが押されたとき
+        NSDictionary *dictionary =[NSDictionary dictionaryWithObjectsAndKeys:
+                                   @"_rollPlayer_tmp",      @"_rollPlayer_alt",nil];
         // ドラムロールを再生する
-        [self playRoll];
+        [_rollPlayer_tmp playRollStopCrash:_crashPlayer setVolumeZero:_rollPlayer_alt ];
+        // playerControllを1.0秒間隔で呼び出すタイマーを作る
+        _playTimer = [NSTimer scheduledTimerWithTimeInterval:(duration - 3)
+                                                      target:_rollPlayer_tmp
+                                                    selector:@selector(playerControll: :)
+                                                    userInfo:dictionary
+                                                     repeats:YES];
         // 【アニメーション】ロールのアニメーションを再生する
         [self.ctrlBtn.imageView startAnimating];
         // サークルアニメーションタイマーを破棄する
@@ -580,7 +446,9 @@
         self.ctrlBtn.imageView.image = nil; // ctrlBtnのパラパラアニメーション終わりにhighlightedの画像が表示される対策
         // ctrlBtnの画像をデフォルトの画像に設定
         self.ctrlBtn.imageView.image = [UIImage imageNamed:@"default_v07.png"];
-      
+        
+        //pauseBtnの消失アニメーション
+        
         // pauseBtnをhiddenかつ無効にする
         [UIButtonAnimation btnToHiddenDisable:self.pauseBtn];
         // 初期画面を呼び出す
