@@ -126,7 +126,7 @@
 		56A79E091981F0D40066AA87 /* NADView_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NADView_readme.txt; sourceTree = "<group>"; };
 		56A79E0C1981F13B0066AA87 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		56A79E0E1981F14B0066AA87 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		56AD5E3C198F5639004933FD /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		56AD5E3C198F5639004933FD /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = rollToCrash/.gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +168,7 @@
 		560D1B45197BF62C00AE9390 = {
 			isa = PBXGroup;
 			children = (
+				56AD5E3C198F5639004933FD /* .gitignore */,
 				560D1B57197BF62C00AE9390 /* rollToCrash */,
 				560D1B79197BF62C00AE9390 /* rollToCrashTests */,
 				560D1B50197BF62C00AE9390 /* Frameworks */,
@@ -210,7 +211,6 @@
 		560D1B57197BF62C00AE9390 /* rollToCrash */ = {
 			isa = PBXGroup;
 			children = (
-				56AD5E3C198F5639004933FD /* .gitignore */,
 				563401F21982B96A001D582F /* images_v0.7 */,
 				56A79E031981F0D40066AA87 /* NendAd */,
 				56A79DE51980BC720066AA87 /* AdMob */,
