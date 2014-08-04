@@ -15,6 +15,7 @@
 #define MY_INTERSTITIAL_UNIT_ID @"ca-app-pub-5959590649595305/4941619672"
 #import "ImageViewCircle.h"
 #import "UIButtonAnimation.h"
+#import "RollToCrashPlayer.h"
 
 @interface ViewController : UIViewController<GADBannerViewDelegate,GADInterstitialDelegate,NADViewDelegate>{
     //【Ad】AdMobバナー：インスタンス変数として1つ宣言
