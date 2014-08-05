@@ -87,7 +87,7 @@
     
     // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
     [UIView animateWithDuration:1.25f
-                          delay:0.0f
+                          delay:0.1f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
                          self.hidden = 0;
@@ -105,7 +105,7 @@
     
     CGAffineTransform t1 = CGAffineTransformMakeScale(0.9, 0.9);
     // 【アニメーション】クラッシュ再生ボタンが押されるまで赤のサークルの縮小、alpha減少を繰り返す
-    [UIView animateWithDuration:0.3f // ロールアニメーションが1.5秒
+    [UIView animateWithDuration:0.2f // ロールアニメーションが1.5秒
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{

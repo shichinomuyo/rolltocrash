@@ -17,8 +17,8 @@
     btn.imageView.transform = CGAffineTransformIdentity;
 
     btn.hidden = 0;
-    btn.alpha = 0;
-    btn.imageView.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    btn.alpha = 1;
+    btn.imageView.transform = CGAffineTransformMakeScale(0.1, 0.1);
     
     float scale = 1.0;
     CGAffineTransform t1 = CGAffineTransformMakeRotation(M_PI_2); // M_PI 180度 M_PI_2 90度
@@ -29,29 +29,25 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-                         btn.alpha = 0.5;
                          btn.imageView.transform =  CGAffineTransformConcat(t1, t5);
                      }
                      completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.1f
+                         [UIView animateWithDuration:0.08f
                                                delay:0.0f
                                              options:UIViewAnimationOptionCurveLinear
                                           animations:^{
-                                              btn.alpha = 0.6;
                                                btn.imageView.transform =  CGAffineTransformConcat(btn.imageView.transform,t1);
                                           }
                                           completion:^(BOOL finished){
-                                              [UIView animateWithDuration:0.1f
+                                              [UIView animateWithDuration:0.06f
                                                                     delay:0.0
                                                                   options:UIViewAnimationOptionCurveLinear
                                                                animations:^{
-                                                                   btn.alpha = 0.75;
                                                                    btn.imageView.transform =  CGAffineTransformConcat(btn.imageView.transform,t1);
                                                                }completion:^(BOOL finished) {
-                                                                   [UIView animateWithDuration:0.1f
+                                                                   [UIView animateWithDuration:0.05f
                                                                                          delay:0.0f
                                                                                        options:UIViewAnimationOptionCurveEaseOut animations:^{
-                                                                                           btn.alpha = 1;
                                                                                            btn.imageView.transform =  CGAffineTransformConcat(btn.imageView.transform,t1);
                                                                                        }completion:^(BOOL finished) {
                                                                                            [btn setEnabled:1];
@@ -70,63 +66,71 @@
 }
 
 
-// pauseBtnの出現アニメーション
+
+// pauseBtnの消失アニメーション
 + (void)disAppearWithRotate:(UIButton *)btn{
-    btn.imageView.alpha = 0;
-    btn.hidden = 0;
-    btn.imageView.transform = CGAffineTransformMakeScale(0.01, 0.01);
-    
-    CGAffineTransform t1 = CGAffineTransformMakeRotation(M_PI/2.0f);
-    CGAffineTransform t2 = CGAffineTransformRotate(t1, M_PI/2.0f);
-    CGAffineTransform t3 = CGAffineTransformRotate(t2, M_PI/2.0f);
-    CGAffineTransform t4 = CGAffineTransformRotate(t3, M_PI/2.0f);
-    
-    CGAffineTransform t5 = CGAffineTransformMakeScale(1.25, 1.25);
-    CGAffineTransform t6 = CGAffineTransformScale(t5, 1.25, 1.25);
-    CGAffineTransform t7 = CGAffineTransformScale(t6, 1.25, 1.25);
-    CGAffineTransform t8 = CGAffineTransformScale(t7, 1.25, 1.25);
+    btn.imageView.transform = CGAffineTransformIdentity;
+    [btn setEnabled:0];
     
     
+    float scale = 2.0f;
+    CGAffineTransform t1 = CGAffineTransformMakeRotation(-1*M_PI_2); // M_PI 180度 M_PI_2 90度
+    CGAffineTransform t2 = CGAffineTransformMakeScale(scale, scale);
+    CGAffineTransform concat = CGAffineTransformConcat(t1, t2);
+    CGSize testSize = CGSizeApplyAffineTransform(CGSizeMake(0.5, 0.5), btn.imageView.transform);
+    btn.imageView.transform = CGAffineTransformMakeScale( 1.0f, 1.0f);
     
-    [UIView animateWithDuration:0.12f
+    
+    [UIView animateWithDuration:1.0f
                           delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
+                        options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         btn.imageView.alpha = 0.3;
-                         btn.imageView.transform =  CGAffineTransformConcat(t1, t5);
+
+             //これを四回実行で１回転
+                         btn.imageView.transform = CGAffineTransformConcat(btn.imageView.transform, t1);
+
+                   //      btn.imageView.transform = CGAffineTransformScale(t1, 0.9, 0.9);
+                         
                      }
                      completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.12f
+                         [UIView animateWithDuration:2.0f
                                                delay:0.0f
-                                             options:UIViewAnimationOptionCurveLinear
+                                             options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState
                                           animations:^{
-                                              btn.imageView.alpha = 0.6;
-                                              btn.imageView.transform =  CGAffineTransformConcat(t2, t6);
+                                              
+                                          //これを四回実行で１回転
+                                              btn.imageView.transform = CGAffineTransformConcat(btn.imageView.transform, t1);
+                     //    btn.imageView.transform = CGAffineTransformScale(t1, 0.8, 0.8);
                                           }
                                           completion:^(BOOL finished){
-                                              [UIView animateWithDuration:0.12f
-                                                                    delay:0.0f
-                                                                  options:UIViewAnimationOptionCurveLinear
+                                              [UIView animateWithDuration:1.0f
+                                                                    delay:0.0
+                                                                  options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState
                                                                animations:^{
-                                                                   btn.imageView.alpha = 1;
-                                                                   btn.imageView.transform =  CGAffineTransformConcat(t3, t7);
-                                                               }
-                                                               completion:^(BOOL finished){
-                                                                   [UIView animateWithDuration:0.12f
-                                                                                         delay:0.0f
-                                                                                       options:UIViewAnimationOptionCurveEaseOut
-                                                                                    animations:^{
-                                                                                        btn.imageView.alpha = 1;
-                                                                                        btn.imageView.transform =  CGAffineTransformConcat(t4, t8);
-                                                                                        // アニメーションが再生されるまでボタンを無効化
-                                                                                        [btn setEnabled:1];
-                                                                                    }
-                                                                                    completion:nil];
                                                                    
+                         //これを四回実行で１回転
+                                                                   btn.imageView.transform = CGAffineTransformConcat(btn.imageView.transform, t1);
+                    //     btn.imageView.transform = CGAffineTransformScale(t1, scale, scale);
+                                                               }completion:^(BOOL finished) {
+                                                                   [UIView animateWithDuration:1.0f
+                                                                                         delay:0.0f
+                                                                                       options:UIViewAnimationOptionCurveLinear | UIViewAnimationOptionBeginFromCurrentState
+                                                                                    animations:^{
+                                                                                                                 
+                                                                                                                                          //これを四回実行で１回転
+                                                                                        btn.imageView.transform = CGAffineTransformConcat(btn.imageView.transform, t1);
+                     //    btn.imageView.transform = CGAffineTransformScale(t1, scale, scale);
+                                                                                       // btn.imageView.transform = CGAffineTransformConcat(btn.imageView.transform, t1);
+
+
+//                                                                                        btn.imageView.transform =CGAffineTransformRotate(CGAffineTransformScale(btn.imageView.transform, 0.1, 0.1), -1*M_PI_2);
+                                                                                       }completion:^(BOOL finished) {
+                                                                                           [self btnToHiddenDisable:btn];
+                                                                                       }];
                                                                }];
-                                              
                                           }];
                      }];
+    
     
 }
 

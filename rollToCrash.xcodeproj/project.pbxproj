@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 560392A5198C7C7500785494 /* ImageViewCircle.m */; };
-		560392A9198CBAB000785494 /* UIButtonAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 560392A8198CBAB000785494 /* UIButtonAnimation.m */; };
-		560392AF198E631D00785494 /* RollToCrashPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 560392AE198E631D00785494 /* RollToCrashPlayer.m */; };
 		560D1B52197BF62C00AE9390 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B51197BF62C00AE9390 /* Foundation.framework */; };
 		560D1B54197BF62C00AE9390 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B53197BF62C00AE9390 /* CoreGraphics.framework */; };
 		560D1B56197BF62C00AE9390 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B55197BF62C00AE9390 /* UIKit.framework */; };
@@ -37,6 +35,8 @@
 		563401FC1982B96A001D582F /* hit_R2v07.png in Resources */ = {isa = PBXBuildFile; fileRef = 563401F71982B96A001D582F /* hit_R2v07.png */; };
 		5634020319834139001D582F /* pause_v07.png in Resources */ = {isa = PBXBuildFile; fileRef = 5634020119834139001D582F /* pause_v07.png */; };
 		5634020419834139001D582F /* play_v07.png in Resources */ = {isa = PBXBuildFile; fileRef = 5634020219834139001D582F /* play_v07.png */; };
+		568326B71990C43D00F6AC98 /* UIButton+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 568326B61990C43D00F6AC98 /* UIButton+Animation.m */; };
+		568326C019912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 568326BF19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m */; };
 		5692B1DE198F629D004169F2 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 5692B1DD198F629D004169F2 /* .gitignore */; };
 		56A79DF51980BD060066AA87 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79DF41980BD060066AA87 /* StoreKit.framework */; };
 		56A79DF71980BD190066AA87 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79DF61980BD190066AA87 /* MessageUI.framework */; };
@@ -63,10 +63,6 @@
 /* Begin PBXFileReference section */
 		560392A4198C7C7500785494 /* ImageViewCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewCircle.h; sourceTree = "<group>"; };
 		560392A5198C7C7500785494 /* ImageViewCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewCircle.m; sourceTree = "<group>"; };
-		560392A7198CBAB000785494 /* UIButtonAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIButtonAnimation.h; sourceTree = "<group>"; };
-		560392A8198CBAB000785494 /* UIButtonAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIButtonAnimation.m; sourceTree = "<group>"; };
-		560392AD198E631D00785494 /* RollToCrashPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RollToCrashPlayer.h; sourceTree = "<group>"; };
-		560392AE198E631D00785494 /* RollToCrashPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RollToCrashPlayer.m; sourceTree = "<group>"; };
 		560D1B4E197BF62C00AE9390 /* rollToCrash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rollToCrash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		560D1B51197BF62C00AE9390 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		560D1B53197BF62C00AE9390 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -99,6 +95,10 @@
 		563401F71982B96A001D582F /* hit_R2v07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hit_R2v07.png; sourceTree = "<group>"; };
 		5634020119834139001D582F /* pause_v07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause_v07.png; sourceTree = "<group>"; };
 		5634020219834139001D582F /* play_v07.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_v07.png; sourceTree = "<group>"; };
+		568326B51990C43D00F6AC98 /* UIButton+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Animation.h"; sourceTree = "<group>"; };
+		568326B61990C43D00F6AC98 /* UIButton+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Animation.m"; sourceTree = "<group>"; };
+		568326BE19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVAudioPlayer+CustomControllers.h"; sourceTree = "<group>"; };
+		568326BF19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVAudioPlayer+CustomControllers.m"; sourceTree = "<group>"; };
 		5692B1DD198F629D004169F2 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		56A79DE61980BCCB0066AA87 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
 		56A79DE71980BCCB0066AA87 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
@@ -221,12 +221,12 @@
 				560D1B66197BF62C00AE9390 /* Main_iPad.storyboard */,
 				560D1B69197BF62C00AE9390 /* ViewController.h */,
 				560D1B6A197BF62C00AE9390 /* ViewController.m */,
-				560392AD198E631D00785494 /* RollToCrashPlayer.h */,
-				560392AE198E631D00785494 /* RollToCrashPlayer.m */,
+				568326BE19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.h */,
+				568326BF19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m */,
+				568326B51990C43D00F6AC98 /* UIButton+Animation.h */,
+				568326B61990C43D00F6AC98 /* UIButton+Animation.m */,
 				560392A4198C7C7500785494 /* ImageViewCircle.h */,
 				560392A5198C7C7500785494 /* ImageViewCircle.m */,
-				560392A7198CBAB000785494 /* UIButtonAnimation.h */,
-				560392A8198CBAB000785494 /* UIButtonAnimation.m */,
 				560D1B6C197BF62C00AE9390 /* Images.xcassets */,
 				560D1B58197BF62C00AE9390 /* Supporting Files */,
 			);
@@ -426,9 +426,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				560392A9198CBAB000785494 /* UIButtonAnimation.m in Sources */,
 				560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */,
-				560392AF198E631D00785494 /* RollToCrashPlayer.m in Sources */,
+				568326C019912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m in Sources */,
+				568326B71990C43D00F6AC98 /* UIButton+Animation.m in Sources */,
 				560D1B6B197BF62C00AE9390 /* ViewController.m in Sources */,
 				560D1B62197BF62C00AE9390 /* AppDelegate.m in Sources */,
 				560D1B5E197BF62C00AE9390 /* main.m in Sources */,

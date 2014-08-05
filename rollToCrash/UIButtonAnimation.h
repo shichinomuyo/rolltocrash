@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ViewController.h"
 
 @interface UIButtonAnimation : NSObject
 + (void)appearWithRotate:(UIButton *)btn;
