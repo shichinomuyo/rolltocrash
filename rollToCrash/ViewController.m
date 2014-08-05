@@ -7,31 +7,18 @@
 //
 
 #import "ViewController.h"
-#import <AVFoundation/AVFoundation.h>
-#import <AudioToolbox/AudioToolbox.h>
 
 @interface ViewController ()<AVAudioPlayerDelegate>
 {
-    // オーディオプレイヤー
-    RollToCrashPlayer *_rollPlayer_tmp;
-    RollToCrashPlayer *_rollPlayer_alt;
-    RollToCrashPlayer *_crashPlayer;
-    
+    AVAudioPlayer *_rollPlayerTmp;
+    AVAudioPlayer *_rollPlayerAlt;
+    AVAudioPlayer *_crashPlayer;
     // タイマー
-    NSTimer *_playTimer; // オーディオコントロール用
     NSTimer *_circleAnimationTimer; // サークルアニメーションコントロール用
     NSTimer *_btnAnimationTimer; // ボタンアニメーションコントロール用
-    
-    // プレイヤーのdurationを格納
-    int duration; // オーディオコントロール用
-    
+    NSTimer *_playTimer;
     // 【アニメーション】ロール再生中のコマを入れる配列
     NSArray *animationSeq;
-    
-    // 【debug】ループ回数確認用
-    int i;
-    int p;
-
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *ctrlBtn;
@@ -42,77 +29,72 @@
 @end
 
 @implementation ViewController
+- (void)initializeAVAudioPlayers{
+    // (audioplayer)再生する効果音のパスを取得する
+    // ドラムロール
+    NSString *path_roll = [[NSBundle mainBundle] pathForResource:@"roll" ofType:@"aiff"];
+    NSURL *url_roll = [NSURL fileURLWithPath:path_roll];
+    _rollPlayerTmp = [[AVAudioPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
+    
+    // ロールalt
+    _rollPlayerAlt = [[AVAudioPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
+    
+    
+    // クラッシュ
+    NSString *path_clash = [[NSBundle mainBundle] pathForResource:@"crash" ofType:@"aif"];
+    NSURL *url_clash = [NSURL fileURLWithPath:path_clash];
+    _crashPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_clash error:NULL];
+    
+    // ドラムロールだけループさせるのでデリゲートに指定
+    // audioPlayer を作ったあとにデリゲート指定しないと機能しない
+    [_rollPlayerTmp setDelegate:self];
+    [_rollPlayerAlt setDelegate:self];
+    
+    // プレイヤーを準備
+    [_rollPlayerTmp prepareToPlay];
+    [_rollPlayerAlt prepareToPlay];
+    [_crashPlayer prepareToPlay];
+}
 
-// _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
+// タイマー生成
 - (void)playerControll{
-    
-    
+    // playerControllを10秒くらいの間隔で呼び出すタイマーを作る
+    _playTimer = [NSTimer scheduledTimerWithTimeInterval:((float)_rollPlayerTmp.duration - 3)
+                                                  target:self
+                                                selector:@selector(playerControllTimer)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+// _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
+- (void)playerControllTimer{
     // playerの開始位置を以下で　2.0にしているためdurfation -3 にしないと、pleyerが再生完了してしまう
-    
-    if (_rollPlayer_tmp.playing) {
-        [RollToCrashPlayer startAltPlayer:_rollPlayer_alt setStartTime:2.0 setVolume:0.2];
+    if (_rollPlayerTmp.playing) {
+        [_rollPlayerAlt startAltPlayer:_rollPlayerAlt setStartTime:2.0 setVolume:0.2];
         NSLog(@"クロスフェード");
         NSLog(@"alt start!!");
         // クロスフェード処理
-        while ((int)_rollPlayer_alt.volume !=1) {
-            [RollToCrashPlayer crossFadePlayer:_rollPlayer_tmp :_rollPlayer_alt];
+        while ((int)_rollPlayerAlt.volume !=1) {
+            [_rollPlayerAlt crossFadePlayer:_rollPlayerTmp :_rollPlayerAlt];
         }
         NSLog(@"プレイヤーの停止とフラグの更新");
         // プレイヤーの再生を止めてcurrentTimeを0.0にセット
-        [RollToCrashPlayer stopPlayer:_rollPlayer_tmp];
-        NSLog(@"_rollPlayer_tmp 止まったお");
-    } else if(_rollPlayer_alt.playing) {
-        [RollToCrashPlayer startAltPlayer:_rollPlayer_tmp setStartTime:2.0 setVolume:0.2];
+        [_rollPlayerTmp stopPlayer:_rollPlayerTmp];
+        NSLog(@"_rollPlayerTmp 止まったお");
+    } else if(_rollPlayerAlt.playing) {
+        [_rollPlayerTmp startAltPlayer:_rollPlayerTmp setStartTime:2.0 setVolume:0.2];
         NSLog(@"クロスフェード");
         NSLog(@"tmp start!!");
         // クロスフェード処理
-        while ((int)_rollPlayer_tmp.volume !=1) {
-            [RollToCrashPlayer crossFadePlayer:_rollPlayer_alt :_rollPlayer_tmp];
+        while ((int)_rollPlayerTmp.volume !=1) {
+            [_rollPlayerTmp crossFadePlayer:_rollPlayerAlt :_rollPlayerTmp];
         }
         NSLog(@"プレイヤーの停止とフラグの更新");
         // プレイヤーの再生を止めてcurrentTimeを0.0にセット
-        [RollToCrashPlayer stopPlayer:_rollPlayer_alt];
-        NSLog(@"_rollPlayer_alt 止まったお");
+        [_rollPlayerAlt stopPlayer:_rollPlayerAlt];
+        NSLog(@"_rollPlayerAlt 止まったお");
     }
-}
-
-
-// ctrlBtnは繰り返しアニメーションさせる必要があるため、scaleUpBtn、scaleDownBtnを別クラスに抽出することができなかった。
-// ctrlBtnアニメーション　ロール停止時
-- (void)scaleUpBtn{
-    // transform初期化
-    self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
     
-    CGAffineTransform t1 = CGAffineTransformMakeScale(1.05, 1.05);
-    self.ctrlBtn.imageView.transform = t1;
-    
-    // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
-    [UIView animateWithDuration:1.0f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         self.ctrlBtn.imageView.transform = t1;
-                     }
-                     completion:nil];
-
 }
-
-// ctrlBtnアニメーション　ロール停止時
-- (void)scaleDownBtn{
-    // transform初期化
-    self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
-    
-    CGAffineTransform t1 = CGAffineTransformMakeScale(0.98, 0.98);
-    self.ctrlBtn.imageView.transform = t1;
-    // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
-    [UIView animateWithDuration:0.7f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         self.ctrlBtn.imageView.transform = t1;
-                     } completion:nil];
-}
-
 
 - (void)viewDidLoad
 {
@@ -151,57 +133,12 @@
     [self.nadView load]; //(6)
     [self.view addSubview:self.nadView]; // 最初から表示する場合
 */
-    // debug
-    NSLog(@"viewdidload ctrl.Btn.state:%d",self.ctrlBtn.state);
  
     // (audioplayer)再生する効果音のパスを取得する
-    // ドラムロール
-    NSString *path_roll = [[NSBundle mainBundle] pathForResource:@"roll" ofType:@"aiff"];
-    NSURL *url_roll = [NSURL fileURLWithPath:path_roll];
-    _rollPlayer_tmp = [[RollToCrashPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
-    
-    // ロールalt
-    _rollPlayer_alt = [[RollToCrashPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
-    
-    
-    // クラッシュ
-    NSString *path_clash = [[NSBundle mainBundle] pathForResource:@"crash" ofType:@"aif"];
-    NSURL *url_clash = [NSURL fileURLWithPath:path_clash];
-    _crashPlayer = [[RollToCrashPlayer alloc] initWithContentsOfURL:url_clash error:NULL];
-    
-    // ドラムロールだけループさせるのでデリゲートに指定
-    // audioPlayer を作ったあとにデリゲート指定しないと機能しない
-    [_rollPlayer_tmp setDelegate:self];
-    [_rollPlayer_alt setDelegate:self];
-    
-    // プレイヤーを準備
-    [_rollPlayer_tmp prepareToPlay];
-    [_rollPlayer_alt prepareToPlay];
-    [_crashPlayer prepareToPlay];
-    
-    // tmpPlayerとaltPlayerを相互にクロスフェードさせて繰り返すための時間を条件式とするために_rollPlayer_tmop.durationを格納
-    duration = _rollPlayer_tmp.duration;
-    
-    // デバッグ用変数初期化
-    i = 0;
-    p = 0;
+    [self initializeAVAudioPlayers];
     
     // 【アニメーション】ロール再生中の各コマのイメージを配列に入れる
-    animationSeq = @[/*
-                     [UIImage imageNamed:@"hit_R2.png"],
-                     [UIImage imageNamed:@"hit_R1.png"],
-                     [UIImage imageNamed:@"hit_R2.png"],
-                     [UIImage imageNamed:@"hit_R1.png"],
-                     [UIImage imageNamed:@"hit_R2.png"],
-                     
-                     [UIImage imageNamed:@"hit_L2.png"],
-                     [UIImage imageNamed:@"hit_L1.png"],
-                     [UIImage imageNamed:@"hit_L2.png"],
-                     [UIImage imageNamed:@"hit_L1.png"],
-                     [UIImage imageNamed:@"hit_L2.png"]
-                      */
-
-                     [UIImage imageNamed:@"hit_R2v07.png"],
+    animationSeq = @[[UIImage imageNamed:@"hit_R2v07.png"],
                      [UIImage imageNamed:@"hit_R1v07.png"],
                      [UIImage imageNamed:@"hit_R2v07.png"],
                      [UIImage imageNamed:@"hit_R1v07.png"],
@@ -219,9 +156,6 @@
     // 無限の繰り返し回数
     self.ctrlBtn.imageView.animationRepeatCount = 0;
     self.ctrlBtn.imageView.image = [UIImage imageNamed:@"default_v07.png"];
-    
-
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -241,7 +175,6 @@
     // ctrlBtn.image をdefault_v07.pngに設定
     [self.ctrlBtn setImage:[UIImage imageNamed:@"default_v07.png"] forState:UIControlStateNormal];
 
-    
     // ストロークカラーを緑に設定
     UIColor *color = [UIColor greenColor];
     // ストロークの太さを設定
@@ -258,19 +191,14 @@
     greenCircle.hidden = 1;
     // ビューにimgViewCircleを描画
     [self.view addSubview:greenCircle];
-    
-    
-
-/*
-    // イメージビューの外枠を描画
-    imgViewCircle.layer.borderColor = [UIColor blackColor].CGColor;
-    imgViewCircle.layer.borderWidth = 1.0f;
-*/
 
     
     // タイマーを破棄する
     [_circleAnimationTimer invalidate];
     [_btnAnimationTimer invalidate];
+    
+    [greenCircle scaleUpAnimation];
+    [self.ctrlBtn scaleUpBtn];
     
     // 【アニメーション】円の拡大アニメーションを2.0秒間隔で呼び出すタイマーを作る
 
@@ -281,11 +209,10 @@
                                                             repeats:YES];
     
     _btnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f
-                                                          target:self
+                                                          target:self.ctrlBtn
                                                         selector:@selector(scaleUpBtn)
                                                         userInfo:nil
                                                          repeats:YES];
-
 
 }
 
@@ -304,18 +231,17 @@
 
 // ボタンを押したときに実行される処理を実装
 - (IBAction)ctrlBtn:(UIButton *)sender {
-    
     // ドラムロールの再生 or クラッシュの再生
-    if (_rollPlayer_tmp.playing || _rollPlayer_alt.playing) {
-        // ドラムロールが再生中にctrlBtnが押されたとき
+    if (_rollPlayerTmp.isPlaying || _rollPlayerAlt.isPlaying) {
+        // ドラムロールが再生中にctrlBtnが押されたときクラッシュ再生
         
         // 【アニメーション】ロールのアニメーションを停止する
         [self.ctrlBtn.imageView stopAnimating];
         // ドラムロールを止めcrash再生
-        [_crashPlayer playCrashStopRolls:_rollPlayer_tmp :_rollPlayer_alt];
-
+        [_crashPlayer playCrashStopRolls:_rollPlayerTmp :_rollPlayerAlt];
         // プレイヤータイマーを破棄する
         [_playTimer invalidate];
+        
         // アニメーションタイマーを破棄する
         [_circleAnimationTimer invalidate];
         [_btnAnimationTimer invalidate];
@@ -330,7 +256,7 @@
         CGFloat lineWidth = 3.0f;
         // 半径を設定
         CGFloat radius = 256;
-        // インスタンスを差k性
+        // インスタンスを生成
         ImageViewCircle *lastCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
         [lastCircle setImage:[lastCircle imageFillEllipseInRect]];
         
@@ -357,37 +283,23 @@
         [self.view addSubview:imgViewCircle_small];
     */
         
-        /*
-         // イメージビューの外枠を描画
-         imgViewCircle.layer.borderColor = [UIColor blackColor].CGColor;
-         imgViewCircle.layer.borderWidth = 1.0f;
-         */
-        
         // crash再生時のアニメーション再生
         [lastCircle circleAnimationFinish:0.17 secondDuration:0.17];
         
-        // pauseBtnをhiddenかつ無効にする
-        [UIButtonAnimation btnToHiddenDisable:self.pauseBtn];
+        //pauseBtnの消失アニメーション
+        [self.pauseBtn disappearWithRotateScaleDown:self.ctrlBtn];
         
-        // ctrlBtnを有効にする
-        [self.ctrlBtn setEnabled:1];
-
-            [self viewDidAppear:1];
-
-        // debug
-        NSLog(@"Crash ctrl.Btn.state:%d",self.ctrlBtn.state);
+        [self viewDidAppear:1];
         
     } else {
         // ドラムロールが停止中にctrlBtnが押されたとき
 
         // ドラムロールを再生する
-        [_rollPlayer_tmp playRollStopCrash:_crashPlayer setVolumeZero:_rollPlayer_alt ];
+        
+        [_rollPlayerTmp playRollStopCrash:_crashPlayer setVolumeZero:_rollPlayerAlt ];
         // playerControllを1.0秒間隔で呼び出すタイマーを作る
-        _playTimer = [NSTimer scheduledTimerWithTimeInterval:(duration - 3)
-                                                      target:self
-                                                    selector:@selector(playerControll)
-                                                    userInfo:nil
-                                                     repeats:YES];
+        [self playerControll];
+        
         // 【アニメーション】ロールのアニメーションを再生する
         [self.ctrlBtn.imageView startAnimating];
         // サークルアニメーションタイマーを破棄する
@@ -406,7 +318,7 @@
         CGFloat lineWidth = 2.0f;
         // 半径を設定
         CGFloat radius = 280;
-        // インスタンスを差k性
+        // インスタンスを生成
         ImageViewCircle *redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
         [redCircle setImage:[redCircle imageFillEllipseInRect]];
         
@@ -421,32 +333,27 @@
         imgViewCircle.layer.borderColor = [UIColor blackColor].CGColor;
         imgViewCircle.layer.borderWidth = 1.0f;
 */
-
-        // transform初期化
-        self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
+        [redCircle scaleDownAnimation];
+        [self.ctrlBtn scaleDownBtn];
+        
         
         // 【アニメーション】円の縮小アニメーションを0.7秒間隔で呼び出すタイマーを作る
-        _circleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.7f
+        _circleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.6f
                                                                  target:redCircle
                                                                selector:@selector(scaleDownAnimation)
                                                                userInfo:nil
                                                                 repeats:YES];
-        _btnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.7f
-                                                                 target:self
+        _btnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.6f
+                                                                 target:self.ctrlBtn
                                                                selector:@selector(scaleDownBtn)
                                                                userInfo:nil
                                                                 repeats:YES];
         // statStopBtn がhiddenのときだけ実行
         if (self.pauseBtn.hidden == 1) {
-            // 【アニメーション】pauseBtnを拡大/回転しながら表示
-            [UIButtonAnimation appearWithRotate:self.pauseBtn];
-            [self.ctrlBtn setEnabled:1];
-        }
 
-        
-        // debug
-        NSLog(@"Roll ctrl.Btn.state:%d",self.ctrlBtn.state);
-        
+            // 【アニメーション】pauseBtnを拡大/回転しながら表示
+            [self.pauseBtn appearWithRotateScaleUp:self.ctrlBtn];
+        }
     }
 
 }
@@ -454,13 +361,13 @@
 // ctrlBtnの下のボタンを押した時に実行される処理を実装
 - (IBAction)pauseBtn:(UIButton *)sender {
     NSLog(@"pauseBtnLabel tapped!");
-    if (_rollPlayer_tmp.playing || _rollPlayer_alt.playing) {
+    if (_rollPlayerTmp.playing || _rollPlayerAlt.playing) {
         // ドラムロールが再生中にpauseBtnが押されたとき
         // ループしているドラムロールを止める
-        [_rollPlayer_tmp stop];
-        _rollPlayer_tmp.currentTime = 0.0;
-        [_rollPlayer_alt stop];
-        _rollPlayer_alt.currentTime = 0.0;
+        [_rollPlayerTmp stop];
+        _rollPlayerTmp.currentTime = 0.0;
+        [_rollPlayerAlt stop];
+        _rollPlayerAlt.currentTime = 0.0;
         
         // プレイヤータイマーを破棄する
         [_playTimer invalidate];
@@ -477,14 +384,14 @@
         self.ctrlBtn.imageView.image = nil; // ctrlBtnのパラパラアニメーション終わりにhighlightedの画像が表示される対策
         // ctrlBtnの画像をデフォルトの画像に設定
         self.ctrlBtn.imageView.image = [UIImage imageNamed:@"default_v07.png"];
+        // ctrlBtnを無効にする
+        [self.ctrlBtn setEnabled:0];
         
         //pauseBtnの消失アニメーション
-        
-        // pauseBtnをhiddenかつ無効にする
-        [UIButtonAnimation btnToHiddenDisable:self.pauseBtn];
+        [self.pauseBtn disappearWithRotateScaleDown:self.ctrlBtn];
+        //     [UIButtonAnimation disAppearWithRotate:self.pauseBtn];
         // 初期画面を呼び出す
         [self viewDidAppear:1];
-        
 
     } else {
             }
