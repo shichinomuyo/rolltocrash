@@ -291,42 +291,42 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 
-//
-//     // 【Ad】サイズを指定してAdMobインスタンスを生成
-//     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-//     
-//     // 【Ad】AdMobのパブリッシャーIDを指定
-//     bannerView_.adUnitID = MY_BANNER_UNIT_ID;
-//     
-//     
-//     // 【Ad】AdMob広告を表示するViewController(自分自身)を指定し、ビューに広告を追加
-//     bannerView_.rootViewController = self;
-//     [self.view addSubview:bannerView_];
-//     
-//     // ビューの一番下に表示
-//     [bannerView_ setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height/2)];
-//
-//     // 【Ad】AdMob広告データの読み込みを要求
-//     [bannerView_ loadRequest:[GADRequest request]];
-//     
-//    // 【Ad】インタースティシャル広告の表示
-//    interstitial_ = [[GADInterstitial alloc] init];
-//    interstitial_.adUnitID = MY_INTERSTITIAL_UNIT_ID;
-//    interstitial_.delegate = self;
-//    [interstitial_ loadRequest:[GADRequest request]];
-//    
-//    
-//     //NADViewの作成
-//     self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-//    [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height - self.nadView.bounds.size.height/2)];
-//
-//     // (3) ログ出力の指定
-//    // [self.nadView setIsOutputLog:NO];
-//     // (4) set apiKey, spotId.
-//     [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
-//     [self.nadView setDelegate:self]; //(5)
-//     [self.nadView load]; //(6)
-//     [self.view addSubview:self.nadView]; // 最初から表示する場合
+
+     // 【Ad】サイズを指定してAdMobインスタンスを生成
+     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+     
+     // 【Ad】AdMobのパブリッシャーIDを指定
+     bannerView_.adUnitID = MY_BANNER_UNIT_ID;
+     
+     
+     // 【Ad】AdMob広告を表示するViewController(自分自身)を指定し、ビューに広告を追加
+     bannerView_.rootViewController = self;
+     [self.view addSubview:bannerView_];
+     
+     // ビューの一番下に表示
+     [bannerView_ setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height/2)];
+
+     // 【Ad】AdMob広告データの読み込みを要求
+     [bannerView_ loadRequest:[GADRequest request]];
+     
+    // 【Ad】インタースティシャル広告の表示
+    interstitial_ = [[GADInterstitial alloc] init];
+    interstitial_.adUnitID = MY_INTERSTITIAL_UNIT_ID;
+    interstitial_.delegate = self;
+    [interstitial_ loadRequest:[GADRequest request]];
+    
+    
+     //NADViewの作成
+     self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height - self.nadView.bounds.size.height/2)];
+
+     // (3) ログ出力の指定
+    // [self.nadView setIsOutputLog:NO];
+     // (4) set apiKey, spotId.
+     [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
+     [self.nadView setDelegate:self]; //(5)
+     [self.nadView load]; //(6)
+     [self.view addSubview:self.nadView]; // 最初から表示する場合
 
     
     // (audioplayer)再生する効果音のパスを取得しインスタンス生成
