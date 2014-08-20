@@ -7,524 +7,361 @@
 //
 
 #import "ViewController.h"
-#import <AVFoundation/AVFoundation.h>
-#import <AudioToolbox/AudioToolbox.h>
 
 @interface ViewController ()<AVAudioPlayerDelegate>
 {
-    // オーディオプレイヤー
-    AVAudioPlayer *_rollPlayer_tmp;
-    AVAudioPlayer *_rollPlayer_alt;
+    AVAudioPlayer *_rollPlayerTmp;
+    AVAudioPlayer *_rollPlayerAlt;
     AVAudioPlayer *_crashPlayer;
-    
+    ImageViewCircle *greenCircle;
+    ImageViewCircle *redCircle;
     // タイマー
-    NSTimer *_playTimer; // オーディオコントロール用
-    NSTimer *_circleAnimationTimer; // サークルアニメーションコントロール用
-    
-    // プレイヤーのdurationを格納
-    int duration; // オーディオコントロール用
+    NSTimer *_playTimer; // AVAudioPlayerコントロール用
+    // アニメーションタイマー
+    NSTimer *_rippleAnimationTimer; // rippleアニメーションコントロール用
+    NSTimer *_ctrlBtnAnimationTimer; // ctrlBtnアニメーションコントロール用
+    NSTimer *_textAnimationTimer; // textアニメーションコントロール用
+    NSTimer *_ctrlBtnPlayingTimer; // redRipple縮小中のアニメーションタイマー
+    NSTimer *_setIntervalToViewDidAppear; // crash再生後にviewDidAppearするタイミング調整用タイマー
+
     
     // 【アニメーション】ロール再生中のコマを入れる配列
     NSArray *animationSeq;
-    
-    // 【アニメーション】円を描画用のUIImageview
-    UIImageView *imgViewCircle;
-    UIImageView *imgViewCircle_small;
-    
-
-    
-    // 【debug】ループ回数確認用
-    int i;
-    int p;
-
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *ctrlBtn;
-- (IBAction)ctrlBtn:(UIButton *)sender;
-@property (weak, nonatomic) IBOutlet UIButton *startStopBtn;
-- (IBAction)startStopBtn:(UIButton *)sender;
+@property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
+
+@property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForCrashAnimation; // ctrlBtnをそのまま同様のアニメーションをさせると、ctrlBtnをギュンギュンアニメーションさせている都合で、タイミングによって結果がとても大きくなることがあるため、本イメージビューをアニメーション用として準備
+@property (weak, nonatomic) IBOutlet UIImageView *snareDefault;
+@property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForScaleUp;
+
+@property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForScaleDown;
 
 
-// _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
-- (void)playerControll;
+- (IBAction)touchUpInsideCtrlBtn:(UIButton *)sender;
+- (IBAction)touchDownCtrlBtn:(UIButton *)sender;
+- (IBAction)touchDragExitCtrlBtn:(UIButton *)sender;
+- (IBAction)touchDragEnterCtrlBtn:(UIButton *)sender;
 
-// 最初にロールを再生するメソッド
-- (void)playRoll;
-// クラッシュを再生するメソッド
-- (void)playCrash;
+- (IBAction)touchUpInsidePauseBtn:(UIButton *)sender;
+- (IBAction)touchDownPauseBtn:(UIButton *)sender;
+- (IBAction)touchDragExitPauseBtn:(UIButton *)sender;
+- (IBAction)touchDragEnterPauseBtn:(UIButton *)sender;
 
-// ロールをループさせるために別のPlayerを再生するメソッド
-- (void)startAltPlayer:(AVAudioPlayer *)player :(float)startTime;
+- (IBAction)touchDownBackgroundBtn:(UIButton *)sender;
 
-// 2つのロールプレイヤーをクロスフェードさせるメソッド
-- (void)crossFadePlayer:(AVAudioPlayer *)tmpPlayer :(AVAudioPlayer *)altPlayer;
 
-// プレイヤーの再生を止めるメソッド
-- (void)stopPlayer:(AVAudioPlayer *)player;
+
 @end
-
+#pragma mark -
 @implementation ViewController
-// _playTimerから呼び出す:プレイヤーの交換、フェードイン・アウトをコントロール
+#pragma mark audioControlls
++ (void) initialize{
+    // 初回起動時の初期データ
+    NSMutableDictionary *appDefaults = [[NSMutableDictionary alloc] init];
+    [appDefaults setObject:@"0" forKey:@"KEY_countUpCrashPlayed"]; //　crash再生回数
+    [appDefaults setObject:@"NO" forKey:@"KEY_ADMOBinterstitialRecieved"]; // インタースティシャル広告受信状況
+    // ユーザーデフォルトの初期値に設定する
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults registerDefaults:appDefaults];
+}
+
+- (void)initializeAVAudioPlayers{
+    // (audioplayer)再生する効果音のパスを取得する
+    // ロールtmp
+    NSString *path_roll = [[NSBundle mainBundle] pathForResource:@"roll13" ofType:@"mp3"];
+    NSURL *url_roll = [NSURL fileURLWithPath:path_roll];
+    _rollPlayerTmp = [[AVAudioPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
+    
+    // ロールalt
+    _rollPlayerAlt = [[AVAudioPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
+    
+    // クラッシュ
+    NSString *path_clash = [[NSBundle mainBundle] pathForResource:@"crash13" ofType:@"mp3"];
+    NSURL *url_clash = [NSURL fileURLWithPath:path_clash];
+    _crashPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_clash error:NULL];
+    
+    // プレイヤーを準備
+    [_rollPlayerTmp prepareToPlay];
+    [_rollPlayerAlt prepareToPlay];
+    [_crashPlayer prepareToPlay];
+}
+
+// タイマー生成
 - (void)playerControll{
-    // debugログを出力
-    ++p;
-    NSLog(@"%d回目:playerControll", p);
-    NSLog(@"duration:%d",(int)duration);
-    
+    // playerControllをrollPlayerTmp.duration - 2秒の間隔で呼び出すタイマーを作る
+    _playTimer = [NSTimer scheduledTimerWithTimeInterval:((float)_rollPlayerTmp.duration - 2.0f)
+                                                  target:self
+                                                selector:@selector(playerControllTimer)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
+// _playTimerから呼び出すメソッドでプレイヤーの交換、フェードイン・アウトをコントロール
+- (void)playerControllTimer{
+        NSTimer *timer;
     // playerの開始位置を以下で　2.0にしているためdurfation -3 にしないと、pleyerが再生完了してしまう
-    
-    if (_rollPlayer_tmp.playing) {
-        [self startAltPlayer:_rollPlayer_alt :2.0];
-        NSLog(@"クロスフェード");
-        NSLog(@"alt start!!");
+    if (_rollPlayerTmp.playing) {
+        // altを代替プレイヤーとして再生
+        [_rollPlayerAlt startAltPlayerSetStartTime:1.0 setVolume:0.4];
+        
         // クロスフェード処理
-        while ((int)_rollPlayer_alt.volume !=1) {
-            [self crossFadePlayer:_rollPlayer_tmp :_rollPlayer_alt];
-        }
-        NSLog(@"プレイヤーの停止とフラグの更新");
-        // プレイヤーを止める。フラグを更新
-        [self stopPlayer:_rollPlayer_tmp];
-        NSLog(@"_rollPlayer_tmp 止まったお");
-    } else if(_rollPlayer_alt.playing) {
-        [self startAltPlayer:_rollPlayer_tmp :2.0];
-        NSLog(@"クロスフェード");
-        NSLog(@"tmp start!!");
+        timer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                     target:self
+                                               selector:@selector(crossFadePlayerTmpToAlt:)
+                                                   userInfo:nil
+                                                    repeats:YES];
+    } else if(_rollPlayerAlt.playing) {
+        // tmpを代替プレイヤーとして再生
+        [_rollPlayerTmp startAltPlayerSetStartTime:1.0 setVolume:0.4];
+        
         // クロスフェード処理
-        while ((int)_rollPlayer_tmp.volume !=1) {
-            [self crossFadePlayer:_rollPlayer_alt :_rollPlayer_tmp];
-        }
-        NSLog(@"プレイヤーの停止とフラグの更新");
-        // プレイヤーを止める。フラグを更新
-        [self stopPlayer:_rollPlayer_alt];
-        NSLog(@"_rollPlayer_alt 止まったお");
+        timer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                 target:self
+                                               selector:@selector(crossFadePlayerAltToTmp:)
+                                               userInfo:nil
+                                                repeats:YES];
     }
 }
 
-// 最初にロールを再生するメソッドを実装
-- (void)playRoll{
-    NSLog(@"playRoll!");
-    // 再生位置を最初に設定
-    _rollPlayer_tmp.currentTime = 0.0;
-    // スネアスプラッシュを停止し最初まで戻す
-    [_crashPlayer stop];
-    _crashPlayer.currentTime = 0.0;
-    
-    // ドラムロールを再生する
-    _rollPlayer_tmp.volume = 1.0;
-    [_rollPlayer_tmp play];
-    
-    // alt.volumeを0に設定
-    _rollPlayer_alt.volume = 0.0;
-    
-    // playerControllを1.0秒間隔で呼び出すタイマーを作る
-    _playTimer = [NSTimer scheduledTimerWithTimeInterval:(duration - 3)
-                                                  target:self
-                                                selector:@selector(playerControll)
-                                                userInfo:nil
-                                                 repeats:YES];
-    
-    // 【アニメーション】ロールのアニメーションを再生する
-    [self.ctrlBtn.imageView startAnimating];
-    // サークルアニメーションタイマーを破棄する
-    [_circleAnimationTimer invalidate];
-    // アニメーションが再生されるまでボタンを無効化
-    [self.ctrlBtn setEnabled:0];
-    
-    // ボタンをデフォルトの画像に戻す
-    [self.startStopBtn setImage:[UIImage imageNamed:@"pause_v07.png"] forState:UIControlStateDisabled]; // startstopbtnがdisableのときに色を薄くしない
-
-}
-
-// クラッシュを再生するメソッドを実装
--(void)playCrash{
-    // ループしているドラムロールを止める
-    [_rollPlayer_tmp stop];
-    _rollPlayer_tmp.currentTime = 0.0;
-    [_rollPlayer_alt stop];
-    _rollPlayer_alt.currentTime = 0.0;
-    
-    // クラッシュを再生する
-    [_crashPlayer play];
-    // プレイヤータイマーを破棄する
-    [_playTimer invalidate];
-    
-    // 【アニメーション】ロールのアニメーションを停止する
-    [self.ctrlBtn.imageView stopAnimating];
-    
-    // アニメーションタイマーを破棄する
-    [_circleAnimationTimer invalidate];
-    // アニメーションが再生されるまでボタンを無効化
-    [self.ctrlBtn setEnabled:0];
-    // ボタンをデフォルトの画像に戻す
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"default_v07.png"] forState:UIControlStateDisabled]; // ctrlBtnがdisableのときに色を薄くしない
-    
-
-    //debug用ログを出力
-    NSLog(@"splash!-------------------------------------");
-    NSLog(@"タイマー破棄");
-    NSLog(@"--------------------------------------------");
-    
-}
-
-// ロールをループさせるためにaltPlayerを再生しクロスフェード管理用フラグをアクティブにするメソッドを実装
-- (void)startAltPlayer:(AVAudioPlayer *)player :(float)startTime{
-    // debug用変数
-    ++i;
-    // debug用ログを出力
-    NSLog(@"----------------------");
-    NSLog(@"%d回目:交換用Player再生開始", i);
-    
-    // altPlayerのボリュームと開始位置を設定し再生
-    player.volume = 0.2;
-    player.currentTime = startTime;
-    [player play];
-    
-    //クロスフェード管理フラグをアクティブに変更
-    NSLog(@"rollPlayer_tmp.volume %f", _rollPlayer_tmp.volume);
-    NSLog(@"rollPlayer_alt.volume %f", _rollPlayer_alt.volume);
-}
-
-// 2つのロールプレイヤーをクロスフェードさせるメソッド
-- (void)crossFadePlayer:(AVAudioPlayer *)tmpPlayer :(AVAudioPlayer *)altPlayer{
+// 2つのロールプレイヤーをtmp→altへクロスフェードさせるメソッド
+- (void)crossFadePlayerTmpToAlt:(NSTimer *)timer{
     // tmpPlayerとaltPlayerのボリュームを0.1ずつ上げ下げ
-    tmpPlayer.volume = tmpPlayer.volume - 0.1;
-    altPlayer.volume = altPlayer.volume + 0.1;
-/*
-    // debug用ログを出力
-    NSLog(@"rollPlayer_tmp.volume %f", _rollPlayer_tmp.volume);
-    NSLog(@"rollPlayer_alt.volume %f", _rollPlayer_alt.volume);
-*/
-}
-
-// プレイヤーの再生を止めてクロスフェード管理用フラグを非アクティブにするメソッド
-- (void)stopPlayer:(AVAudioPlayer *)player{
-    // playerをストップしplayer.currentTimeを0.0に戻す
-    [player stop];
-    player.currentTime = 0.0;
+    _rollPlayerTmp.volume = _rollPlayerTmp.volume - 0.1;
+    _rollPlayerAlt.volume = _rollPlayerAlt.volume + 0.1;
     
-    // debug用ログを出力
-    NSLog(@"[stopPlayer]--------------------------------");
-    NSLog(@"rollPlayer_tmp.volume %f", _rollPlayer_tmp.volume);
-    NSLog(@"rollPlayer_alt.volume %f", _rollPlayer_alt.volume);
-    NSLog(@"_rollPlayer_tmp.playing:%d _rollPlayer_alt.playing:%d", _rollPlayer_tmp.playing, _rollPlayer_alt.playing);
-    NSLog(@"--------------------------------------------");
+    NSLog(@"tmp.volume %.2f",_rollPlayerTmp.volume);
+    NSLog(@"alt.volume %.2f",_rollPlayerAlt.volume);
+    
+    if ((int)_rollPlayerAlt.volume == 1) {
+        [timer invalidate];
+        // tmpPlayerの再生を止めてcurrentTimeを0.0にセット
+        [_rollPlayerTmp stopPlayer];
+    }
+}
+
+// 2つのロールプレイヤーをalt→tmpへクロスフェードさせるメソッド
+- (void)crossFadePlayerAltToTmp:(NSTimer *)timer{
+    // tmpPlayerとaltPlayerのボリュームを0.1ずつ上げ下げ
+    _rollPlayerTmp.volume = _rollPlayerTmp.volume + 0.1;
+    _rollPlayerAlt.volume = _rollPlayerAlt.volume - 0.1;
+    
+    NSLog(@"tmp.volume %.2f",_rollPlayerTmp.volume);
+    NSLog(@"alt.volume %.2f",_rollPlayerAlt.volume);
+    
+    if ((int)_rollPlayerTmp.volume == 1) {
+        [timer invalidate];
+        // altPlayerの再生を止めてcurrentTimeを0.0にセット
+        [_rollPlayerAlt stopPlayer];
+    }
 }
 
 
+#pragma mark rippleSetUp
+- (void) greenRippleSetUp{
+    // ストロークカラーを緑に設定
+    UIColor *color = [UIColor colorWithRed:0.18 green:0.80 blue:0.443 alpha:1]; // EMERALD
+    // ストロークの太さを設定
+    CGFloat lineWidth = 2.5f;
+    // 半径を設定
+    CGFloat radius = 224; //236
+    // インスタンスを差k性
+    greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+    [greenCircle setImage:[greenCircle imageFillEllipseInRect]];
+    
+    // イメージビューのセンターをctrlAudioPlayerBtn.centerと合わせる
+    [greenCircle setCenter:self.ctrlBtn.center];
+    // アニメーション再生まで隠しておく
+    [greenCircle setHidden:1];
+}
+
+- (void)redRippleSetUp{
+    // ストロークカラーを赤に設定
+        UIColor *color = [UIColor colorWithRed:0.906 green:0.298 blue:0.235 alpha:1]; // ALIZARIN
+    // ストロークの太さを設定
+    CGFloat lineWidth = 2.0f;
+    // 半径を設定
+    CGFloat radius = 286;
+    // インスタンスを生成
+    redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+    [redCircle setImage:[redCircle imageFillEllipseInRect]];
+    
+    // 円をctrlBtn.centerと合わせる
+    [redCircle setCenter:self.ctrlBtn.center];
+    // ImageViewCircleをアニメーション開始までhiddenにする
+    [redCircle setHidden:1];
+}
+
+- (void) ctrlBtnGrennRippleAnimationStart{
+    // サークルアニメーションタイマーを破棄する
+    [self animationTimerInvalidate];
+    
+    // ctrlBtnの画像を差し替える
+    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault09.png"] forState:UIControlStateNormal];
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault09.png"] forState:UIControlStateHighlighted];
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault09.png"] forState:UIControlStateDisabled];
+
+
+    // 円とctrlBtnのふわふわアニメーション
+    // 【アニメーション】円の拡大アニメーションを3.0秒間隔で呼び出すタイマーを作る
+    _rippleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0f
+                                                             target:greenCircle
+                                                           selector:@selector(rippleAnimation)
+                                                           userInfo:nil
+                                                            repeats:YES];
+    _ctrlBtnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0f
+                                                          target:self.ctrlBtn
+                                                        selector:@selector(scaleUpBtn)
+                                                        userInfo:nil
+                                                         repeats:YES];
+    
+}
+
+- (void) ctrlBtnRedRippleAnimationStart:(NSTimer *)timer{
+    // サークルアニメーションタイマーを破棄する
+    [_rippleAnimationTimer invalidate];
+    [_ctrlBtnAnimationTimer invalidate];
+    [_textAnimationTimer invalidate];
+    
+    // touchDown時のtransformとdisabelにしたのを戻す
+    [self.ctrlBtn clearTransformBtnSetEnable];
+    
+    // ctrlBtnの画像を差し替える
+    [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN09.png"] forState:UIControlStateNormal];
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN09.png"] forState:UIControlStateHighlighted];
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN09.png"] forState:UIControlStateDisabled];
+    
+
+    
+    // 【アニメーション】円の縮小アニメーションを0.6秒間隔で呼び出すタイマーを作る
+    _rippleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.6f
+                                                             target:redCircle
+                                                           selector:@selector(rippleAnimationReverse)
+                                                           userInfo:nil
+                                                            repeats:YES];
+    _ctrlBtnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.6f
+                                                          target:self.ctrlBtn
+                                                        selector:@selector(scaleDownBtn)
+                                                        userInfo:nil
+                                                         repeats:YES];
+    
+
+    
+
+    
+    [timer invalidate];
+    
+}
+
+// ctrlBtnのハイライトアニメーション
+- (void)ctrlBtnHighlightedAnimationStart {
+    [self.ctrlBtn setEnabled:0];
+
+    if (_rollPlayerTmp.isPlaying || _rollPlayerAlt.isPlaying) {
+        // ここにctrlBtnのぷるぷるアニメーション（強)を書く
+        [self.ctrlBtn highlightedAnimation];
+        _ctrlBtnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.5f
+                                                              target:self.ctrlBtn
+                                                            selector:@selector(strongVibeAnimationKeepTransform)
+                                                            userInfo:nil
+                                                             repeats:YES];
+    } else{
+        // ここにctrlBtnのぷるぷるアニメーション(弱)を書く
+        [self.ctrlBtn highlightedAnimation];
+        _ctrlBtnAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:1.5f
+                                                              target:self.ctrlBtn
+                                                            selector:@selector(vibeAnimationKeepTransform)
+                                                            userInfo:nil
+                                                             repeats:YES];
+    }
+}
+
+// アニメーションタイマーをまとめて破棄
+- (void)animationTimerInvalidate {
+    [_rippleAnimationTimer invalidate];
+    [_ctrlBtnAnimationTimer invalidate];
+    [_textAnimationTimer invalidate];
+    [_ctrlBtnPlayingTimer invalidate];
+}
+
+#pragma mark -
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-/*
-    // 【Ad】サイズを指定してAdMobインスタンスを生成
-    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-    
-    // 【Ad】AdMobのパブリッシャーIDを指定
-    bannerView_.adUnitID = MY_BANNER_UNIT_ID;
-    
-    
-    // 【Ad】AdMob広告を表示するViewController(自分自身)を指定し、ビューに広告を追加
-    bannerView_.rootViewController = self;
-    [self.view addSubview:bannerView_];
-    
-    // ビューの一番下に表示
-    [bannerView_ setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height/2)];
-    NSLog(@"self.view.bounds.size.height %.2f /n bannerView_.bounds.size.height %.2f",self.view.bounds.size.height, bannerView_.bounds.size.height);
-    // 【Ad】AdMob広告データの読み込みを要求
-    [bannerView_ loadRequest:[GADRequest request]];
-    
-    // 【Ad】インタースティシャル広告の表示
-    interstitial_ = [[GADInterstitial alloc] init];
-    interstitial_.adUnitID = MY_INTERSTITIAL_UNIT_ID;
-    [interstitial_ loadRequest:[GADRequest request]];
-    
 
-    //NADViewの作成
-    self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-    // (3) ログ出力の指定 [self.nadView setIsOutputLog:NO];
-    // (4) set apiKey, spotId.
-    [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
-    [self.nadView setDelegate:self]; //(5)
-    [self.nadView load]; //(6)
-    [self.view addSubview:self.nadView]; // 最初から表示する場合
-*/
-    // debug
-    NSLog(@"viewdidload ctrl.Btn.state:%d",self.ctrlBtn.state);
- 
-    // (audioplayer)再生する効果音のパスを取得する
-    // ドラムロール
-    NSString *path_roll = [[NSBundle mainBundle] pathForResource:@"roll" ofType:@"aiff"];
-    NSURL *url_roll = [NSURL fileURLWithPath:path_roll];
-    _rollPlayer_tmp = [[AVAudioPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
+//
+//     // 【Ad】サイズを指定してAdMobインスタンスを生成
+//     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+//     
+//     // 【Ad】AdMobのパブリッシャーIDを指定
+//     bannerView_.adUnitID = MY_BANNER_UNIT_ID;
+//     
+//     
+//     // 【Ad】AdMob広告を表示するViewController(自分自身)を指定し、ビューに広告を追加
+//     bannerView_.rootViewController = self;
+//     [self.view addSubview:bannerView_];
+//     
+//     // ビューの一番下に表示
+//     [bannerView_ setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height/2)];
+//
+//     // 【Ad】AdMob広告データの読み込みを要求
+//     [bannerView_ loadRequest:[GADRequest request]];
+//     
+//    // 【Ad】インタースティシャル広告の表示
+//    interstitial_ = [[GADInterstitial alloc] init];
+//    interstitial_.adUnitID = MY_INTERSTITIAL_UNIT_ID;
+//    interstitial_.delegate = self;
+//    [interstitial_ loadRequest:[GADRequest request]];
+//    
+//    
+//     //NADViewの作成
+//     self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+//    [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height - self.nadView.bounds.size.height/2)];
+//
+//     // (3) ログ出力の指定
+//    // [self.nadView setIsOutputLog:NO];
+//     // (4) set apiKey, spotId.
+//     [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
+//     [self.nadView setDelegate:self]; //(5)
+//     [self.nadView load]; //(6)
+//     [self.view addSubview:self.nadView]; // 最初から表示する場合
+
     
-    // ロールalt
-    _rollPlayer_alt = [[AVAudioPlayer alloc] initWithContentsOfURL:url_roll error:NULL];
-    
-    
-    // クラッシュ
-    NSString *path_clash = [[NSBundle mainBundle] pathForResource:@"crash" ofType:@"aif"];
-    NSURL *url_clash = [NSURL fileURLWithPath:path_clash];
-    _crashPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url_clash error:NULL];
-    
-    // ドラムロールだけループさせるのでデリゲートに指定
-    // audioPlayer を作ったあとにデリゲート指定しないと機能しない
-    [_rollPlayer_tmp setDelegate:self];
-    [_rollPlayer_alt setDelegate:self];
-    
-    // プレイヤーを準備
-    [_rollPlayer_tmp prepareToPlay];
-    [_rollPlayer_alt prepareToPlay];
-    [_crashPlayer prepareToPlay];
-    
-    // tmpPlayerとaltPlayerを相互にクロスフェードさせて繰り返すための時間を条件式とするために_rollPlayer_tmop.durationを格納
-    duration = _rollPlayer_tmp.duration;
-    
-    // デバッグ用変数初期化
-    i = 0;
-    p = 0;
+    // (audioplayer)再生する効果音のパスを取得しインスタンス生成
+    [self initializeAVAudioPlayers];
     
     // 【アニメーション】ロール再生中の各コマのイメージを配列に入れる
-    animationSeq = @[/*
-                     [UIImage imageNamed:@"hit_R2.png"],
-                     [UIImage imageNamed:@"hit_R1.png"],
-                     [UIImage imageNamed:@"hit_R2.png"],
-                     [UIImage imageNamed:@"hit_R1.png"],
-                     [UIImage imageNamed:@"hit_R2.png"],
-                     
-                     [UIImage imageNamed:@"hit_L2.png"],
-                     [UIImage imageNamed:@"hit_L1.png"],
-                     [UIImage imageNamed:@"hit_L2.png"],
-                     [UIImage imageNamed:@"hit_L1.png"],
-                     [UIImage imageNamed:@"hit_L2.png"]
-                      */
+    animationSeq = @[[UIImage imageNamed:@"hit_R2099.png"],
+                     [UIImage imageNamed:@"hit_R1099.png"],
+                     [UIImage imageNamed:@"hit_R2099.png"],
 
-                     [UIImage imageNamed:@"hit_R2v07.png"],
-                     [UIImage imageNamed:@"hit_R1v07.png"],
-                     [UIImage imageNamed:@"hit_R2v07.png"],
-                     [UIImage imageNamed:@"hit_R1v07.png"],
-                     [UIImage imageNamed:@"hit_R2v07.png"],
-                     [UIImage imageNamed:@"hit_L2v07.png"],
-                     [UIImage imageNamed:@"hit_L1v07.png"],
-                     [UIImage imageNamed:@"hit_L2v07.png"],
-                     [UIImage imageNamed:@"hit_L1v07.png"],
-                     [UIImage imageNamed:@"hit_L2v07.png"]];
+                     [UIImage imageNamed:@"hit_L2099.png"],
+                     [UIImage imageNamed:@"hit_L1099.png"],
+                     [UIImage imageNamed:@"hit_L2099.png"]
+
+                     ];
+
     
     // ボタンのイメージビューにアニメーションの配列を設定する
     self.ctrlBtn.imageView.animationImages = animationSeq;
     // アニメーションの長さを設定する
-    self.ctrlBtn.imageView.animationDuration = 1.35;
+    self.ctrlBtn.imageView.animationDuration = 1.2;//1.35
     // 無限の繰り返し回数
     self.ctrlBtn.imageView.animationRepeatCount = 0;
-    self.ctrlBtn.imageView.image = [UIImage imageNamed:@"default_v07.png"];
-    
+
 
     
+    // ctrlBtnを起動時だけ回転拡大で出現するために隠す
+    [self.ctrlBtn setAlpha:0];
+    [self.ctrlBtn setHidden:0];
+    [self.ctrlBtn setEnabled:0];
+    [self.altCtrlBtnForCrashAnimation setHidden:1];
+    
+    // pauseBtnがdisableのときに色を薄くしないために画像設定
+    [self.pauseBtn setImage:[UIImage imageNamed:@"pauseBtn256.png"] forState:UIControlStateDisabled];
 }
-
-// 円を描画するメソッド
--(UIImage *)imageFillEllipseInRect:(UIColor *)color size:(CGSize)size lineWidth:(CGFloat)lineWidth{
-    
-    UIImage *img = nil;
-    CGRect rect;
-    
-    int adjustPosition; // 位置調整
-    
-    // ビットマップ形式のコンテキストの生成
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0); // (scale)は 0 を指定することで使用デバイスに適した倍率が自動的に採用される
-    
-    // 現在のコンテキストを取得する
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    if (color == [UIColor greenColor]) {
-        // 線で描画する範囲を決める
-        adjustPosition = 24; // 30
-        rect = CGRectMake(adjustPosition/2, adjustPosition/2, (int)(size.width -adjustPosition), (int)(size.height -adjustPosition));
-    } else {
-        // 線で描画する範囲を決める
-        adjustPosition = 8;
-        rect = CGRectMake(adjustPosition/2, adjustPosition/2, (int)(size.width -adjustPosition), (int)(size.height -adjustPosition));
-    }
-    
-    // 線の太さを決める
-    CGContextSetLineWidth(context, lineWidth);
-    
-    // 円を描画する
-    CGContextSetStrokeColorWithColor(context, color.CGColor);
-    CGContextStrokeEllipseInRect(context, rect);
-    
-    // 現在のグラフィックコンテクストの内容を取得する
-    img = UIGraphicsGetImageFromCurrentImageContext();
-
-    /*
-    CGContextSetRGBStrokeColor(context, 0, 0, 1, 1);
-    CGContextStrokeEllipseInRect(context, CGRectMake(200, 200, 250, 250));
-     */
-    
-    // 現在のグラフィックコンテクストの編集を終了する
-    UIGraphicsEndImageContext();
-    
-    return img;
-}
-
-// 円の1.25倍拡大アニメーション
--(void)circleAnimationZoomIn{
-    // transform初期化
-    imgViewCircle.transform = CGAffineTransformIdentity;
-    self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
-    // アルファ値初期化
-    imgViewCircle.alpha = 1;
-
-    CGAffineTransform t1 = CGAffineTransformMakeScale(0.98, 0.98);
-    CGAffineTransform t2 = CGAffineTransformMakeScale(1.25, 1.25);
-
-    // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
-    [UIView animateWithDuration:1.25f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         self.ctrlBtn.imageView.transform = t1;
-                         imgViewCircle.hidden = 0;
-                         imgViewCircle.alpha = 0;
-                         imgViewCircle.transform = t2;
-                     } completion:nil];
-    
-}
-
-// 0.9倍への縮小アニメーション
--(void)circleAnimationZoomOut{
-    // transform初期化
-    imgViewCircle.transform = CGAffineTransformIdentity;
-    self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
-    // アルファ値初期化
-    imgViewCircle.alpha = 1;
-    
-    CGAffineTransform t1 = CGAffineTransformMakeScale(1.05, 1.05);
-    CGAffineTransform t2 = CGAffineTransformMakeScale(0.9, 0.9);
-    // 【アニメーション】クラッシュ再生ボタンが押されるまで赤のサークルの縮小、alpha減少を繰り返す
-    [UIView animateWithDuration:0.3f // ロールアニメーションが1.5秒
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.ctrlBtn.imageView.transform = t1;
-                         imgViewCircle.hidden = 0;
-                         imgViewCircle.alpha = 0;
-                         imgViewCircle.transform = t2;
-
-                     } completion:nil];
-    // アニメーションが再生されるまでボタンを無効化
-    [self.ctrlBtn setEnabled:1];
-    [self.startStopBtn setEnabled:1];
-    
-}
-
-// 1倍の円から2倍への拡大アニメーション
--(void)circleAnimationFinish{
-    // transform初期化
-    imgViewCircle.transform = CGAffineTransformIdentity;
-    imgViewCircle_small.transform = CGAffineTransformIdentity;
-    self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
-    // アルファ値初期化
-    imgViewCircle.alpha = 1;
-    imgViewCircle_small.alpha = 1;
-    
-    CGAffineTransform t1 = CGAffineTransformMakeScale(0.5, 0.5);
-    CGAffineTransform t2 = CGAffineTransformMakeScale(2, 2);
-
-    // 【アニメーション】赤のサークルの拡大、alpha減少
-    [UIView animateWithDuration:0.17f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.ctrlBtn.imageView.transform = t1;
-                         
-                     }
-                     completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.17f
-                                               delay:0.0f
-                                             options:UIViewAnimationOptionCurveEaseInOut
-                                          animations:^{
-                                              imgViewCircle.hidden = 0;
-                                              imgViewCircle.alpha = 0;
-                                              imgViewCircle.transform = t2;
-                                              
-                                              imgViewCircle_small.hidden = 0;
-                                              imgViewCircle_small.alpha = 0;
-                                              imgViewCircle_small.transform = t2;
-                                              
-                                          }
-                                          completion:^(BOOL finished){
-                                              imgViewCircle.transform = CGAffineTransformIdentity;
-                                              imgViewCircle_small.transform = CGAffineTransformIdentity;
-                                              self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
-                                              [self viewDidAppear:1];
-                                                  [self.ctrlBtn setEnabled:1];
-                                          }];
-                     }];
-
-}
-
-// pauseBtnの出現アニメーション
-- (void)pauseBtnAnimation_appear{
-    self.startStopBtn.imageView.alpha = 0;
-    self.startStopBtn.hidden = 0;
-    self.startStopBtn.imageView.transform = CGAffineTransformMakeScale(0.01, 0.01);
-    CGAffineTransform t1 = CGAffineTransformMakeRotation(M_PI/2.0f);
-    CGAffineTransform t2 = CGAffineTransformRotate(t1, M_PI/2.0f);
-    CGAffineTransform t3 = CGAffineTransformRotate(t2, M_PI/2.0f);
-    CGAffineTransform t4 = CGAffineTransformRotate(t3, M_PI/2.0f);
-    CGAffineTransform t5 = CGAffineTransformMakeScale(1.25, 1.25);
-    CGAffineTransform t6 = CGAffineTransformScale(t5, 1.25, 1.25);
-    CGAffineTransform t7 = CGAffineTransformScale(t6, 1.25, 1.25);
-    CGAffineTransform t8 = CGAffineTransformScale(t7, 1.25, 1.25);
-
-
-    
-    [UIView animateWithDuration:0.12f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         self.startStopBtn.imageView.alpha = 0.5;
-                         self.startStopBtn.imageView.transform =  CGAffineTransformConcat(t1, t5);
-                     }
-                     completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.12f
-                                               delay:0.0f
-                                             options:UIViewAnimationOptionCurveLinear
-                                          animations:^{
-                                              self.startStopBtn.imageView.alpha = 1;
-                                              self.startStopBtn.imageView.transform =  CGAffineTransformConcat(t2, t6);
-                                          }
-                                          completion:^(BOOL finished){
-                                              [UIView animateWithDuration:0.12f
-                                                                    delay:0.0f
-                                                                  options:UIViewAnimationOptionCurveLinear
-                                                               animations:^{
-                                                                   self.startStopBtn.imageView.alpha = 1;
-                                                                   self.startStopBtn.imageView.transform =  CGAffineTransformConcat(t3, t7);
-                                                               }
-                                                               completion:^(BOOL finished){
-                                                                   [UIView animateWithDuration:0.12f
-                                                                                         delay:0.0f
-                                                                                       options:UIViewAnimationOptionCurveEaseOut
-                                                                                    animations:^{
-                                                                                        self.startStopBtn.imageView.alpha = 1;
-                                                                                        self.startStopBtn.imageView.transform =  CGAffineTransformConcat(t4, t8);
-                                                                     
-                                                                                    }
-                                                                                    completion:nil];
-                                                                   
-                                                               }];
-                                              
-                                          }];
-                     }];
-}
-
-// startStopBtnをhiddenかつ無効にする
--(void)btnToHiddenDisable:(UIButton *)btn{
-    btn.hidden = 1;
-    [btn setEnabled:0];
-}
-
 
 - (void)viewWillDisappear:(BOOL)animated{
     // 画面が隠れたらNend定期ロード中断
@@ -535,55 +372,67 @@
 - (void)viewWillAppear:(BOOL)animated{
     // 画面が表示されたら定期ロード再開
     [self.nadView resume];
+    
+
 }
 
 // ビューが表示されたときに実行される
 - (void)viewDidAppear:(BOOL)animated
 {
-    // ctrlBtn.image をdefault_v07.pngに設定
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"default_v07.png"] forState:UIControlStateNormal];
-
-    // アニメーションする円の素材を描画する
-    // 円の描画サイズを設定
-    CGSize size = CGSizeMake(256, 256); // 256 + 16
-    // ストロークカラーを緑に設定
-    UIColor *color = [UIColor greenColor];
-    // ストロークの太さを設定
-    CGFloat lineWidth = 2.0f;
-    // 円のイメージでUIImageview imgViewCircleを初期化
-    imgViewCircle =[[UIImageView alloc]initWithImage:[self imageFillEllipseInRect:color size:size lineWidth:lineWidth]];
-    // imgViewCircleのセンターをctrlBtn.centerと合わせる
-    [imgViewCircle setCenter:self.ctrlBtn.center];
-    // imgViewCircleをアニメーション開始までhiddenにする
-    imgViewCircle.hidden = 1;
+    // crash再生後にviewDidAppearするタイミング調整用タイマーの破棄
+    [_setIntervalToViewDidAppear invalidate];
+    // ctrl、rippleアニメーションタイマー破棄
+    if (_ctrlBtnAnimationTimer != nil) {
+            [_ctrlBtnAnimationTimer invalidate];
+    }
+    if (_rippleAnimationTimer != nil) {
+        [_rippleAnimationTimer invalidate];
+    }
+    // 最初の１回だけ
+    if (self.ctrlBtn.alpha == 0) {
+        [self.altCtrlBtnForScaleUp appearEmeraldWithScaleUp:nil]; // 0.4sec
+        
+        NSTimer *setIntervalToCtrlBtnAppear; // appearEmeraldWithScaleUpのアニメーション(0.4sec)待ち
+        setIntervalToCtrlBtnAppear = [NSTimer scheduledTimerWithTimeInterval:0.4f
+                                                                      target:self.ctrlBtn
+                                                                    selector:@selector(appearAfterInterval:)
+                                                                    userInfo:setIntervalToCtrlBtnAppear
+                                                                     repeats:NO];
+    }
+    
+    [self greenRippleSetUp];
+    
     // ビューにimgViewCircleを描画
-    [self.view addSubview:imgViewCircle];
-
-/*
-    // イメージビューの外枠を描画
-    imgViewCircle.layer.borderColor = [UIColor blackColor].CGColor;
-    imgViewCircle.layer.borderWidth = 1.0f;
-*/
-
+    [self.view addSubview:greenCircle];
+    [self ctrlBtnGrennRippleAnimationStart];
     
-    // タイマーを破棄する
-    [_circleAnimationTimer invalidate];
+    // crashPlayerの再生回数が5の倍数かつインタースティシャル広告の準備ができていればインタースティシャル広告表示
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSInteger i = [defaults integerForKey:@"KEY_countUpCrashPlayed"];
+    BOOL b = [defaults boolForKey:@"KEY_ADMOBinterstitialRecieved"];
+    NSLog(@"countUpCrashPlayed %ld", (long)i);
     
-    // 【アニメーション】円の拡大アニメーションを2.0秒間隔で呼び出すタイマーを作る
-    _circleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:2.0f
-                                                  target:self
-                                                selector:@selector(circleAnimationZoomIn)
-                                                userInfo:nil
-                                                 repeats:YES];
+    if (b == NO) {
+            [self interstitialLoad];
+    }
     
+    if (((i % 5) == 0) && (b == YES)) {
+            [interstitial_ presentFromRootViewController:self];
+    }
 }
 
 - (void)dealloc{
+    // AdMobBannerviewの開放
+    bannerView_ = nil;
+    // nendの開放
     [self.nadView setDelegate:nil];//delegateにnilをセット
     self.nadView = nil; // プロパティ経由でrelease,nilをセット
-    
+    // AdMobinterstitialの開放　これをしないと再ロードできない
+    [interstitial_ setDelegate:nil];
+    interstitial_ = nil; //
     // [super dealloc]; // MRC(非アーク時には必要)
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -591,199 +440,228 @@
     // Dispose of any resources that can be recreated.
 }
 
-// ボタンを押したときに実行される処理を実装
-- (IBAction)ctrlBtn:(UIButton *)sender {
+#pragma mark -
+#pragma mark touchAction
+// ctrlBtnのtouchUpInside時に実行される処理を実装
+- (IBAction)touchUpInsideCtrlBtn:(UIButton *)sender {
     
-    // ドラムロールの再生
-    if (_rollPlayer_tmp.playing || _rollPlayer_alt.playing) {
-        // ドラムロールが再生中にctrlBtnが押されたとき
+    if (_rollPlayerTmp.isPlaying || _rollPlayerAlt.isPlaying) {
+        // ドラムロール再生中にctrlBtnが押されたときクラッシュ再生
+        
+        // crash再生する度に再生回数を+1してNSUserDefaultsに保存
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSInteger i = [defaults integerForKey:@"KEY_countUpCrashPlayed"];
+        i = i +1;
+        [defaults setInteger:i forKey:@"KEY_countUpCrashPlayed"];
+        [defaults synchronize];
+        
+        // 【アニメーション】ロールのアニメーションを停止
+        [self.ctrlBtn.imageView stopAnimating];
+        // アニメーションタイマーを破棄する
+        [self animationTimerInvalidate];
+        // ALIZARINのimageviewをhiddenにする。appearALIZARINWithScaleUpが再生完了前にtouchUpInsideされたとき用
+        [self.altCtrlBtnForScaleUp setHidden:1];
 
         // ドラムロールを止めcrash再生
-        [self playCrash];
-        
-        // アニメーションする円の素材を描画する
-        // 円の描画サイズを設定
-        CGSize size = CGSizeMake(256, 256); // 256 + 16
-        // ストロークカラーを赤に設定
-        UIColor *color = [UIColor redColor];
-        // ストロークの太さを設定
-        CGFloat lineWidth = 2.0f;
-        // 円のイメージでUIImageview imgViewCircleを初期化
-        imgViewCircle =[[UIImageView alloc]initWithImage:[self imageFillEllipseInRect:color size:size lineWidth:lineWidth]];
-        // イメージビューのセンターをctrlBtn.centerと合わせる
-        [imgViewCircle setCenter:self.ctrlBtn.center];
-        // imgViewCircleをアニメーション開始までhiddenにする
-        imgViewCircle.hidden = 1;
-        // ビューにimgViewCircleを描画
-        [self.view addSubview:imgViewCircle];
-   
-        // 小さい円の描画サイズを設定
-        CGSize size_small = CGSizeMake(240, 240); // 256 + 16
-        // ストロークカラーを赤に設定
-        UIColor *color_small = [UIColor redColor];
-        // ストロークの太さを設定
-        CGFloat lineWidth_small = 1.5f;
-        // 円のイメージでUIImageview imgViewCircleを初期化
-        imgViewCircle_small =[[UIImageView alloc]initWithImage:[self imageFillEllipseInRect:color_small size:size_small lineWidth:lineWidth_small]];
-        // イメージビューのセンターをctrlBtn.centerと合わせる
-        [imgViewCircle_small setCenter:self.ctrlBtn.center];
-        // imgViewCircleをアニメーション開始までhiddenにする
-        imgViewCircle_small.hidden = 1;
-        // ビューにimgViewCircleを描画
-        [self.view addSubview:imgViewCircle_small];
-        
-        /*
-         // イメージビューの外枠を描画
-         imgViewCircle.layer.borderColor = [UIColor blackColor].CGColor;
-         imgViewCircle.layer.borderWidth = 1.0f;
-         */
-        
-        // crash再生時のアニメーション再生
-        [self circleAnimationFinish];
-        
-        // startStopBtnをhiddenかつ無効にする
-        [self btnToHiddenDisable:self.startStopBtn];
-        
-        // debug
-        NSLog(@"Crash ctrl.Btn.state:%d",self.ctrlBtn.state);
-        
-    } else {
-        // ドラムロールが停止中にctrlBtnが押されたとき
-        // ドラムロールを再生する
-        [self playRoll];
-        
-        // アニメーションする円の素材を描画する
-        // 円の描画サイズを設定
-        CGSize size = CGSizeMake(280, 280); // 256 + 16
-        // ストロークカラーを赤に設定
-        UIColor *color = [UIColor redColor];
-        // ストロークの太さを設定
-        CGFloat lineWidth = 2.0f;
-        // 円のイメージでUIImageview imgViewCircleを初期化
-        imgViewCircle =[[UIImageView alloc]initWithImage:[self imageFillEllipseInRect:color size:size lineWidth:lineWidth]];
-        // イメージビューのセンターをctrlBtn.centerと合わせる
-        [imgViewCircle setCenter:self.ctrlBtn.center];
-        // imgViewCircleをアニメーション開始までhiddenにする
-        imgViewCircle.hidden = 1;
-        // ビューにimgViewCircleを描画
-        [self.view addSubview:imgViewCircle];
-/*
-        // イメージビューの外枠を描画
-        imgViewCircle.layer.borderColor = [UIColor blackColor].CGColor;
-        imgViewCircle.layer.borderWidth = 1.0f;
-*/
-
-        // transform初期化
-        imgViewCircle.transform = CGAffineTransformIdentity;
-        self.ctrlBtn.imageView.transform = CGAffineTransformIdentity;
-        
-        // 【アニメーション】円の縮小アニメーションを0.7秒間隔で呼び出すタイマーを作る
-        _circleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.7f
-                                                                 target:self
-                                                               selector:@selector(circleAnimationZoomOut)
-                                                               userInfo:nil
-                                                                repeats:YES];
-        // statStopBtn がhiddenのときだけ実行
-        if (self.startStopBtn.hidden == 1) {
-            // 【アニメーション】startStopBtnを拡大/回転しながら表示
-            [self pauseBtnAnimation_appear];
-        }
-
-        
-        // debug
-        NSLog(@"Roll ctrl.Btn.state:%d",self.ctrlBtn.state);
-        
-    }
-
-}
-
-// ctrlBtnの下のボタンを押した時に実行される処理を実装
-- (IBAction)startStopBtn:(UIButton *)sender {
-    NSLog(@"startStopBtnLabel tapped!");
-    if (_rollPlayer_tmp.playing || _rollPlayer_alt.playing) {
-        // ドラムロールが再生中にstartStopBtnが押されたとき
-        // ループしているドラムロールを止める
-        [_rollPlayer_tmp stop];
-        _rollPlayer_tmp.currentTime = 0.0;
-        [_rollPlayer_alt stop];
-        _rollPlayer_alt.currentTime = 0.0;
-        
+        [_crashPlayer playCrashStopRolls:_rollPlayerTmp :_rollPlayerAlt];
         // プレイヤータイマーを破棄する
         [_playTimer invalidate];
+
+        // ストロークカラーを赤に設定
+        UIColor *color = [UIColor colorWithRed:0.906 green:0.298 blue:0.235 alpha:1]; // ALIZARIN
+        // ストロークの太さを設定
+        CGFloat lineWidth = 4.0f;
+        // 半径を設定
+        CGFloat radius = 224;
+        // インスタンスを生成
+        ImageViewCircle *lastCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+        [lastCircle setImage:[lastCircle imageFillEllipseInRect]];
         
-        // アニメーションタイマーを破棄する
-        [_circleAnimationTimer invalidate];
+        // イメージビューのセンターをctrlAudioPlayerBtn.centerと合わせる
+        [lastCircle setCenter:self.ctrlBtn.center];
+        // ImageViewCircleをアニメーション開始までhiddenにする
+        [lastCircle setHidden:1];
+        // ビューにimgViewCircleを描画
+        [self.view addSubview:lastCircle];
+
         
-        // 【アニメーション】ロールのアニメーションを停止する
-        [self.ctrlBtn.imageView stopAnimating];
+        // touchDown時のtransformとdisabelにしたのを戻す
+        [self.ctrlBtn clearTransformBtnSetEnable];
+        [self.ctrlBtn setHidden:1];  // altCtrlBtnForCrashAnimationをそのまま拡大アニメーションすると拡大されすぎる問題があったのでctrlBtn.aphaを0にする。hiddenにするとviewDidAppearでの拡大アニメーションが再生されてしまう問題あり
         
+        // 円のクラッシュ再生時のアニメーション
+        [lastCircle circleAnimationFinish:0.4];
         
-        // ctrlBtnの画像を一旦クリア
-        self.ctrlBtn.imageView.image = nil; // ctrlBtnのパラパラアニメーション終わりにhighlightedの画像が表示される対策
-        // ctrlBtnの画像をデフォルトの画像に設定
-        self.ctrlBtn.imageView.image = [UIImage imageNamed:@"default_v07.png"];
-      
-        // startStopBtnをhiddenかつ無効にする
-        [self btnToHiddenDisable:self.startStopBtn];
-        // 初期画面を呼び出す
-        [self viewDidAppear:1];
+        // defaultの画像が回転しながら大きくなってくるアニメーション
+        [self.altCtrlBtnForCrashAnimation crashUIImageViewAnimation]; // (1.09sec)ctrlBtnをそのまま同様のアニメーションをさせると、ctrlBtnをギュンギュンアニメーションさせている都合で、タイミングによって結果がとても大きくなることがあるため、本イメージビューをアニメーション用として準備
+        
+        NSTimer *setIntervalToCtrlBtnAppear; // crashUIImageViewAnimationのアニメーション(1.09sec)が終わったらctrlBtnを表示
+        setIntervalToCtrlBtnAppear = [NSTimer scheduledTimerWithTimeInterval:1.09f
+                                                                  target:self.ctrlBtn
+                                                                    selector:@selector(appearAfterInterval:)
+                                                                userInfo:setIntervalToCtrlBtnAppear
+                                                                 repeats:NO];
+        // crash再生後にviewDidAppearするタイミング調整用タイマー
+        _setIntervalToViewDidAppear = [NSTimer scheduledTimerWithTimeInterval:1.09f
+                                                                      target:self
+                                                                    selector:@selector(viewDidAppear:) // 初期画面を表示
+                                                                    userInfo:nil
+                                                                     repeats:NO];
+        //pauseBtnの消失アニメーション
+        [self.pauseBtn disappearWithRotateScaleDownSetDisable];
+        
+    } else {
+        // ドラムロール停止中にctrlBtnが押されたとき
+        
+        // ドラムロールを再生する
+        [_rollPlayerTmp playRollStopCrash:_crashPlayer setVolumeZero:_rollPlayerAlt ];
+        // playerControllを1.0秒間隔で呼び出すタイマーを作る
+        [self playerControll];
         
 
-    } else {
-        /* ドラムロールが再生されていないときはstartStopBtnはhiddenなので押されることはない
-        // ドラムロールを再生する
-        [self playRoll];
+        // redCircle準備
+        [self redRippleSetUp];
+        // ビューにimgViewCircleを描画
+        [self.view addSubview:redCircle];
+        
+        // ctrlBtnRedRippleAnimationStartするまでctrlBtnを隠す
+        [self.ctrlBtn setHidden:1];
+        
+        // 赤いctrlBtnの拡大
+        [self.altCtrlBtnForScaleUp appearALIZARINWithScaleUp:nil]; // 0.4sec
+
+        
+        // appearALIZARINWithScaleUp(0.4sec)待ちでctrlBtnとrippleアニメーション開始
+        _ctrlBtnPlayingTimer = [NSTimer scheduledTimerWithTimeInterval:0.4f // appearAILZARINWithScaleUp終わり待ち
+                                                          target:self
+                                                        selector:@selector(ctrlBtnRedRippleAnimationStart:)
+                                                        userInfo:_ctrlBtnPlayingTimer
+                                                         repeats:NO];
         
         // 【アニメーション】ロールのアニメーションを再生する
-        [self.ctrlBtn.imageView startAnimating];
-        
-        // 円のアニメーション
-        
-        // タイマーを破棄する
-        [_circleAnimationTimer invalidate];
-        
-        // 素材の描画
-        // 円の描画サイズを設定
-        CGSize size = CGSizeMake(280, 280); // 256 + 16
-        // ストロークカラーを赤に設定
-        UIColor *color = [UIColor redColor];
-        // ストロークの太さを設定
-        CGFloat lineWidth = 2.0f;
-        // 円のイメージでUIImageview imgViewCircleを初期化
-        imgViewCircle =[[UIImageView alloc]initWithImage:[self imageFillEllipseInRect:color size:size lineWidth:lineWidth]];
-        // イメージビューのセンターをctrlBtn.centerと合わせる
-        [imgViewCircle setCenter:self.ctrlBtn.center];
-        // imgViewCircleをアニメーション開始までhiddenにする
-        imgViewCircle.hidden = 1;
-        // ビューにimgViewCircleを描画
-        [self.view addSubview:imgViewCircle];
-        
+         [self.ctrlBtn.imageView startAnimating];
 
-        
-        // イメージビューのセンターをctrlBtn.centerと合わせる
-        [imgViewCircle setCenter:self.ctrlBtn.center];
-        // imgViewCircleをアニメーション開始までhiddenにする
-        imgViewCircle.hidden = 1;
-        // ビューにimgViewCircleを描画
-        [self.view addSubview:imgViewCircle_small];
-        
-        
-         // イメージビューの外枠を描画
-         imgViewCircle.layer.borderColor = [UIColor blackColor].CGColor;
-         imgViewCircle.layer.borderWidth = 1.0f;
-         
-        
-        // 【アニメーション】円の縮小アニメーションを0.7秒間隔で呼び出すタイマーを作る
-        _circleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.7f
-                                                                 target:self
-                                                               selector:@selector(circleAnimationZoomOut)
-                                                               userInfo:nil
-                                                                repeats:YES];
-         */
+
+        // statStopBtn がhiddenのときだけ実行
+        if (self.pauseBtn.hidden == 1) {
+            // 【アニメーション】pauseBtnを拡大/回転しながら表示
+            [self.pauseBtn appearWithRotateScaleUpSetEnable];
+        }
     }
+    
 }
 
-// AdMobのloadrequestが失敗したとき
+
+/* ctrlBtnのハイライト処理 */
+// タッチしたとき
+- (IBAction)touchDownCtrlBtn:(UIButton *)sender {
+    [_ctrlBtnAnimationTimer invalidate];
+
+    [self ctrlBtnHighlightedAnimationStart]; // プルプルアニメーション
+    
+}
+// ドラッグして外に出たとき
+- (IBAction)touchDragExitCtrlBtn:(UIButton *)sender {
+    [self.ctrlBtn clearTransformBtnSetEnable];
+    if (_rollPlayerTmp.isPlaying || _rollPlayerAlt.isPlaying) {
+        // あかを復活
+        [self ctrlBtnRedRippleAnimationStart:nil];
+    } else{
+        // みどりをふっかつ
+        [self ctrlBtnGrennRippleAnimationStart];
+    }
+}
+// ドラッグして中に入ったとき
+- (IBAction)touchDragEnterCtrlBtn:(UIButton *)sender {
+    [_ctrlBtnAnimationTimer invalidate];
+        [_textAnimationTimer invalidate];
+    [self ctrlBtnHighlightedAnimationStart];
+
+}
+
+
+/* PauseBtnのハイライト処理 */
+// タッチしたとき
+- (IBAction)touchDownPauseBtn:(UIButton *)sender {
+    [self.pauseBtn highlightedAnimation]; // ハイライトアニメーション実行
+}
+
+// ctrlBtnの下のpauseBtnを押した時に実行される処理を実装
+- (IBAction)touchUpInsidePauseBtn:(UIButton *)sender {
+    // ドラムロールが再生中にpauseBtnが押されたとき
+    // ループしているドラムロールを止める
+    [_rollPlayerTmp stop];
+    _rollPlayerTmp.currentTime = 0.0;
+    [_rollPlayerAlt stop];
+    _rollPlayerAlt.currentTime = 0.0;
+    
+    // プレイヤータイマーを破棄する
+    [_playTimer invalidate];
+    // アニメーションタイマーをまとめて破棄
+    [self animationTimerInvalidate];
+    
+    // 【アニメーション】ロールのアニメーションを停止
+    [self.ctrlBtn.imageView stopAnimating];
+
+    
+    
+    // ctrlBtnの画像を一旦クリア
+    self.ctrlBtn.imageView.image = nil; // ctrlBtnのパラパラアニメーション終わりにhighlightedの画像が表示される対策
+    // ctrlBtnの画像をデフォルトの画像に設定
+    self.ctrlBtn.imageView.image = [UIImage imageNamed:@"ctrlBtnDefault09.png"];
+    // ctrlBtnをhiddenかつ無効にする
+    [self.ctrlBtn setEnabled:0];
+    [self.ctrlBtn setHidden:1];
+    // 赤いUIImageView消える
+    [self.altCtrlBtnForScaleDown disappearALIZARINWithScaleUp:nil]; // 0.3f
+    
+    //pauseBtnの消失アニメーション
+    [self.pauseBtn disappearWithRotateScaleDownSetDisable];
+    
+
+    
+    // 初期画面を呼び出す
+    NSTimer *setIntervalToCtrlBtnEmeraldAppear;
+    setIntervalToCtrlBtnEmeraldAppear = [NSTimer scheduledTimerWithTimeInterval:0.25f // disappearALIZARINWithScaleUpのアニメーションの途中から再生
+                                                                       target:self.altCtrlBtnForScaleUp
+                                                                     selector:@selector(appearEmeraldWithScaleUp:) // 0.4sec
+                                                                     userInfo:setIntervalToCtrlBtnEmeraldAppear
+                                                                      repeats:NO];
+    
+    NSTimer *setIntervalToCtrlBtnAppear; // altCtrlBtnForCrashAnimationのアニメーション(0.33sec)が終わったらctrlBtn.hiddenを0にする
+    setIntervalToCtrlBtnAppear = [NSTimer scheduledTimerWithTimeInterval:0.65f
+                                                                  target:self.ctrlBtn
+                                                                selector:@selector(appearAfterInterval:)
+                                                                userInfo:setIntervalToCtrlBtnAppear
+                                                                 repeats:NO];
+    [self greenRippleSetUp];
+    
+    // ビューにimgViewCircleを描画
+    [self.view addSubview:greenCircle];
+    [self ctrlBtnGrennRippleAnimationStart];
+
+    
+}
+
+// ドラッグして中に入った時
+- (IBAction)touchDragEnterPauseBtn:(UIButton *)sender {
+        [self.pauseBtn highlightedAnimation]; // ハイライトアニメーション実行
+}
+
+// ドラッグして外に出たとき
+- (IBAction)touchDragExitPauseBtn:(UIButton *)sender {
+    [self.pauseBtn clearTransformBtnSetEnable]; // 元に戻す
+}
+
+- (IBAction)touchDownBackgroundBtn:(UIButton *)sender {
+    [_crashPlayer stopPlayer];
+    
+}
+
+
+#pragma mark -
+#pragma mark ad methods
+// AdMobバナーのloadrequestが失敗したとき
 -(void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error{
     NSLog(@"adView:didFailToReceiveAdWithError:%@", [error localizedDescription]);
     
@@ -795,6 +673,29 @@
     NSLog(@"interstitial:didFailToReceiveAdWithError:%@", [error localizedDescription]);
     
     // 他の広告ネットワークの広告を表示させるなど。
+    // フラグ更新
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:NO forKey:@"KEY_ADMOBinterstitialRecieved"];
+    [defaults synchronize];
+
 }
 
+// AdMobのインタースティシャル広告表示
+- (void)interstitialDidReceiveAd:(GADInterstitial *)ad
+{
+    // フラグ更新
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:YES forKey:@"KEY_ADMOBinterstitialRecieved"];
+    [defaults synchronize];
+    NSLog(@"adfrag:%d",[defaults boolForKey:@"KEY_ADMOBinterstitialRecieved"]);
+}
+
+// AdMobインタースティシャルの再ロード
+- (void)interstitialLoad{
+    // 【Ad】インタースティシャル広告の表示
+    interstitial_ = [[GADInterstitial alloc] init];
+    interstitial_.adUnitID = MY_INTERSTITIAL_UNIT_ID;
+    interstitial_.delegate = self;
+    [interstitial_ loadRequest:[GADRequest request]];
+}
 @end
