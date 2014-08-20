@@ -13,7 +13,6 @@
 
 // Crashを止めてRollを再生
 - (void)playRollStopCrash:(AVAudioPlayer *)crashPlayer setVolumeZero:(AVAudioPlayer *)rollPlayer_alt{
-    NSLog(@"playRoll!");
     // 再生位置を最初に設定
     self.currentTime = 0.0;
     
@@ -42,26 +41,18 @@
 }
 
 // ロールをループさせるためにaltPlayerを再生しクロスフェード管理用フラグをアクティブにするメソッドを実装
-- (void)startAltPlayer:(AVAudioPlayer *)player setStartTime:(float)startTime setVolume:(float)volume{
+- (void)startAltPlayerSetStartTime:(float)startTime setVolume:(float)volume{
     // altPlayerのボリュームと開始位置を設定し再生
-    player.volume = volume;
-    player.currentTime = startTime;
-    [player play];
-}
-
-// 2つのロールプレイヤーをクロスフェードさせるメソッド
-- (void)crossFadePlayer:(AVAudioPlayer *)tmpPlayer :(AVAudioPlayer *)altPlayer{
-    // tmpPlayerとaltPlayerのボリュームを0.1ずつ上げ下げ
-    tmpPlayer.volume = tmpPlayer.volume - 0.1;
-    altPlayer.volume = altPlayer.volume + 0.1;
-    
+    self.volume = volume;
+    self.currentTime = startTime;
+    [self play];
 }
 
 // プレイヤーの再生を止めてcurrentTimeを0.0にセット
-- (void)stopPlayer:(AVAudioPlayer *)player{
+- (void)stopPlayer{
     // playerをストップしplayer.currentTimeを0.0に戻す
-    [player stop];
-    player.currentTime = 0.0;
+    [self stop];
+    self.currentTime = 0.0;
     
 }
 

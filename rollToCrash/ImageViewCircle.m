@@ -29,7 +29,6 @@
         // 初期化
         myColor = color;
         myLineWidth = lineWidth;
-        NSLog(@"初期化");
     }
     return self;
 }
@@ -44,6 +43,7 @@
  // Drawing code
  }
  */
+
 
 // 円を描画するメソッド
 -(UIImage *)imageFillEllipseInRect{
@@ -77,76 +77,84 @@
     return img;
 }
 
-- (void)scaleUpAnimation{
+// 円のホワンホワンアニメーション
+- (void)rippleAnimation{
     // transform初期化
     self.transform = CGAffineTransformIdentity;
-    // アルファ値初期化
-    self.alpha = 1;
-
-    CGAffineTransform t1 = CGAffineTransformMakeScale(1.25, 1.25);
+    CGAffineTransform t1 = CGAffineTransformMakeScale(1.22, 1.22);
+    [self setAlpha:1.0];
     
     // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
-    [UIView animateWithDuration:1.25f
-                          delay:0.1f
+    [UIView animateWithDuration:0.3f // ctrlBtnが縮小するのに合わせる
+                          delay:0.0f
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-                         self.hidden = 0;
-                         self.alpha = 0;
-                         self.transform = t1;
-                     } completion:nil];
+                         self.transform = CGAffineTransformScale(self.transform, 0.98, 0.98);
+                     }completion:^(BOOL finished){
+                         [UIView animateWithDuration:1.25f // 拡大、アルファ減少
+                                               delay:0.0f
+                                             options:UIViewAnimationOptionCurveEaseOut
+                                          animations:^{
+                                              [self setAlpha:0];
+                                              [self setHidden:0];
+
+                                              self.transform = CGAffineTransformConcat(self.transform, t1);
+                                          }completion:^(BOOL finished) {
+                                              [self setHidden:1];
+                                          }];
+                     }];
 }
 
-// 0.9倍への縮小アニメーション
--(void)scaleDownAnimation{
+// 円のギュンギュンアニメーション
+-(void)rippleAnimationReverse{
     // transform初期化
     self.transform = CGAffineTransformIdentity;
-    // アルファ値初期化
-    self.alpha = 1;
+    CGAffineTransform t1 = CGAffineTransformMakeScale(0.8, 0.8);
+    [self setAlpha:0.6];
     
-    CGAffineTransform t1 = CGAffineTransformMakeScale(0.9, 0.9);
-    // 【アニメーション】クラッシュ再生ボタンが押されるまで赤のサークルの縮小、alpha減少を繰り返す
-    [UIView animateWithDuration:0.2f // ロールアニメーションが1.5秒
+    // 【アニメーション】ロール再生ボタンが押されるまで緑のサークルの拡大、alpha減少を繰り返す
+    [UIView animateWithDuration:0.1f // ctrlBtnが縮小するのに合わせる
                           delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseInOut
+                        options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         self.hidden = 0;
-                         self.alpha = 0;
-                         self.transform = t1;
-                         
-                     } completion:nil];
+                         self.transform = CGAffineTransformScale(self.transform, 0.98, 0.98);
+                     }completion:^(BOOL finished){
+                         [UIView animateWithDuration:0.4f // 拡大、アルファ減少
+                                               delay:0.0f
+                                             options:UIViewAnimationOptionCurveEaseIn
+                                          animations:^{
+                                              [self setHidden:0];
+                                              [self setAlpha:0];
+                                              self.transform = CGAffineTransformConcat(self.transform, t1);
+                                          }completion:^(BOOL finished) {
+                                              [self setHidden:1];
+                                          }];
+                     }];
 }
 
 // 1倍の円から2倍への拡大アニメーション
--(void)circleAnimationFinish:(float)firstDuration secondDuration:(float)secondDuration{
+-(void)circleAnimationFinish:(float)firstDuration{
     // transform初期化
     self.transform = CGAffineTransformIdentity;
     self.transform = CGAffineTransformIdentity;
     // アルファ値初期化
     self.alpha = 1;
     
-    CGAffineTransform t2 = CGAffineTransformMakeScale(2, 2);
+    CGAffineTransform t1 = CGAffineTransformMakeScale(2, 2);
     
     // 【アニメーション】赤のサークルの拡大、alpha減少
     [UIView animateWithDuration:firstDuration // 0.17f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         //  self.ctrlBtn.imageView.transform = t1;
+                         self.hidden = 0;
+                         self.alpha = 0;
+                         self.transform = t1;
                          
                      }
                      completion:^(BOOL finished){
-                         [UIView animateWithDuration:secondDuration // 0.17f
-                                               delay:0.0f
-                                             options:UIViewAnimationOptionCurveEaseInOut
-                                          animations:^{
-                                              self.hidden = 0;
-                                              self.alpha = 0;
-                                              self.transform = t2;
-                                              
-                                          }
-                                          completion:^(BOOL finished){
-                                              self.transform = CGAffineTransformIdentity;
-                                          }];
+                         self.transform = CGAffineTransformIdentity;
+                         
                      }];
     
 }

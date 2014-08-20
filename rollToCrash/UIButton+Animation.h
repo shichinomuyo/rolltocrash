@@ -9,11 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface UIButton (Animation)
-- (void)removeWithAnimation:(int)steps;
-- (void)removeWithAnimationRotateTimer:(NSTimer *)timer;
-- (void)appearWithRotateScaleUp:(UIButton *)btn;
-- (void)btnToHiddenDisable;
-- (void)disappearWithRotateScaleDown:(UIButton *)btn;
+- (void)ctrlBtnFirstAppearWithScaleUpSetEnable;
+- (void)appearWithRotateScaleUpSetEnable;
+- (void)disappearWithRotateScaleDownSetDisable;
+
 - (void)scaleUpBtn;
 - (void)scaleDownBtn;
+
+- (void)clearTransformBtnSetEnable;
+- (void)highlightedAnimation;
+- (void)vibeAnimationKeepTransform;
+- (void)strongVibeAnimationKeepTransform;
+- (void)appearAfterInterval:(NSTimer *)timer;
 @end

@@ -12,6 +12,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ImageViewCircle.h"
 #import "UIButton+Animation.h"
+#import "UIImageView+Animation.h"
 #import "AVAudioPlayer+CustomControllers.h"
 #import "GADBannerView.h"
 #import "GADInterstitial.h"

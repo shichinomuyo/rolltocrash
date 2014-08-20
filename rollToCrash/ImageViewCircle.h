@@ -17,7 +17,7 @@
 @property UIColor *myColor;
 - (id)initWithFrame:(CGRect)frame withColor:(UIColor *)color withLineWidth:(float)lineWidth;
 - (UIImage *)imageFillEllipseInRect;
-- (void)scaleUpAnimation;
--(void)scaleDownAnimation;
--(void)circleAnimationFinish:(float)firstDuration secondDuration:(float)secondDuration;
+- (void)rippleAnimation;
+- (void)rippleAnimationReverse;
+- (void)circleAnimationFinish:(float)firstDuration;
 @end
