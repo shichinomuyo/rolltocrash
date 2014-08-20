@@ -333,34 +333,21 @@
     [self initializeAVAudioPlayers];
     
     // 【アニメーション】ロール再生中の各コマのイメージを配列に入れる
-//    animationSeq = @[[UIImage imageNamed:@"hit_R2v07.png"],
-//                     [UIImage imageNamed:@"hit_R1v07.png"],
-//                     [UIImage imageNamed:@"hit_R2v07.png"],
-//                     [UIImage imageNamed:@"hit_R1v07.png"],
-//                     [UIImage imageNamed:@"hit_R2v07.png"],
-//                     [UIImage imageNamed:@"hit_L2v07.png"],
-//                     [UIImage imageNamed:@"hit_L1v07.png"],
-//                     [UIImage imageNamed:@"hit_L2v07.png"],
-//                     [UIImage imageNamed:@"hit_L1v07.png"],
-//                     [UIImage imageNamed:@"hit_L2v07.png"]];
-    
     animationSeq = @[[UIImage imageNamed:@"hit_R2099.png"],
                      [UIImage imageNamed:@"hit_R1099.png"],
                      [UIImage imageNamed:@"hit_R2099.png"],
-//                     [UIImage imageNamed:@"hit_R1099.png"],
-//                     [UIImage imageNamed:@"hit_R209.png"],
+
                      [UIImage imageNamed:@"hit_L2099.png"],
                      [UIImage imageNamed:@"hit_L1099.png"],
                      [UIImage imageNamed:@"hit_L2099.png"]
-//                    [UIImage imageNamed:@"hit_L1099.png"],
-//                     [UIImage imageNamed:@"hit_L209.png"]
+
                      ];
 
     
     // ボタンのイメージビューにアニメーションの配列を設定する
     self.ctrlBtn.imageView.animationImages = animationSeq;
     // アニメーションの長さを設定する
-    self.ctrlBtn.imageView.animationDuration = 1.35;//1.35
+    self.ctrlBtn.imageView.animationDuration = 1.2;//1.35
     // 無限の繰り返し回数
     self.ctrlBtn.imageView.animationRepeatCount = 0;
 
@@ -403,37 +390,15 @@
     }
     // 最初の１回だけ
     if (self.ctrlBtn.alpha == 0) {
-
-        NSLog(@"in");
-        NSTimer *setIntervalToCtrlBtnEmeraldAppear;
-        setIntervalToCtrlBtnEmeraldAppear = [NSTimer scheduledTimerWithTimeInterval:0.0f // disappearALIZARINWithScaleUpのアニメーションの途中から再生
-                                                                             target:self.altCtrlBtnForScaleUp
-                                                                           selector:@selector(appearEmeraldWithScaleUp:) // 0.4sec
-                                                                           userInfo:setIntervalToCtrlBtnEmeraldAppear
-                                                                            repeats:NO];
-//        NSTimer *setIntervalTosnareDefaultAppear;
-//        setIntervalTosnareDefaultAppear = [NSTimer scheduledTimerWithTimeInterval:0.1f // なんとなく0.1秒後にした
-//                                                                           target:self.snareDefault
-//                                                                         selector:@selector(appearSnareImageWithScaleUp:) // 0.37sec
-//                                                                         userInfo:setIntervalTosnareDefaultAppear
-//                                                                          repeats:NO];
+        [self.altCtrlBtnForScaleUp appearEmeraldWithScaleUp:nil]; // 0.4sec
         
-        NSTimer *setIntervalToCtrlBtnAppear; // altCtrlBtnForCrashAnimationのアニメーション(0.33sec)が終わったらctrlBtn.hiddenを0にする
+        NSTimer *setIntervalToCtrlBtnAppear; // appearEmeraldWithScaleUpのアニメーション(0.4sec)待ち
         setIntervalToCtrlBtnAppear = [NSTimer scheduledTimerWithTimeInterval:0.4f
                                                                       target:self.ctrlBtn
                                                                     selector:@selector(appearAfterInterval:)
                                                                     userInfo:setIntervalToCtrlBtnAppear
                                                                      repeats:NO];
-//        [self.ctrlBtn ctrlBtnFirstAppearWithScaleUpSetEnable];
-//        NSTimer *setIntervalTosnareDefaultAppear;
-//        setIntervalTosnareDefaultAppear = [NSTimer scheduledTimerWithTimeInterval:0.33f // ctrlBtn のアニメーション待ち
-//                                                                       target:self.snareDefault
-//                                                                     selector:@selector(appearSnareImageWithScaleUp:) // 0.3sec
-//                                                                     userInfo:setIntervalTosnareDefaultAppear
-//                                                                      repeats:NO];
     }
-    
-    
     
     [self greenRippleSetUp];
     
@@ -481,30 +446,27 @@
 - (IBAction)touchUpInsideCtrlBtn:(UIButton *)sender {
     
     if (_rollPlayerTmp.isPlaying || _rollPlayerAlt.isPlaying) {
-
         // ドラムロール再生中にctrlBtnが押されたときクラッシュ再生
+        
+        // crash再生する度に再生回数を+1してNSUserDefaultsに保存
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSInteger i = [defaults integerForKey:@"KEY_countUpCrashPlayed"];
         i = i +1;
         [defaults setInteger:i forKey:@"KEY_countUpCrashPlayed"];
         [defaults synchronize];
         
-    
         // 【アニメーション】ロールのアニメーションを停止
         [self.ctrlBtn.imageView stopAnimating];
+        // アニメーションタイマーを破棄する
+        [self animationTimerInvalidate];
+        // ALIZARINのimageviewをhiddenにする。appearALIZARINWithScaleUpが再生完了前にtouchUpInsideされたとき用
+        [self.altCtrlBtnForScaleUp setHidden:1];
 
-        
         // ドラムロールを止めcrash再生
         [_crashPlayer playCrashStopRolls:_rollPlayerTmp :_rollPlayerAlt];
         // プレイヤータイマーを破棄する
         [_playTimer invalidate];
-        
-        // アニメーションタイマーを破棄する
-        [self animationTimerInvalidate];
 
-        // ALIZARINのimageviewをhiddenにする。appearALIZARINWithScaleUpが再生完了前にtouchUpInsideされたとき用
-        [self.altCtrlBtnForScaleUp setHidden:1];
-        
         // ストロークカラーを赤に設定
         UIColor *color = [UIColor colorWithRed:0.906 green:0.298 blue:0.235 alpha:1]; // ALIZARIN
         // ストロークの太さを設定
@@ -525,27 +487,15 @@
         
         // touchDown時のtransformとdisabelにしたのを戻す
         [self.ctrlBtn clearTransformBtnSetEnable];
-      //  [self.ctrlBtn setAlpha:0];
         [self.ctrlBtn setHidden:1];  // altCtrlBtnForCrashAnimationをそのまま拡大アニメーションすると拡大されすぎる問題があったのでctrlBtn.aphaを0にする。hiddenにするとviewDidAppearでの拡大アニメーションが再生されてしまう問題あり
         
-
-
         // 円のクラッシュ再生時のアニメーション
         [lastCircle circleAnimationFinish:0.4];
+        
         // defaultの画像が回転しながら大きくなってくるアニメーション
-
         [self.altCtrlBtnForCrashAnimation crashUIImageViewAnimation]; // (1.09sec)ctrlBtnをそのまま同様のアニメーションをさせると、ctrlBtnをギュンギュンアニメーションさせている都合で、タイミングによって結果がとても大きくなることがあるため、本イメージビューをアニメーション用として準備
-
         
-//        NSTimer *setIntervalTosnareDefaultAppear; // altCtrlBtnForCrashAnimationのアニメーションの途中(0.92sec)からプレイマーク表示のアニメーション
-//        setIntervalTosnareDefaultAppear = [NSTimer scheduledTimerWithTimeInterval:0.72f // 終わり際-0.37sec調整
-//                                                                  target:self.snareDefault
-//                                                                     selector:@selector(appearSnareImageWithScaleUp:) // 0.37sec
-//                                                                userInfo:setIntervalTosnareDefaultAppear
-//                                                                 repeats:NO];
-        
-        NSTimer *setIntervalToCtrlBtnAppear; // altCtrlBtnForCrashAnimationのアニメーション(1.09sec)が終わったらctrlBtn.hiddenを0にする
-//                        [self.ctrlBtn setImage:[UIImage imageNamed:@"EMERALD09.png"] forState:UIControlStateNormal];
+        NSTimer *setIntervalToCtrlBtnAppear; // crashUIImageViewAnimationのアニメーション(1.09sec)が終わったらctrlBtnを表示
         setIntervalToCtrlBtnAppear = [NSTimer scheduledTimerWithTimeInterval:1.09f
                                                                   target:self.ctrlBtn
                                                                     selector:@selector(appearAfterInterval:)
@@ -581,17 +531,13 @@
         [self.altCtrlBtnForScaleUp appearALIZARINWithScaleUp:nil]; // 0.4sec
 
         
-
+        // appearALIZARINWithScaleUp(0.4sec)待ちでctrlBtnとrippleアニメーション開始
         _ctrlBtnPlayingTimer = [NSTimer scheduledTimerWithTimeInterval:0.4f // appearAILZARINWithScaleUp終わり待ち
                                                           target:self
                                                         selector:@selector(ctrlBtnRedRippleAnimationStart:)
                                                         userInfo:_ctrlBtnPlayingTimer
                                                          repeats:NO];
-       // [self ctrlBtnRedRippleAnimationStart];
         
-
-        
-
         // 【アニメーション】ロールのアニメーションを再生する
          [self.ctrlBtn.imageView startAnimating];
 
@@ -675,20 +621,12 @@
 
     
     // 初期画面を呼び出す
-   // [self viewDidAppear:1];
-
     NSTimer *setIntervalToCtrlBtnEmeraldAppear;
     setIntervalToCtrlBtnEmeraldAppear = [NSTimer scheduledTimerWithTimeInterval:0.25f // disappearALIZARINWithScaleUpのアニメーションの途中から再生
                                                                        target:self.altCtrlBtnForScaleUp
                                                                      selector:@selector(appearEmeraldWithScaleUp:) // 0.4sec
                                                                      userInfo:setIntervalToCtrlBtnEmeraldAppear
                                                                       repeats:NO];
-//    NSTimer *setIntervalTosnareDefaultAppear;
-//    setIntervalTosnareDefaultAppear = [NSTimer scheduledTimerWithTimeInterval:0.28f // ctrlBtn のアニメーション待ち
-//                                                                   target:self.snareDefault
-//                                                                 selector:@selector(appearSnareImageWithScaleUp:) // 0.37sec
-//                                                                 userInfo:setIntervalTosnareDefaultAppear
-//                                                                  repeats:NO];
     
     NSTimer *setIntervalToCtrlBtnAppear; // altCtrlBtnForCrashAnimationのアニメーション(0.33sec)が終わったらctrlBtn.hiddenを0にする
     setIntervalToCtrlBtnAppear = [NSTimer scheduledTimerWithTimeInterval:0.65f

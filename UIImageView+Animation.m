@@ -145,44 +145,6 @@
                      }];
 }
 
-// 拡大して現れる。snareの出現時のみに使用 0.37sec
-- (void)appearSnareImageWithScaleUp:(NSTimer *)timer{
-    self.transform = CGAffineTransformIdentity;
-    [self setHidden:1];
-    
-    self.transform = CGAffineTransformMakeScale(0.1, 0.1);
-    [UIView animateWithDuration:0.2f
-                          delay:0.0f
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         [self setHidden:0];
-                         self.transform = CGAffineTransformScale(self.transform, 11, 11);
-                     }
-                     completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.1f
-                                               delay:0.0f
-                                             options:UIViewAnimationOptionCurveEaseOut
-                                          animations:^{
-                                              self.transform = CGAffineTransformScale(self.transform, 1.05, 1.05);
-                                          }
-                                          completion:^(BOOL finished){
-                                              [UIView animateWithDuration:0.07f
-                                                                    delay:0.0f
-                                                                  options:UIViewAnimationOptionCurveEaseOut
-                                                               animations:^{
-                                                                   self.transform = CGAffineTransformIdentity;
-                                                               }
-                                                               completion:^(BOOL finished){
-                                                                   [self setHidden:1];
-                                                                   [timer invalidate];
-                                                                   
-                                                                   
-                                                               }];
-                                              
-                                          }];
-                         
-                     }];
-}
 
 // 拡大して現れる。ctrlBtnALIZARINの出現時のみに使用。0.4sec
 - (void)appearALIZARINWithScaleUp:(NSTimer *)timer{
@@ -342,64 +304,5 @@
                          
                      }];
 }
-
-// 点滅アニメーション
-- (void)blink{
-    [self setHidden:0];
-    [self setAlpha:0];
-    [UIView animateWithDuration:0.1f
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         [self setAlpha:1];
-                     } completion:^(BOOL finished) {
-                         [self setHidden:1];
-                     }];
-}
-
-// 点滅アニメーション　tap!テキストのUIImageViewオブジェクト用
-- (void)blinkTap{
-    self.transform = CGAffineTransformIdentity;
-    [self setHidden:0];
-    [self setAlpha:0];
-
-    [UIView animateWithDuration:0.3f
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         [self setAlpha:0];
-                        self.transform = CGAffineTransformMakeScale(0.1, 0.1);
-  
-                     } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:4.2f
-                                               delay:0
-                                             options:UIViewAnimationOptionCurveEaseInOut
-                                          animations:^{
-                                              [self setAlpha:0.1];
-                                              [self setHidden:1];
-                                          } completion:^(BOOL finished) {
-                                              [UIView animateWithDuration:0.3f
-                                                                    delay:0
-                                                                  options:UIViewAnimationOptionCurveEaseInOut
-                                                               animations:^{
-                                                                   [self setAlpha:1];
-                                                                   [self setHidden:0];
-                      self.transform = CGAffineTransformIdentity;
-                                                               } completion:^(BOOL finished) {
-                                                                   [UIView animateWithDuration:4.2f
-                                                                                         delay:0
-                                                                                       options:UIViewAnimationOptionCurveEaseInOut
-                                                                                    animations:^{
-                                                                                        [self setAlpha:0.9];
-
-                                                                                    } completion:^(BOOL finished) {
-
-                                                                                        NSLog(@"blink");
-                                                                                    }];
-                                                               }];
-                                          }];
-                     }];
-}
-
 
 @end

@@ -10,16 +10,8 @@
 
 @interface UIImageView (Animation)
 - (void)crashUIImageViewAnimation;
-
-- (void)appearSnareImageWithScaleUp:(NSTimer *)timer;
 - (void)appearEmeraldWithScaleUp:(NSTimer *)timer;
-
 - (void)appearALIZARINWithScaleUp:(NSTimer *)timer;
-
 - (void)disappearEmeraldWithScaleDown:(NSTimer *)timer;
 - (void)disappearALIZARINWithScaleUp:(NSTimer *)timer;
-
-
--(void)blink;
--(void)blinkTap;
 @end

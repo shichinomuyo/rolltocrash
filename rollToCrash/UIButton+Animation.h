@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIButton (Animation)
-- (void)ctrlBtnFirstAppearWithScaleUpSetEnable;
 - (void)appearWithRotateScaleUpSetEnable;
 - (void)disappearWithRotateScaleDownSetDisable;
 
