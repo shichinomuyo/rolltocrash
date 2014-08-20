@@ -1,27 +1,91 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5023" systemVersion="13A603" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--class Prefix:identifier View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" tag="1" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="am5-zJ-4lf" userLabel="backgroundBtn">
+                                <rect key="frame" x="0.0" y="1" width="768" height="1024"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchDownBackgroundBtn:" destination="vXZ-lx-hvc" eventType="touchDown" id="LKD-lh-88j"/>
+                                </connections>
+                            </button>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Lsf-vS-kYr" userLabel="altCtrlBtnForCrashAnimation">
+                                <rect key="frame" x="272" y="400" width="224" height="224"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fRx-QP-7Su" userLabel="ctrlBtn">
+                                <rect key="frame" x="272" y="400" width="224" height="224"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="ctrlBtnDefault09.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="disabled" image="default_v07.png"/>
+                                <state key="highlighted" image="ctrlBtnEmeraldWithPlay.png"/>
+                                <connections>
+                                    <action selector="touchDownCtrlBtn:" destination="vXZ-lx-hvc" eventType="touchDown" id="ElU-rw-QE2"/>
+                                    <action selector="touchDragEnterCtrlBtn:" destination="vXZ-lx-hvc" eventType="touchDragEnter" id="sv6-v8-AYy"/>
+                                    <action selector="touchDragExitCtrlBtn:" destination="vXZ-lx-hvc" eventType="touchDragExit" id="H3U-wL-U59"/>
+                                    <action selector="touchUpInsideCtrlBtn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Pi4-Ss-vUB"/>
+                                </connections>
+                            </button>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="SZE-D1-NNv" userLabel="altCtrlBtnForScaleUp">
+                                <rect key="frame" x="272" y="400" width="224" height="224"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="02z-tB-FhH" userLabel="altCtrlBtnForScaleDown">
+                                <rect key="frame" x="272" y="400" width="224" height="224"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lMj-uX-DMS" userLabel="pauseBtn">
+                                <rect key="frame" x="352" y="632" width="64" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="pauseBtn256.png">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="disabled" image="pauseBtn256.png"/>
+                                <state key="highlighted" image="pauseBtn256.png"/>
+                                <connections>
+                                    <action selector="touchDownPauseBtn:" destination="vXZ-lx-hvc" eventType="touchDown" id="bv0-Rz-J6b"/>
+                                    <action selector="touchDragEnterPauseBtn:" destination="vXZ-lx-hvc" eventType="touchDragEnter" id="WUw-Hq-sv8"/>
+                                    <action selector="touchDragExitPauseBtn:" destination="vXZ-lx-hvc" eventType="touchDragExit" id="6Oj-MZ-0M1"/>
+                                    <action selector="touchUpInsidePauseBtn:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="4pD-iM-ISX"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="altCtrlBtnForCrashAnimation" destination="Lsf-vS-kYr" id="TsL-Id-Qmo"/>
+                        <outlet property="altCtrlBtnForScaleDown" destination="02z-tB-FhH" id="L3S-18-UNH"/>
+                        <outlet property="altCtrlBtnForScaleUp" destination="SZE-D1-NNv" id="ta1-o1-wi4"/>
+                        <outlet property="ctrlBtn" destination="fRx-QP-7Su" id="IfP-0K-7sf"/>
+                        <outlet property="pauseBtn" destination="lMj-uX-DMS" id="bGa-Ok-wjh"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="ctrlBtnDefault09.png" width="256" height="256"/>
+        <image name="ctrlBtnEmeraldWithPlay.png" width="256" height="256"/>
+        <image name="default_v07.png" width="256" height="256"/>
+        <image name="pauseBtn256.png" width="256" height="256"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

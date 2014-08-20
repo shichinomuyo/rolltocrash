@@ -2,7 +2,7 @@
 //  NADIconView.h
 //  NendAd
 //
-//  Ver 2.4.1
+//  Ver 2.5.0
 //
 //  アイコン型広告ビュークラス
 

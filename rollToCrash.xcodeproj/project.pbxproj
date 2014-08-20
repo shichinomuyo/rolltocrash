@@ -43,6 +43,10 @@
 		563CFB2319A44C8000F01180 /* hit_L2099.png in Resources */ = {isa = PBXBuildFile; fileRef = 563CFB1F19A44C8000F01180 /* hit_L2099.png */; };
 		563CFB2419A44C8000F01180 /* hit_R1099.png in Resources */ = {isa = PBXBuildFile; fileRef = 563CFB2019A44C8000F01180 /* hit_R1099.png */; };
 		563CFB2519A44C8000F01180 /* hit_R2099.png in Resources */ = {isa = PBXBuildFile; fileRef = 563CFB2119A44C8000F01180 /* hit_R2099.png */; };
+		564E11AE19A4C85700637A0E /* libNendAd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 564E11A719A4C85700637A0E /* libNendAd.a */; };
+		564E11AF19A4C85700637A0E /* NADView_readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 564E11AD19A4C85700637A0E /* NADView_readme.txt */; };
+		564E11B319A4C86D00637A0E /* libAdapterNend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 564E11B119A4C86D00637A0E /* libAdapterNend.a */; };
+		564E11B419A4C86D00637A0E /* libAdapterNend_readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 564E11B219A4C86D00637A0E /* libAdapterNend_readme.txt */; };
 		567855671994AC5500072827 /* UIImageView+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 567855661994AC5500072827 /* UIImageView+Animation.m */; };
 		568326B71990C43D00F6AC98 /* UIButton+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = 568326B61990C43D00F6AC98 /* UIButton+Animation.m */; };
 		568326C019912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 568326BF19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m */; };
@@ -62,8 +66,6 @@
 		56A79DFB1980BD410066AA87 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79DFA1980BD410066AA87 /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		56A79DFF1980BE060066AA87 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79DFE1980BE060066AA87 /* libGoogleAdMobAds.a */; };
 		56A79E011980C03F0066AA87 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E001980C03F0066AA87 /* CoreTelephony.framework */; };
-		56A79E0A1981F0D40066AA87 /* libNendAd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E041981F0D40066AA87 /* libNendAd.a */; };
-		56A79E0B1981F0D40066AA87 /* NADView_readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 56A79E091981F0D40066AA87 /* NADView_readme.txt */; };
 		56A79E0D1981F13B0066AA87 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E0C1981F13B0066AA87 /* Security.framework */; };
 		56A79E0F1981F14B0066AA87 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E0E1981F14B0066AA87 /* ImageIO.framework */; };
 /* End PBXBuildFile section */
@@ -121,6 +123,15 @@
 		563CFB1F19A44C8000F01180 /* hit_L2099.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hit_L2099.png; sourceTree = "<group>"; };
 		563CFB2019A44C8000F01180 /* hit_R1099.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hit_R1099.png; sourceTree = "<group>"; };
 		563CFB2119A44C8000F01180 /* hit_R2099.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hit_R2099.png; sourceTree = "<group>"; };
+		564E11A719A4C85700637A0E /* libNendAd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNendAd.a; sourceTree = "<group>"; };
+		564E11A819A4C85700637A0E /* NADIconArrayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADIconArrayView.h; sourceTree = "<group>"; };
+		564E11A919A4C85700637A0E /* NADIconLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADIconLoader.h; sourceTree = "<group>"; };
+		564E11AA19A4C85700637A0E /* NADIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADIconView.h; sourceTree = "<group>"; };
+		564E11AB19A4C85700637A0E /* NADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADInterstitial.h; sourceTree = "<group>"; };
+		564E11AC19A4C85700637A0E /* NADView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADView.h; sourceTree = "<group>"; };
+		564E11AD19A4C85700637A0E /* NADView_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NADView_readme.txt; sourceTree = "<group>"; };
+		564E11B119A4C86D00637A0E /* libAdapterNend.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdapterNend.a; sourceTree = "<group>"; };
+		564E11B219A4C86D00637A0E /* libAdapterNend_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libAdapterNend_readme.txt; sourceTree = "<group>"; };
 		567855651994AC5500072827 /* UIImageView+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImageView+Animation.h"; path = "../UIImageView+Animation.h"; sourceTree = "<group>"; };
 		567855661994AC5500072827 /* UIImageView+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+Animation.m"; path = "../UIImageView+Animation.m"; sourceTree = "<group>"; };
 		568326B51990C43D00F6AC98 /* UIButton+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Animation.h"; sourceTree = "<group>"; };
@@ -156,12 +167,6 @@
 		56A79DFC1980BDEF0066AA87 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GADInterstitialDelegate.h; path = "../../SDK/GoogleMobileAdsSdkiOS-6.10.0/GADInterstitialDelegate.h"; sourceTree = "<group>"; };
 		56A79DFE1980BE060066AA87 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAdMobAds.a; path = "../../SDK/GoogleMobileAdsSdkiOS-6.10.0/libGoogleAdMobAds.a"; sourceTree = "<group>"; };
 		56A79E001980C03F0066AA87 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
-		56A79E041981F0D40066AA87 /* libNendAd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNendAd.a; sourceTree = "<group>"; };
-		56A79E051981F0D40066AA87 /* NADIconArrayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADIconArrayView.h; sourceTree = "<group>"; };
-		56A79E061981F0D40066AA87 /* NADIconLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADIconLoader.h; sourceTree = "<group>"; };
-		56A79E071981F0D40066AA87 /* NADIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADIconView.h; sourceTree = "<group>"; };
-		56A79E081981F0D40066AA87 /* NADView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADView.h; sourceTree = "<group>"; };
-		56A79E091981F0D40066AA87 /* NADView_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NADView_readme.txt; sourceTree = "<group>"; };
 		56A79E0C1981F13B0066AA87 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		56A79E0E1981F14B0066AA87 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -173,6 +178,7 @@
 			files = (
 				56171DB519861067006B4552 /* QuartzCore.framework in Frameworks */,
 				56A79E0F1981F14B0066AA87 /* ImageIO.framework in Frameworks */,
+				564E11AE19A4C85700637A0E /* libNendAd.a in Frameworks */,
 				56A79E0D1981F13B0066AA87 /* Security.framework in Frameworks */,
 				56A79E011980C03F0066AA87 /* CoreTelephony.framework in Frameworks */,
 				56A79DFF1980BE060066AA87 /* libGoogleAdMobAds.a in Frameworks */,
@@ -182,10 +188,10 @@
 				56A79DF51980BD060066AA87 /* StoreKit.framework in Frameworks */,
 				560D1B9F197BF6B900AE9390 /* AudioToolbox.framework in Frameworks */,
 				560D1B9D197BF68500AE9390 /* AVFoundation.framework in Frameworks */,
+				564E11B319A4C86D00637A0E /* libAdapterNend.a in Frameworks */,
 				560D1B54197BF62C00AE9390 /* CoreGraphics.framework in Frameworks */,
 				560D1B56197BF62C00AE9390 /* UIKit.framework in Frameworks */,
 				560D1B52197BF62C00AE9390 /* Foundation.framework in Frameworks */,
-				56A79E0A1981F0D40066AA87 /* libNendAd.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,9 +254,9 @@
 		560D1B57197BF62C00AE9390 /* rollToCrash */ = {
 			isa = PBXGroup;
 			children = (
+				564E11A519A4C7FB00637A0E /* Nend */,
 				563CFB0819A392C300F01180 /* images */,
 				56A08C041999BC1B00A99F26 /* sounds */,
-				56A79E031981F0D40066AA87 /* NendAd */,
 				56A79DE51980BC720066AA87 /* AdMob */,
 				560D1B60197BF62C00AE9390 /* AppDelegate.h */,
 				560D1B61197BF62C00AE9390 /* AppDelegate.m */,
@@ -359,6 +365,38 @@
 			name = images_v0.9;
 			sourceTree = "<group>";
 		};
+		564E11A519A4C7FB00637A0E /* Nend */ = {
+			isa = PBXGroup;
+			children = (
+				564E11B019A4C86D00637A0E /* AdMobMediationAdapter */,
+				564E11A619A4C85700637A0E /* NendAd */,
+			);
+			name = Nend;
+			sourceTree = "<group>";
+		};
+		564E11A619A4C85700637A0E /* NendAd */ = {
+			isa = PBXGroup;
+			children = (
+				564E11A719A4C85700637A0E /* libNendAd.a */,
+				564E11A819A4C85700637A0E /* NADIconArrayView.h */,
+				564E11A919A4C85700637A0E /* NADIconLoader.h */,
+				564E11AA19A4C85700637A0E /* NADIconView.h */,
+				564E11AB19A4C85700637A0E /* NADInterstitial.h */,
+				564E11AC19A4C85700637A0E /* NADView.h */,
+				564E11AD19A4C85700637A0E /* NADView_readme.txt */,
+			);
+			path = NendAd;
+			sourceTree = "<group>";
+		};
+		564E11B019A4C86D00637A0E /* AdMobMediationAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				564E11B119A4C86D00637A0E /* libAdapterNend.a */,
+				564E11B219A4C86D00637A0E /* libAdapterNend_readme.txt */,
+			);
+			path = AdMobMediationAdapter;
+			sourceTree = "<group>";
+		};
 		56A08BF91998EF8F00A99F26 /* sound_ver1.1 */ = {
 			isa = PBXGroup;
 			children = (
@@ -414,19 +452,6 @@
 				56A79DF11980BCCB0066AA87 /* GADRequestError.h */,
 			);
 			name = AdMob;
-			sourceTree = "<group>";
-		};
-		56A79E031981F0D40066AA87 /* NendAd */ = {
-			isa = PBXGroup;
-			children = (
-				56A79E041981F0D40066AA87 /* libNendAd.a */,
-				56A79E051981F0D40066AA87 /* NADIconArrayView.h */,
-				56A79E061981F0D40066AA87 /* NADIconLoader.h */,
-				56A79E071981F0D40066AA87 /* NADIconView.h */,
-				56A79E081981F0D40066AA87 /* NADView.h */,
-				56A79E091981F0D40066AA87 /* NADView_readme.txt */,
-			);
-			path = NendAd;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,9 +534,9 @@
 				563CFB1B19A3936700F01180 /* snareDefault09.png in Resources */,
 				563CFB1719A3936700F01180 /* hit_L109.png in Resources */,
 				563CFAE5199B929A00F01180 /* pauseBtn256.png in Resources */,
+				564E11B419A4C86D00637A0E /* libAdapterNend_readme.txt in Resources */,
 				563CFB1619A3936700F01180 /* EMERALD09.png in Resources */,
 				560D1B68197BF62C00AE9390 /* Main_iPad.storyboard in Resources */,
-				56A79E0B1981F0D40066AA87 /* NADView_readme.txt in Resources */,
 				563CFB1A19A3936700F01180 /* hit_R209.png in Resources */,
 				56A08C081999BC4600A99F26 /* roll13.mp3 in Resources */,
 				560D1B6D197BF62C00AE9390 /* Images.xcassets in Resources */,
@@ -533,6 +558,7 @@
 				563CFB1819A3936700F01180 /* hit_L209.png in Resources */,
 				56A08C071999BC4600A99F26 /* crash13.mp3 in Resources */,
 				56A08C011999B58D00A99F26 /* crash12.mp3 in Resources */,
+				564E11AF19A4C85700637A0E /* NADView_readme.txt in Resources */,
 				563CFB2419A44C8000F01180 /* hit_R1099.png in Resources */,
 				563CFB2219A44C8000F01180 /* hit_L1099.png in Resources */,
 				563CFB1419A3936700F01180 /* ALIZARIN09.png in Resources */,
@@ -704,6 +730,7 @@
 					"$(PROJECT_DIR)/rollToCrash",
 					"/Users/shichinoyuta/Documents/Programing/SDK/GoogleMobileAdsSdkiOS-6.10.0",
 					"$(PROJECT_DIR)/rollToCrash/NendAd",
+					"$(PROJECT_DIR)/rollToCrash/AdMobMediationAdapter",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -725,6 +752,7 @@
 					"$(PROJECT_DIR)/rollToCrash",
 					"/Users/shichinoyuta/Documents/Programing/SDK/GoogleMobileAdsSdkiOS-6.10.0",
 					"$(PROJECT_DIR)/rollToCrash/NendAd",
+					"$(PROJECT_DIR)/rollToCrash/AdMobMediationAdapter",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

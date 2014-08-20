@@ -33,7 +33,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
 
 @property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForCrashAnimation; // ctrlBtnをそのまま同様のアニメーションをさせると、ctrlBtnをギュンギュンアニメーションさせている都合で、タイミングによって結果がとても大きくなることがあるため、本イメージビューをアニメーション用として準備
-@property (weak, nonatomic) IBOutlet UIImageView *snareDefault;
 @property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForScaleUp;
 
 @property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForScaleDown;
@@ -317,16 +316,33 @@
     
     
      //NADViewの作成
-     self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-    [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height - self.nadView.bounds.size.height/2)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        NSLog(@"iPhoneの処理");
+        self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+        [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height - self.nadView.bounds.size.height/2)];
+        // (3) ログ出力の指定
+        [self.nadView setIsOutputLog:NO];
+        // (4) set apiKey, spotId.
+        [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
+        [self.nadView setDelegate:self]; //(5)
+        [self.nadView load]; //(6)
+        [self.view addSubview:self.nadView]; // 最初から表示する場合
+    }
+    else{
+        NSLog(@"iPadの処理");
+        self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 728, 90)];
+        [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height - self.nadView.bounds.size.height/2)];
+        // (3) ログ出力の指定
+        [self.nadView setIsOutputLog:NO];
+        // (4) set apiKey, spotId.
+        [self.nadView setNendID:@"19d17a40ad277a000f27111f286dc6aaa0ad146b" spotID:@"220604"];
+        [self.nadView setDelegate:self]; //(5)
+        [self.nadView load]; //(6)
+        [self.view addSubview:self.nadView]; // 最初から表示する場合
+    }
 
-     // (3) ログ出力の指定
-    // [self.nadView setIsOutputLog:NO];
-     // (4) set apiKey, spotId.
-     [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
-     [self.nadView setDelegate:self]; //(5)
-     [self.nadView load]; //(6)
-     [self.view addSubview:self.nadView]; // 最初から表示する場合
+
+
 
     
     // (audioplayer)再生する効果音のパスを取得しインスタンス生成
