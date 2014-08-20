@@ -196,7 +196,7 @@
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
-                         self.transform = CGAffineTransformScale(self.transform, 10.3, 10.3);
+                         self.transform = CGAffineTransformScale(self.transform, 10.1, 10.1);
                      }
                      completion:^(BOOL finished){
                          [UIView animateWithDuration:0.1f

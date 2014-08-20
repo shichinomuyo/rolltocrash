@@ -53,10 +53,6 @@
                                 <rect key="frame" x="48" y="73" width="224" height="224"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="6WK-SO-qbb" userLabel="snareAnimation">
-                                <rect key="frame" x="48" y="73" width="224" height="224"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <button hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lMj-uX-DMS" userLabel="pauseBtn">
                                 <rect key="frame" x="125" y="334" width="64" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -82,7 +78,6 @@
                         <outlet property="altCtrlBtnForScaleUp" destination="SZE-D1-NNv" id="ta1-o1-wi4"/>
                         <outlet property="ctrlBtn" destination="fRx-QP-7Su" id="IfP-0K-7sf"/>
                         <outlet property="pauseBtn" destination="lMj-uX-DMS" id="bGa-Ok-wjh"/>
-                        <outlet property="snareAnimation" destination="6WK-SO-qbb" id="hbt-Qi-LDp"/>
                         <outlet property="snareDefault" destination="vyh-PE-h9C" id="tFZ-5L-IoG"/>
                     </connections>
                 </viewController>

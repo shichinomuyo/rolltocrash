@@ -37,7 +37,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForScaleUp;
 
 @property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForScaleDown;
-@property (weak, nonatomic) IBOutlet UIImageView *snareAnimation;
 
 
 - (IBAction)touchUpInsideCtrlBtn:(UIButton *)sender;
@@ -247,8 +246,7 @@
                                                         userInfo:nil
                                                          repeats:YES];
     
-    [self.snareAnimation setHidden:0];
-    [self.snareAnimation startAnimating];
+
     
 
     
@@ -366,13 +364,7 @@
     // 無限の繰り返し回数
     self.ctrlBtn.imageView.animationRepeatCount = 0;
 
-//    // ボタンのイメージビューにアニメーションの配列を設定する
-//    self.snareAnimation.animationImages = animationSeq;
-//    // アニメーションの長さを設定する
-//    self.snareAnimation.animationDuration = 1.2;
-//    // 無限の繰り返し回数
-//    self.snareAnimation.animationRepeatCount = 0;
-    [self.snareAnimation setHidden:1];
+
     
     // ctrlBtnを起動時だけ回転拡大で出現するために隠す
     [self.ctrlBtn setAlpha:0];
@@ -500,8 +492,7 @@
     
         // 【アニメーション】ロールのアニメーションを停止
         [self.ctrlBtn.imageView stopAnimating];
-//        [self.snareAnimation stopAnimating];
-//        [self.snareAnimation setHidden:1];
+
         
         // ドラムロールを止めcrash再生
         [_crashPlayer playCrashStopRolls:_rollPlayerTmp :_rollPlayerAlt];
@@ -603,8 +594,6 @@
 
         // 【アニメーション】ロールのアニメーションを再生する
          [self.ctrlBtn.imageView startAnimating];
-//        [self.snareDefault setHidden:1];
-//        [self.snareAnimation startAnimating];
 
 
         // statStopBtn がhiddenのときだけ実行
@@ -667,8 +656,7 @@
     
     // 【アニメーション】ロールのアニメーションを停止
     [self.ctrlBtn.imageView stopAnimating];
-//    [self.snareAnimation stopAnimating];
-//    [self.snareAnimation setHidden:1];
+
     
     
     // ctrlBtnの画像を一旦クリア
