@@ -2,4 +2,5 @@
 *.xcuserdata/*
 !*.xcodeproj/project.pbxproj
 !*.xcworkspace/contents.xcworkspacedata
+*.xcodeproj/project.xcworkspace/xcuserdata/shichinoyuta.xcuserdatad/UserInterfaceState.xcuserstate
 .DS_Store
