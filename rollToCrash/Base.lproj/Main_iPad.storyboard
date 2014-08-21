@@ -23,13 +23,13 @@
                                 </connections>
                             </button>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Lsf-vS-kYr" userLabel="altCtrlBtnForCrashAnimation">
-                                <rect key="frame" x="272" y="400" width="224" height="224"/>
+                                <rect key="frame" x="160" y="176" width="448" height="448"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fRx-QP-7Su" userLabel="ctrlBtn">
-                                <rect key="frame" x="272" y="400" width="224" height="224"/>
+                                <rect key="frame" x="160" y="176" width="448" height="448"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="ctrlBtnDefault09.png">
+                                <state key="normal" image="ctrlBtnDefault.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="disabled" image="default_v07.png"/>
@@ -42,17 +42,17 @@
                                 </connections>
                             </button>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="SZE-D1-NNv" userLabel="altCtrlBtnForScaleUp">
-                                <rect key="frame" x="272" y="400" width="224" height="224"/>
+                                <rect key="frame" x="160" y="176" width="448" height="448"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="02z-tB-FhH" userLabel="altCtrlBtnForScaleDown">
-                                <rect key="frame" x="272" y="400" width="224" height="224"/>
+                                <rect key="frame" x="160" y="176" width="448" height="448"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lMj-uX-DMS" userLabel="pauseBtn">
-                                <rect key="frame" x="352" y="632" width="64" height="64"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="pauseBtn256.png">
+                                <rect key="frame" x="320" y="684" width="128" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                <state key="normal" image="pause.png">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -81,9 +81,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="ctrlBtnDefault09.png" width="256" height="256"/>
+        <image name="ctrlBtnDefault.png" width="1200" height="1200"/>
         <image name="ctrlBtnEmeraldWithPlay.png" width="256" height="256"/>
         <image name="default_v07.png" width="256" height="256"/>
+        <image name="pause.png" width="1200" height="1200"/>
         <image name="pauseBtn256.png" width="256" height="256"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

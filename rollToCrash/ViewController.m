@@ -159,14 +159,31 @@
 
 #pragma mark rippleSetUp
 - (void) greenRippleSetUp{
-    // ストロークカラーを緑に設定
-    UIColor *color = [UIColor colorWithRed:0.18 green:0.80 blue:0.443 alpha:1]; // EMERALD
-    // ストロークの太さを設定
-    CGFloat lineWidth = 2.5f;
-    // 半径を設定
-    CGFloat radius = 224; //236
-    // インスタンスを差k性
-    greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+    // デバイスがiphoneであるかそうでないかで分岐
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        NSLog(@"iPhoneの処理");
+        // ストロークカラーを緑に設定
+        UIColor *color = [UIColor colorWithRed:0.18 green:0.80 blue:0.443 alpha:1]; // EMERALD
+        // ストロークの太さを設定
+        CGFloat lineWidth = 2.5f;
+        // 半径を設定
+        CGFloat radius = 224; //236
+        // インスタンスを生成
+        greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+    }
+    else{
+        NSLog(@"iPadの処理");
+        // ストロークカラーを緑に設定
+        UIColor *color = [UIColor colorWithRed:0.18 green:0.80 blue:0.443 alpha:1]; // EMERALD
+        // ストロークの太さを設定
+        CGFloat lineWidth = 5.0f;
+        // 半径を設定
+        CGFloat radius = 448; //236
+        // インスタンスを生成
+        greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+    }
+
+
     [greenCircle setImage:[greenCircle imageFillEllipseInRect]];
     
     // イメージビューのセンターをctrlAudioPlayerBtn.centerと合わせる
@@ -176,14 +193,34 @@
 }
 
 - (void)redRippleSetUp{
-    // ストロークカラーを赤に設定
+    
+    // デバイスがiphoneであるかそうでないかで分岐
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        NSLog(@"iPhoneの処理");
+        // ストロークカラーを赤に設定
         UIColor *color = [UIColor colorWithRed:0.906 green:0.298 blue:0.235 alpha:1]; // ALIZARIN
-    // ストロークの太さを設定
-    CGFloat lineWidth = 2.0f;
-    // 半径を設定
-    CGFloat radius = 286;
-    // インスタンスを生成
-    redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+        // ストロークの太さを設定
+        CGFloat lineWidth = 2.0f;
+        // 半径を設定
+        CGFloat radius = 286;
+        // インスタンスを生成
+        redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+        
+    }
+    else{
+        NSLog(@"iPadの処理");
+        // ストロークカラーを赤に設定
+        UIColor *color = [UIColor colorWithRed:0.906 green:0.298 blue:0.235 alpha:1]; // ALIZARIN
+        // ストロークの太さを設定
+        CGFloat lineWidth = 4.0f;
+        // 半径を設定
+        CGFloat radius = 542;
+        // インスタンスを生成
+        redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+    }
+
+
+
     [redCircle setImage:[redCircle imageFillEllipseInRect]];
     
     // 円をctrlBtn.centerと合わせる
@@ -197,9 +234,9 @@
     [self animationTimerInvalidate];
     
     // ctrlBtnの画像を差し替える
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault09.png"] forState:UIControlStateNormal];
-        [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault09.png"] forState:UIControlStateHighlighted];
-        [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault09.png"] forState:UIControlStateDisabled];
+    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"] forState:UIControlStateNormal];
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"] forState:UIControlStateHighlighted];
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"] forState:UIControlStateDisabled];
 
 
     // 円とctrlBtnのふわふわアニメーション
@@ -227,9 +264,9 @@
     [self.ctrlBtn clearTransformBtnSetEnable];
     
     // ctrlBtnの画像を差し替える
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN09.png"] forState:UIControlStateNormal];
-        [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN09.png"] forState:UIControlStateHighlighted];
-        [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN09.png"] forState:UIControlStateDisabled];
+    [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN.png"] forState:UIControlStateNormal];
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN.png"] forState:UIControlStateHighlighted];
+        [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN.png"] forState:UIControlStateDisabled];
     
 
     
@@ -307,6 +344,8 @@
 
      // 【Ad】AdMob広告データの読み込みを要求
      [bannerView_ loadRequest:[GADRequest request]];
+    // AdMobバナーの回転時のautosize
+    bannerView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
      
     // 【Ad】インタースティシャル広告の表示
     interstitial_ = [[GADInterstitial alloc] init];
@@ -314,19 +353,20 @@
     interstitial_.delegate = self;
     [interstitial_ loadRequest:[GADRequest request]];
     
-    
      //NADViewの作成
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
         NSLog(@"iPhoneの処理");
         self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
         [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height - self.nadView.bounds.size.height/2)];
         // (3) ログ出力の指定
-        [self.nadView setIsOutputLog:NO];
+        [self.nadView setIsOutputLog:YES];
         // (4) set apiKey, spotId.
         [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
         [self.nadView setDelegate:self]; //(5)
         [self.nadView load]; //(6)
         [self.view addSubview:self.nadView]; // 最初から表示する場合
+            // nendAdバナーの回転時のautosize
+        self.nadView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     }
     else{
         NSLog(@"iPadの処理");
@@ -342,20 +382,18 @@
     }
 
 
-
-
     
     // (audioplayer)再生する効果音のパスを取得しインスタンス生成
     [self initializeAVAudioPlayers];
     
     // 【アニメーション】ロール再生中の各コマのイメージを配列に入れる
-    animationSeq = @[[UIImage imageNamed:@"hit_R2099.png"],
-                     [UIImage imageNamed:@"hit_R1099.png"],
-                     [UIImage imageNamed:@"hit_R2099.png"],
+    animationSeq = @[[UIImage imageNamed:@"hit_R2.png"],
+                     [UIImage imageNamed:@"hit_R1.png"],
+                     [UIImage imageNamed:@"hit_R2.png"],
 
-                     [UIImage imageNamed:@"hit_L2099.png"],
-                     [UIImage imageNamed:@"hit_L1099.png"],
-                     [UIImage imageNamed:@"hit_L2099.png"]
+                     [UIImage imageNamed:@"hit_L2.png"],
+                     [UIImage imageNamed:@"hit_L1.png"],
+                     [UIImage imageNamed:@"hit_L2.png"]
 
                      ];
 
@@ -376,7 +414,7 @@
     [self.altCtrlBtnForCrashAnimation setHidden:1];
     
     // pauseBtnがdisableのときに色を薄くしないために画像設定
-    [self.pauseBtn setImage:[UIImage imageNamed:@"pauseBtn256.png"] forState:UIControlStateDisabled];
+    [self.pauseBtn setImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateDisabled];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -624,7 +662,7 @@
     // ctrlBtnの画像を一旦クリア
     self.ctrlBtn.imageView.image = nil; // ctrlBtnのパラパラアニメーション終わりにhighlightedの画像が表示される対策
     // ctrlBtnの画像をデフォルトの画像に設定
-    self.ctrlBtn.imageView.image = [UIImage imageNamed:@"ctrlBtnDefault09.png"];
+    self.ctrlBtn.imageView.image = [UIImage imageNamed:@"ctrlBtnDefault.png"];
     // ctrlBtnをhiddenかつ無効にする
     [self.ctrlBtn setEnabled:0];
     [self.ctrlBtn setHidden:1];
@@ -673,6 +711,36 @@
     [_crashPlayer stopPlayer];
     
 }
+
+#pragma mark -
+#pragma mark interface rotated
+// デバイス回転時に広告の表示位置を調整
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    CGRect rect = [[UIScreen mainScreen]applicationFrame];
+    int adjustedX;
+    int adjustedY;
+    switch (toInterfaceOrientation) {
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            adjustedX = rect.size.width / 2;
+            adjustedY = rect.size.height / 2;
+   
+            NSLog(@"x:%d y:%d",adjustedX,adjustedY);
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            adjustedX = rect.size.width /2;
+            adjustedY = rect.size.height /2;
+
+                        NSLog(@"x:%d y:%d",adjustedX,adjustedY);
+            break;
+        
+        default:
+            break;
+    }
+    
+}
+
 
 
 #pragma mark -
