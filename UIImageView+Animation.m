@@ -65,7 +65,7 @@
                                                                                                             options:UIViewAnimationOptionCurveLinear |UIViewAnimationOptionBeginFromCurrentState
                                                                                                          animations:^{ // パーン
                                                                                                              //    self.transform =  CGAffineTransformConcat(self.transform, concat);
-                                                                                                             self.transform =  CGAffineTransformScale(self.transform, 1.2, 1.2);
+                                                                                                             self.transform =  CGAffineTransformScale(self.transform, 1.5, 1.5);
                                                                                                              
                                                                                                          }completion:^(BOOL finished) {
                                                                                                              [UIView animateWithDuration:0.4f
