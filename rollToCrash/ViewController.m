@@ -165,22 +165,22 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
         NSLog(@"iPhoneの処理");
         // ストロークカラーを緑に設定
-        UIColor *color = [UIColor colorWithRed:0.18 green:0.80 blue:0.443 alpha:1]; // EMERALD
+        UIColor *color = [UIColor colorWithRed:0.20 green:0.80 blue:0.40 alpha:1.0]; // EMERALD
         // ストロークの太さを設定
         CGFloat lineWidth = 2.5f;
         // 半径を設定
-        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 1.12; //224
+        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 0.95; //224
         // インスタンスを生成
         greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
     }
     else{
         NSLog(@"iPadの処理");
         // ストロークカラーを緑に設定
-        UIColor *color = [UIColor colorWithRed:0.18 green:0.80 blue:0.443 alpha:1]; // EMERALD
+        UIColor *color = [UIColor colorWithRed:0.20 green:0.80 blue:0.40 alpha:1.0]; // EMERALD
         // ストロークの太さを設定
-        CGFloat lineWidth = 5.0f;
+        CGFloat lineWidth = 10.0f;
         // 半径を設定
-        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 1.12; // 448
+        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 0.95; // 448
         // インスタンスを生成
         greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
     }
@@ -200,11 +200,11 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
         NSLog(@"iPhoneの処理");
         // ストロークカラーを赤に設定
-        UIColor *color = [UIColor colorWithRed:0.906 green:0.298 blue:0.235 alpha:1]; // ALIZARIN
+        UIColor *color = [UIColor colorWithRed:0.80 green:0.20 blue:0.00 alpha:1]; // ALIZARIN
         // ストロークの太さを設定
         CGFloat lineWidth = 2.0f;
         // 半径を設定
-        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 1.3; // 286
+        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 1.2; // 286
         // インスタンスを生成
         redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
         
@@ -212,11 +212,11 @@
     else{
         NSLog(@"iPadの処理");
         // ストロークカラーを赤に設定
-        UIColor *color = [UIColor colorWithRed:0.906 green:0.298 blue:0.235 alpha:1]; // ALIZARIN
+        UIColor *color = [UIColor colorWithRed:0.80 green:0.20 blue:0.00 alpha:1]; // ALIZARIN
         // ストロークの太さを設定
-        CGFloat lineWidth = 4.0f;
+        CGFloat lineWidth = 10.0f;
         // 半径を設定
-        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 1.3;// 542
+        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 1.2;// 542
         // インスタンスを生成
         redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
     }
@@ -236,9 +236,9 @@
     [self animationTimerInvalidate];
     
     // ctrlBtnの画像を差し替える
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"] forState:UIControlStateNormal];
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"] forState:UIControlStateHighlighted];
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"] forState:UIControlStateDisabled];
+    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDF.png"] forState:UIControlStateNormal];
+    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDF.png"] forState:UIControlStateHighlighted];
+    [self.ctrlBtn setImage:[UIImage imageNamed:@"ctrlBtnDF.png"] forState:UIControlStateDisabled];
     
     
     // 円とctrlBtnのふわふわアニメーション
@@ -264,12 +264,6 @@
     
     // touchDown時のtransformとdisabelにしたのを戻す
     [self.ctrlBtn clearTransformBtnSetEnable];
-    
-    // ctrlBtnの画像を差し替える
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN.png"] forState:UIControlStateNormal];
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN.png"] forState:UIControlStateHighlighted];
-    [self.ctrlBtn setImage:[UIImage imageNamed:@"ALIZARIN.png"] forState:UIControlStateDisabled];
-    
     
     
     // 【アニメーション】円の縮小アニメーションを0.6秒間隔で呼び出すタイマーを作る
@@ -397,13 +391,13 @@
     [self initializeAVAudioPlayers];
     
     // 【アニメーション】ロール再生中の各コマのイメージを配列に入れる
-    animationSeq = @[[UIImage imageNamed:@"hit_R2.png"],
-                     [UIImage imageNamed:@"hit_R1.png"],
-                     [UIImage imageNamed:@"hit_R2.png"],
+    animationSeq = @[[UIImage imageNamed:@"hitR2.png"],
+                     [UIImage imageNamed:@"hitR1.png"],
+                     [UIImage imageNamed:@"hitR2.png"],
                      
-                     [UIImage imageNamed:@"hit_L2.png"],
-                     [UIImage imageNamed:@"hit_L1.png"],
-                     [UIImage imageNamed:@"hit_L2.png"]
+                     [UIImage imageNamed:@"hitL2.png"],
+                     [UIImage imageNamed:@"hitL1.png"],
+                     [UIImage imageNamed:@"hitL2.png"]
                      
                      ];
     
@@ -671,7 +665,7 @@
     // ctrlBtnの画像を一旦クリア
     self.ctrlBtn.imageView.image = nil; // ctrlBtnのパラパラアニメーション終わりにhighlightedの画像が表示される対策
     // ctrlBtnの画像をデフォルトの画像に設定
-    self.ctrlBtn.imageView.image = [UIImage imageNamed:@"ctrlBtnDefault.png"];
+    self.ctrlBtn.imageView.image = [UIImage imageNamed:@"ctrlBtnDF.png"];
     // ctrlBtnをhiddenかつ無効にする
     [self.ctrlBtn setEnabled:0];
     [self.ctrlBtn setHidden:1];
@@ -897,5 +891,16 @@
 - (void)nadViewDidReceiveAd:(NADView *)adView{
     
     
+}
+
+// スプラッシュ画面を1秒表示する
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    
+    // ここでスレッドを止める
+    [NSThread sleepForTimeInterval:2.0];
+//    sleep(1);
+    
+    return YES;
 }
 @end

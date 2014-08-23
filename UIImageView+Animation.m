@@ -78,20 +78,20 @@
                                                                                                                               }completion:^(BOOL finished) {
                                                                                                                                   [UIView animateWithDuration:0.1f
                                                                                                                                                         delay:0.0f
-                                                                                                                                                      options:UIViewAnimationOptionCurveEaseOut |UIViewAnimationOptionBeginFromCurrentState
+                                                                                                                                                      options:UIViewAnimationOptionCurveLinear|UIViewAnimationOptionBeginFromCurrentState
                                                                                                                                                    animations:^{ // 小さくなる
-                                                                                                                                                       self.transform = CGAffineTransformScale(self.transform, 0.1, 0.1);
+                                                                                                                                                       self.transform = CGAffineTransformScale(self.transform, 0.3, 0.3);
                                                                                                                                                        [self setImage:[UIImage imageNamed:@"crash02.png"]];
                                                                                                                                                        
                                                                                                                                                    }completion:^(BOOL finished) {
                                                                                                                                                        [UIView animateWithDuration:0.1f
                                                                                                                                                                              delay:0.0f
-                                                                                                                                                                           options:UIViewAnimationOptionCurveLinear |UIViewAnimationOptionBeginFromCurrentState
+                                                                                                                                                                           options:UIViewAnimationOptionCurveEaseOut |UIViewAnimationOptionBeginFromCurrentState
                                                                                                                                                                         animations:^{ // 丸に戻りかけ
                                                                                                                                                                             //                                                                                                                                                       self.transform =  CGAffineTransformConcat(self.transform, concat);
                                                                                                                                                                             [self setImage:[UIImage imageNamed:@"crash03.png"]];
                                                                                                                                                                             
-                                                                                                                                                                            self.transform = CGAffineTransformScale(self.transform, 4.0, 4.0);
+                                                                                                                                                                            self.transform = CGAffineTransformScale(self.transform, 0.1, 0.1);
                                                                                                                                                                             [self setAlpha:0.95];
                                                                                                                                                                             
                                                                                                                                                                         }completion:^(BOOL finished) {
@@ -101,7 +101,7 @@
                                                                                                                                                                                              animations:^{ // エメラルド丸に戻る
                                                                                                                                                                                                  //                                                                                                                                                       self.transform =  CGAffineTransformConcat(self.transform, concat);
                                                                                                                                                                                                  
-                                                                                                                                                                                                 [self setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"]];
+                                                                                                                                                                                                 [self setImage:[UIImage imageNamed:@"ctrlBtnDF.png"]];
                                                                                                                                                                                                  
                                                                                                                                                                                                  [self setAlpha:1];
                                                                                                                                                                                                  self.transform = CGAffineTransformIdentity;
@@ -149,7 +149,7 @@
 // 拡大して現れる。ctrlBtnALIZARINの出現時のみに使用。0.4sec
 - (void)appearALIZARINWithScaleUp:(NSTimer *)timer{
     self.transform = CGAffineTransformIdentity;
-    [self setImage:[UIImage imageNamed:@"hit_R1.png"]];
+    [self setImage:[UIImage imageNamed:@"hitR1.png"]];
     [self setHidden:0];
     
     self.transform = CGAffineTransformMakeScale(0.1, 0.1);
@@ -189,7 +189,7 @@
 
 - (void)appearEmeraldWithScaleUp:(NSTimer *)timer{
     self.transform = CGAffineTransformIdentity;
-    [self setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"]];
+    [self setImage:[UIImage imageNamed:@"ctrlBtnDF.png"]];
     [self setHidden:0];
     
     self.transform = CGAffineTransformMakeScale(0.1, 0.1);
@@ -231,7 +231,7 @@
 // 縮小して消える。ctrlBtnEmeraldの消失時のみに使用。
 - (void)disappearEmeraldWithScaleDown:(NSTimer *)timer{
     self.transform = CGAffineTransformIdentity;
-    [self setImage:[UIImage imageNamed:@"ctrlBtnDefault.png"]];
+    [self setImage:[UIImage imageNamed:@"ctrlBtnDF.png"]];
     [self setHidden:0];
     [UIView animateWithDuration:0.1f
                           delay:0.0f
@@ -270,7 +270,7 @@
 // 縮小して消える。ctrlBtnALIZARINの消失時のみに使用。
 - (void)disappearALIZARINWithScaleUp:(NSTimer *)timer{
     self.transform = CGAffineTransformIdentity;
-    [self setImage:[UIImage imageNamed:@"hit_R1.png"]];
+    [self setImage:[UIImage imageNamed:@"hitR1.png"]];
     [self setHidden:0];
     [UIView animateWithDuration:0.1f
                           delay:0.0f

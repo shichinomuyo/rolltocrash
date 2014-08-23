@@ -205,7 +205,7 @@
 // ctrlBtnハイライト用のアニメーション。縮小だけされる。
 - (void)highlightedAnimation{
     self.transform = CGAffineTransformIdentity;
-    float scale1 = 0.85;
+    float scale1 = 0.95;
     CGAffineTransform t1 = CGAffineTransformMakeScale(scale1, scale1);
     [UIView animateWithDuration:0.1f
                           delay:0.0f
