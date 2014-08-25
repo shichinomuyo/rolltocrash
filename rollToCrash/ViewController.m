@@ -20,15 +20,11 @@
     // アニメーションタイマー
     NSTimer *_rippleAnimationTimer; // rippleアニメーションコントロール用
     NSTimer *_ctrlBtnAnimationTimer; // ctrlBtnアニメーションコントロール用
-    NSTimer *_textAnimationTimer; // textアニメーションコントロール用
-    NSTimer *_ctrlBtnPlayingTimer; // redRipple縮小中のアニメーションタイマー
-    NSTimer *_setIntervalToViewDidAppear; // crash再生後にviewDidAppearするタイミング調整用タイマー
-    
+    NSTimer *_animationWaitTimer; // 拡大/縮小アニメーション終了待ちタイマー
     
     // 【アニメーション】ロール再生中のコマを入れる配列
     NSArray *animationSeq;
     
-    BOOL _nadViewAppeared;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *ctrlBtn;
@@ -258,9 +254,7 @@
 
 - (void) ctrlBtnRedRippleAnimationStart:(NSTimer *)timer{
     // サークルアニメーションタイマーを破棄する
-    [_rippleAnimationTimer invalidate];
-    [_ctrlBtnAnimationTimer invalidate];
-    [_textAnimationTimer invalidate];
+    [self animationTimerInvalidate];
     
     // touchDown時のtransformとdisabelにしたのを戻す
     [self.ctrlBtn clearTransformBtnSetEnable];
@@ -312,21 +306,21 @@
 
 // アニメーションタイマーをまとめて破棄
 - (void)animationTimerInvalidate {
-    [_rippleAnimationTimer invalidate];
-    [_ctrlBtnAnimationTimer invalidate];
-    [_textAnimationTimer invalidate];
-    [_ctrlBtnPlayingTimer invalidate];
+
+    
+    // ctrl、rippleアニメーションタイマー破棄
+    if (_ctrlBtnAnimationTimer != nil) {
+        [_ctrlBtnAnimationTimer invalidate];
+    }
+    if (_rippleAnimationTimer != nil) {
+        [_rippleAnimationTimer invalidate];
+    }
+    if (_animationWaitTimer != nil) {
+        [_animationWaitTimer invalidate];
+    }
 }
 
-#pragma mark -
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    
-    
-    _nadViewAppeared = NO;
-    
+- (void)viewAdBanners{
     // 【Ad】サイズを指定してAdMobインスタンスを生成
     bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
     
@@ -362,8 +356,8 @@
         // (3) ログ出力の指定
         [self.nadView setIsOutputLog:YES];
         // (4) set apiKey, spotId.
-        [self.nadView setNendID:@"a6eca9dd074372c898dd1df549301f277c53f2b9" spotID:@"3172"]; // テスト用
-        //     [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
+//        [self.nadView setNendID:@"a6eca9dd074372c898dd1df549301f277c53f2b9" spotID:@"3172"]; // テスト用
+        [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
         
     }
     else{
@@ -373,18 +367,58 @@
         // (3) ログ出力の指定
         [self.nadView setIsOutputLog:NO];
         // (4) set apiKey, spotId.
-        [self.nadView setNendID:@"2e0b9e0b3f40d952e6000f1a8c4d455fffc4ca3a" spotID:@"70999"]; // テスト用
-        //        [self.nadView setNendID:@"19d17a40ad277a000f27111f286dc6aaa0ad146b" spotID:@"220604"];
+//      [self.nadView setNendID:@"2e0b9e0b3f40d952e6000f1a8c4d455fffc4ca3a" spotID:@"70999"]; // テスト用
+               [self.nadView setNendID:@"19d17a40ad277a000f27111f286dc6aaa0ad146b" spotID:@"220604"];
         
     }
     [self.nadView setDelegate:self]; //(5)
     [self.nadView load]; //(6)
     [self.view addSubview:self.nadView]; // 最初から表示する場合
-    NSLog(@"viewDidLoad");
-    NSLog(@"view.bounds.size %@",NSStringFromCGSize(self.view.bounds.size));
-    NSLog(@"nad.size %@",NSStringFromCGSize(self.nadView.bounds.size));
-    NSLog(@"nad.center %@",NSStringFromCGPoint(self.nadView.center));
+}
+
+#pragma mark -
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view, typically from a nib.
     
+    //バックグラウンド時の対応
+    
+    if (&UIApplicationDidEnterBackgroundNotification) {
+        
+        [[NSNotificationCenter defaultCenter]
+         
+         addObserver:self
+         
+         selector:@selector(appDidEnterBackground:)
+         
+         name:UIApplicationDidEnterBackgroundNotification
+         
+         object:[UIApplication sharedApplication]];
+        
+    }
+    
+    //フォアグラウンド時の対応
+    
+    if (&UIApplicationWillEnterForegroundNotification) {
+        
+        [[NSNotificationCenter defaultCenter]
+         
+         addObserver:self
+         
+         selector:@selector(appWillEnterForeground:)
+         
+         name:UIApplicationWillEnterForegroundNotification
+         
+         object:[UIApplication sharedApplication]];
+        
+    }
+    
+    
+    // 広告表示
+    [self viewAdBanners];
     
     
     // (audioplayer)再生する効果音のパスを取得しインスタンス生成
@@ -421,9 +455,11 @@
     [self.pauseBtn setImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateDisabled];
 }
 
+
 - (void)viewWillDisappear:(BOOL)animated{
     // 画面が隠れたらNend定期ロード中断
     [self.nadView pause];
+    
 }
 
 
@@ -435,15 +471,11 @@
 // ビューが表示されたときに実行される
 - (void)viewDidAppear:(BOOL)animated
 {
-    // crash再生後にviewDidAppearするタイミング調整用タイマーの破棄
-    [_setIntervalToViewDidAppear invalidate];
-    // ctrl、rippleアニメーションタイマー破棄
-    if (_ctrlBtnAnimationTimer != nil) {
-        [_ctrlBtnAnimationTimer invalidate];
-    }
-    if (_rippleAnimationTimer != nil) {
-        [_rippleAnimationTimer invalidate];
-    }
+
+    [_pauseBtn setHidden:1];
+    
+    [self animationTimerInvalidate];
+
     // 最初の１回だけ
     if (self.ctrlBtn.alpha == 0) {
         [self.altCtrlBtnForScaleUp appearEmeraldWithScaleUp:nil]; // 0.4sec
@@ -495,6 +527,21 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)appDidEnterBackground:(NSNotification *)notification{
+    [_rollPlayerTmp stop];
+    [_rollPlayerAlt stop];
+    [_crashPlayer stop];
+    // 【アニメーション】ロールのアニメーションを停止
+    [self.ctrlBtn.imageView stopAnimating];
+    [_playTimer invalidate];
+    [self animationTimerInvalidate];
+
+}
+
+- (void)appWillEnterForeground:(NSNotification *)notification{
+    [self viewDidAppear:1];
 }
 
 #pragma mark -
@@ -559,7 +606,7 @@
                                                                     userInfo:setIntervalToCtrlBtnAppear
                                                                      repeats:NO];
         // crash再生後にviewDidAppearするタイミング調整用タイマー
-        _setIntervalToViewDidAppear = [NSTimer scheduledTimerWithTimeInterval:1.09f
+        _animationWaitTimer = [NSTimer scheduledTimerWithTimeInterval:1.09f
                                                                        target:self
                                                                      selector:@selector(viewDidAppear:) // 初期画面を表示
                                                                      userInfo:nil
@@ -589,10 +636,10 @@
         
         
         // appearALIZARINWithScaleUp(0.4sec)待ちでctrlBtnとrippleアニメーション開始
-        _ctrlBtnPlayingTimer = [NSTimer scheduledTimerWithTimeInterval:0.4f // appearAILZARINWithScaleUp終わり待ち
+        _animationWaitTimer = [NSTimer scheduledTimerWithTimeInterval:0.4f // appearAILZARINWithScaleUp終わり待ち
                                                                 target:self
                                                               selector:@selector(ctrlBtnRedRippleAnimationStart:)
-                                                              userInfo:_ctrlBtnPlayingTimer
+                                                              userInfo:_animationWaitTimer
                                                                repeats:NO];
         
         // 【アニメーション】ロールのアニメーションを再生する
@@ -613,7 +660,6 @@
 // タッチしたとき
 - (IBAction)touchDownCtrlBtn:(UIButton *)sender {
     [_ctrlBtnAnimationTimer invalidate];
-    
     [self ctrlBtnHighlightedAnimationStart]; // プルプルアニメーション
     
 }
@@ -631,7 +677,6 @@
 // ドラッグして中に入ったとき
 - (IBAction)touchDragEnterCtrlBtn:(UIButton *)sender {
     [_ctrlBtnAnimationTimer invalidate];
-    [_textAnimationTimer invalidate];
     [self ctrlBtnHighlightedAnimationStart];
     
 }
