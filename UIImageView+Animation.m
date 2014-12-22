@@ -191,6 +191,7 @@
     self.transform = CGAffineTransformIdentity;
     [self setImage:[UIImage imageNamed:@"ctrlBtnDF.png"]];
     [self setHidden:0];
+    [self.superview setHidden:0];// bugfixcontainerviewのこと
     
     self.transform = CGAffineTransformMakeScale(0.1, 0.1);
     

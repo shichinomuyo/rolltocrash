@@ -16,6 +16,7 @@
 - (void)appearWithRotateScaleUpSetEnable{
     self.transform = CGAffineTransformIdentity;
     self.hidden = 0;
+    self.superview.hidden = 0; // bugfixcontainerViewのこと
     
     float scale = sqrtf(sqrtf(10));
     float adjustX = (self.bounds.size.width - self.frame.size.width) / 2;
@@ -111,6 +112,7 @@
                                                                                        }completion:^(BOOL finished) {
                                                                                            [self setEnabled:0];
                                                                                            [self setHidden:1];
+                                                                                           [self.superview setHidden:1]; // bugfixcontainerViewのこと
                                                                                        }];
                                                                }];
                                           }];

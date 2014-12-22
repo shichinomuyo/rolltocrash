@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 560392A5198C7C7500785494 /* ImageViewCircle.m */; };
+		5606AFE61A47C770003F6E9E /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5606AFE51A47C770003F6E9E /* SettingsViewController.m */; };
 		560D1B52197BF62C00AE9390 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B51197BF62C00AE9390 /* Foundation.framework */; };
 		560D1B54197BF62C00AE9390 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B53197BF62C00AE9390 /* CoreGraphics.framework */; };
 		560D1B56197BF62C00AE9390 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B55197BF62C00AE9390 /* UIKit.framework */; };
@@ -55,6 +56,7 @@
 		56A79E011980C03F0066AA87 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E001980C03F0066AA87 /* CoreTelephony.framework */; };
 		56A79E0D1981F13B0066AA87 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E0C1981F13B0066AA87 /* Security.framework */; };
 		56A79E0F1981F14B0066AA87 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A79E0E1981F14B0066AA87 /* ImageIO.framework */; };
+		56D13B561A479D27001B2AC7 /* BugFixContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 56D13B551A479D27001B2AC7 /* BugFixContainerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,8 @@
 /* Begin PBXFileReference section */
 		560392A4198C7C7500785494 /* ImageViewCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewCircle.h; sourceTree = "<group>"; };
 		560392A5198C7C7500785494 /* ImageViewCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewCircle.m; sourceTree = "<group>"; };
+		5606AFE41A47C770003F6E9E /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		5606AFE51A47C770003F6E9E /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		560D1B4E197BF62C00AE9390 /* rollToCrash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rollToCrash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		560D1B51197BF62C00AE9390 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		560D1B53197BF62C00AE9390 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -143,6 +147,8 @@
 		56A79E001980C03F0066AA87 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		56A79E0C1981F13B0066AA87 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		56A79E0E1981F14B0066AA87 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		56D13B541A479D27001B2AC7 /* BugFixContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BugFixContainerView.h; sourceTree = "<group>"; };
+		56D13B551A479D27001B2AC7 /* BugFixContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BugFixContainerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,11 +239,15 @@
 				563CFB0819A392C300F01180 /* images */,
 				56A08C041999BC1B00A99F26 /* sounds */,
 				560D1B60197BF62C00AE9390 /* AppDelegate.h */,
+				56D13B541A479D27001B2AC7 /* BugFixContainerView.h */,
+				56D13B551A479D27001B2AC7 /* BugFixContainerView.m */,
 				560D1B61197BF62C00AE9390 /* AppDelegate.m */,
 				560D1B63197BF62C00AE9390 /* Main_iPhone.storyboard */,
 				560D1B66197BF62C00AE9390 /* Main_iPad.storyboard */,
 				560D1B69197BF62C00AE9390 /* ViewController.h */,
 				560D1B6A197BF62C00AE9390 /* ViewController.m */,
+				5606AFE41A47C770003F6E9E /* SettingsViewController.h */,
+				5606AFE51A47C770003F6E9E /* SettingsViewController.m */,
 				568326BE19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.h */,
 				568326BF19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m */,
 				568326B51990C43D00F6AC98 /* UIButton+Animation.h */,
@@ -284,7 +294,6 @@
 		563CFB0819A392C300F01180 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				563CFB0A19A3933700F01180 /* Gimp */,
 				563CFB0919A392D100F01180 /* ArtText2 */,
 			);
 			name = images;
@@ -297,13 +306,6 @@
 				564E11C519A4D05400637A0E /* ver1.0 */,
 			);
 			name = ArtText2;
-			sourceTree = "<group>";
-		};
-		563CFB0A19A3933700F01180 /* Gimp */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Gimp;
 			sourceTree = "<group>";
 		};
 		564E11A519A4C7FB00637A0E /* Nend */ = {
@@ -532,6 +534,8 @@
 				560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */,
 				568326C019912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m in Sources */,
 				568326B71990C43D00F6AC98 /* UIButton+Animation.m in Sources */,
+				5606AFE61A47C770003F6E9E /* SettingsViewController.m in Sources */,
+				56D13B561A479D27001B2AC7 /* BugFixContainerView.m in Sources */,
 				560D1B6B197BF62C00AE9390 /* ViewController.m in Sources */,
 				567855671994AC5500072827 /* UIImageView+Animation.m in Sources */,
 				560D1B62197BF62C00AE9390 /* AppDelegate.m in Sources */,

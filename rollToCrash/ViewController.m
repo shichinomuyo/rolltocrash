@@ -48,6 +48,7 @@
 
 - (IBAction)touchDownBackgroundBtn:(UIButton *)sender;
 
+@property (weak, nonatomic) IBOutlet BugFixContainerView *bugFixContainerViewForSnare;
 
 
 @end
@@ -185,7 +186,7 @@
     [greenCircle setImage:[greenCircle imageFillEllipseInRect]];
     
     // イメージビューのセンターをctrlAudioPlayerBtn.centerと合わせる
-    [greenCircle setCenter:self.ctrlBtn.center];
+    [greenCircle setCenter:self.bugFixContainerViewForSnare.center];
     // アニメーション再生まで隠しておく
     [greenCircle setHidden:1];
 }
@@ -222,7 +223,7 @@
     [redCircle setImage:[redCircle imageFillEllipseInRect]];
     
     // 円をctrlBtn.centerと合わせる
-    [redCircle setCenter:self.ctrlBtn.center];
+    [redCircle setCenter:self.bugFixContainerViewForSnare.center];
     // ImageViewCircleをアニメーション開始までhiddenにする
     [redCircle setHidden:1];
 }
@@ -383,7 +384,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    
+
     //バックグラウンド時の対応
     
     if (&UIApplicationDidEnterBackgroundNotification) {
@@ -466,6 +467,8 @@
 - (void)viewWillAppear:(BOOL)animated{
     // 画面が表示されたら定期ロード再開
     [self.nadView resume];
+    
+    [self.navigationController.navigationBar setHidden:1];
 }
 
 // ビューが表示されたときに実行される
@@ -582,7 +585,7 @@
         [lastCircle setImage:[lastCircle imageFillEllipseInRect]];
         
         // イメージビューのセンターをctrlAudioPlayerBtn.centerと合わせる
-        [lastCircle setCenter:self.ctrlBtn.center];
+        [lastCircle setCenter:self.bugFixContainerViewForSnare.center];
         // ImageViewCircleをアニメーション開始までhiddenにする
         [lastCircle setHidden:1];
         // ビューにimgViewCircleを描画
