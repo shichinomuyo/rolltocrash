@@ -706,7 +706,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "08dce739-0a7c-4431-bf5b-58ebb50b8730";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
