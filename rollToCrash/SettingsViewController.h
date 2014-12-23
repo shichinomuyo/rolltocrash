@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BIFeedbakAndActionCell.h"
+#import "BITableViewCellHaveFourItems.h"
+#import "GAITrackedViewController.h"
 
-@interface SettingsViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface SettingsViewController : GAITrackedViewController<UITableViewDataSource,UITableViewDelegate>
 
 @end

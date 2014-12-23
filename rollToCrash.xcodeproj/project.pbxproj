@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 560392A5198C7C7500785494 /* ImageViewCircle.m */; };
 		5606AFE61A47C770003F6E9E /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5606AFE51A47C770003F6E9E /* SettingsViewController.m */; };
+		5606AFEB1A480AC0003F6E9E /* BIFeedbakAndActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5606AFE81A480AC0003F6E9E /* BIFeedbakAndActionCell.m */; };
+		5606AFEC1A480AC0003F6E9E /* BITableViewCellHaveFourItems.m in Sources */ = {isa = PBXBuildFile; fileRef = 5606AFEA1A480AC0003F6E9E /* BITableViewCellHaveFourItems.m */; };
+		5606B0131A49B72F003F6E9E /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B0121A49B72F003F6E9E /* libGoogleAdMobAds.a */; };
+		5606B0161A49B803003F6E9E /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B0151A49B803003F6E9E /* libGoogleAnalyticsServices.a */; };
+		5606B01E1A49B854003F6E9E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B01D1A49B854003F6E9E /* CoreData.framework */; };
+		5606B0201A49B86E003F6E9E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B01F1A49B86E003F6E9E /* libz.dylib */; };
+		5606B0221A49B9DE003F6E9E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B0211A49B9DE003F6E9E /* libsqlite3.dylib */; };
+		5606B0241A49BA77003F6E9E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B0231A49BA77003F6E9E /* libsqlite3.0.dylib */; };
 		560D1B52197BF62C00AE9390 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B51197BF62C00AE9390 /* Foundation.framework */; };
 		560D1B54197BF62C00AE9390 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B53197BF62C00AE9390 /* CoreGraphics.framework */; };
 		560D1B56197BF62C00AE9390 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B55197BF62C00AE9390 /* UIKit.framework */; };
@@ -16,7 +24,6 @@
 		560D1B5E197BF62C00AE9390 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 560D1B5D197BF62C00AE9390 /* main.m */; };
 		560D1B62197BF62C00AE9390 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 560D1B61197BF62C00AE9390 /* AppDelegate.m */; };
 		560D1B65197BF62C00AE9390 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 560D1B63197BF62C00AE9390 /* Main_iPhone.storyboard */; };
-		560D1B68197BF62C00AE9390 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 560D1B66197BF62C00AE9390 /* Main_iPad.storyboard */; };
 		560D1B6B197BF62C00AE9390 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 560D1B6A197BF62C00AE9390 /* ViewController.m */; };
 		560D1B6D197BF62C00AE9390 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 560D1B6C197BF62C00AE9390 /* Images.xcassets */; };
 		560D1B74197BF62C00AE9390 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B73197BF62C00AE9390 /* XCTest.framework */; };
@@ -36,7 +43,6 @@
 		564E11CD19A4D05400637A0E /* crash03.png in Resources */ = {isa = PBXBuildFile; fileRef = 564E11C819A4D05400637A0E /* crash03.png */; };
 		564E11CE19A4D05400637A0E /* crash03EMERALD.png in Resources */ = {isa = PBXBuildFile; fileRef = 564E11C919A4D05400637A0E /* crash03EMERALD.png */; };
 		564E11CF19A4D05400637A0E /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 564E11CA19A4D05400637A0E /* pause.png */; };
-		566020A719AAE35F0078A367 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 566020A619AAE35F0078A367 /* libGoogleAdMobAds.a */; };
 		566020A919AAEC380078A367 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566020A819AAEC380078A367 /* StoreKit.framework */; };
 		5663193B19A8C9170086849C /* hitL2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5663193719A8C9170086849C /* hitL2.png */; };
 		5663193C19A8C9170086849C /* hitR1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5663193819A8C9170086849C /* hitR1.png */; };
@@ -74,6 +80,34 @@
 		560392A5198C7C7500785494 /* ImageViewCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewCircle.m; sourceTree = "<group>"; };
 		5606AFE41A47C770003F6E9E /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		5606AFE51A47C770003F6E9E /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		5606AFE71A480AC0003F6E9E /* BIFeedbakAndActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIFeedbakAndActionCell.h; sourceTree = "<group>"; };
+		5606AFE81A480AC0003F6E9E /* BIFeedbakAndActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIFeedbakAndActionCell.m; sourceTree = "<group>"; };
+		5606AFE91A480AC0003F6E9E /* BITableViewCellHaveFourItems.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BITableViewCellHaveFourItems.h; sourceTree = "<group>"; };
+		5606AFEA1A480AC0003F6E9E /* BITableViewCellHaveFourItems.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BITableViewCellHaveFourItems.m; sourceTree = "<group>"; };
+		5606B0061A49B72F003F6E9E /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
+		5606B0071A49B72F003F6E9E /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
+		5606B0081A49B72F003F6E9E /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
+		5606B0091A49B72F003F6E9E /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
+		5606B00A1A49B72F003F6E9E /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
+		5606B00B1A49B72F003F6E9E /* GADInAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
+		5606B00C1A49B72F003F6E9E /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
+		5606B00D1A49B72F003F6E9E /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
+		5606B00E1A49B72F003F6E9E /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
+		5606B00F1A49B72F003F6E9E /* GADModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
+		5606B0101A49B72F003F6E9E /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
+		5606B0111A49B72F003F6E9E /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
+		5606B0121A49B72F003F6E9E /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		5606B0151A49B803003F6E9E /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		5606B0171A49B816003F6E9E /* GAI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		5606B0181A49B816003F6E9E /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		5606B0191A49B816003F6E9E /* GAIFields.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		5606B01A1A49B816003F6E9E /* GAILogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		5606B01B1A49B816003F6E9E /* GAITrackedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		5606B01C1A49B816003F6E9E /* GAITracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		5606B01D1A49B854003F6E9E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		5606B01F1A49B86E003F6E9E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		5606B0211A49B9DE003F6E9E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		5606B0231A49BA77003F6E9E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		560D1B4E197BF62C00AE9390 /* rollToCrash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rollToCrash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		560D1B51197BF62C00AE9390 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		560D1B53197BF62C00AE9390 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -85,7 +119,6 @@
 		560D1B60197BF62C00AE9390 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		560D1B61197BF62C00AE9390 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		560D1B64197BF62C00AE9390 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		560D1B67197BF62C00AE9390 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		560D1B69197BF62C00AE9390 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		560D1B6A197BF62C00AE9390 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		560D1B6C197BF62C00AE9390 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -111,19 +144,6 @@
 		564E11C819A4D05400637A0E /* crash03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crash03.png; sourceTree = "<group>"; };
 		564E11C919A4D05400637A0E /* crash03EMERALD.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = crash03EMERALD.png; sourceTree = "<group>"; };
 		564E11CA19A4D05400637A0E /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
-		5660209A19AAE35F0078A367 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
-		5660209B19AAE35F0078A367 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
-		5660209C19AAE35F0078A367 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
-		5660209D19AAE35F0078A367 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
-		5660209E19AAE35F0078A367 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
-		5660209F19AAE35F0078A367 /* GADInAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
-		566020A019AAE35F0078A367 /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
-		566020A119AAE35F0078A367 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
-		566020A219AAE35F0078A367 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
-		566020A319AAE35F0078A367 /* GADModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
-		566020A419AAE35F0078A367 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
-		566020A519AAE35F0078A367 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
-		566020A619AAE35F0078A367 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
 		566020A819AAEC380078A367 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5663193719A8C9170086849C /* hitL2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hitL2.png; sourceTree = "<group>"; };
 		5663193819A8C9170086849C /* hitR1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hitR1.png; sourceTree = "<group>"; };
@@ -156,6 +176,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5606B0241A49BA77003F6E9E /* libsqlite3.0.dylib in Frameworks */,
+				5606B0221A49B9DE003F6E9E /* libsqlite3.dylib in Frameworks */,
+				5606B0201A49B86E003F6E9E /* libz.dylib in Frameworks */,
+				5606B01E1A49B854003F6E9E /* CoreData.framework in Frameworks */,
 				56171DB519861067006B4552 /* QuartzCore.framework in Frameworks */,
 				56A79E0F1981F14B0066AA87 /* ImageIO.framework in Frameworks */,
 				564E11AE19A4C85700637A0E /* libNendAd.a in Frameworks */,
@@ -165,8 +189,9 @@
 				56A79DFB1980BD410066AA87 /* AdSupport.framework in Frameworks */,
 				56A79DF91980BD280066AA87 /* SystemConfiguration.framework in Frameworks */,
 				56A79DF71980BD190066AA87 /* MessageUI.framework in Frameworks */,
-				566020A719AAE35F0078A367 /* libGoogleAdMobAds.a in Frameworks */,
+				5606B0131A49B72F003F6E9E /* libGoogleAdMobAds.a in Frameworks */,
 				560D1B9F197BF6B900AE9390 /* AudioToolbox.framework in Frameworks */,
+				5606B0161A49B803003F6E9E /* libGoogleAnalyticsServices.a in Frameworks */,
 				560D1B9D197BF68500AE9390 /* AVFoundation.framework in Frameworks */,
 				564E11B319A4C86D00637A0E /* libAdapterNend.a in Frameworks */,
 				560D1B54197BF62C00AE9390 /* CoreGraphics.framework in Frameworks */,
@@ -189,6 +214,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5606AFED1A480C54003F6E9E /* SettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				5606AFE41A47C770003F6E9E /* SettingsViewController.h */,
+				5606AFE51A47C770003F6E9E /* SettingsViewController.m */,
+				5606AFE71A480AC0003F6E9E /* BIFeedbakAndActionCell.h */,
+				5606AFE81A480AC0003F6E9E /* BIFeedbakAndActionCell.m */,
+				5606AFE91A480AC0003F6E9E /* BITableViewCellHaveFourItems.h */,
+				5606AFEA1A480AC0003F6E9E /* BITableViewCellHaveFourItems.m */,
+			);
+			name = SettingViewController;
+			sourceTree = "<group>";
+		};
+		5606B0141A49B7EC003F6E9E /* GoogleAnalystics */ = {
+			isa = PBXGroup;
+			children = (
+				5606B0171A49B816003F6E9E /* GAI.h */,
+				5606B0181A49B816003F6E9E /* GAIDictionaryBuilder.h */,
+				5606B0191A49B816003F6E9E /* GAIFields.h */,
+				5606B01A1A49B816003F6E9E /* GAILogger.h */,
+				5606B01B1A49B816003F6E9E /* GAITrackedViewController.h */,
+				5606B01C1A49B816003F6E9E /* GAITracker.h */,
+				5606B0151A49B803003F6E9E /* libGoogleAnalyticsServices.a */,
+			);
+			name = GoogleAnalystics;
+			sourceTree = "<group>";
+		};
 		560D1B45197BF62C00AE9390 = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +264,10 @@
 		560D1B50197BF62C00AE9390 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5606B0231A49BA77003F6E9E /* libsqlite3.0.dylib */,
+				5606B0211A49B9DE003F6E9E /* libsqlite3.dylib */,
+				5606B01F1A49B86E003F6E9E /* libz.dylib */,
+				5606B01D1A49B854003F6E9E /* CoreData.framework */,
 				566020A819AAEC380078A367 /* StoreKit.framework */,
 				56171DB419861067006B4552 /* QuartzCore.framework */,
 				56A79E0E1981F14B0066AA87 /* ImageIO.framework */,
@@ -235,19 +291,18 @@
 		560D1B57197BF62C00AE9390 /* rollToCrash */ = {
 			isa = PBXGroup;
 			children = (
+				5606B0141A49B7EC003F6E9E /* GoogleAnalystics */,
 				564E11D019A4D62800637A0E /* AD */,
 				563CFB0819A392C300F01180 /* images */,
 				56A08C041999BC1B00A99F26 /* sounds */,
 				560D1B60197BF62C00AE9390 /* AppDelegate.h */,
+				560D1B61197BF62C00AE9390 /* AppDelegate.m */,
 				56D13B541A479D27001B2AC7 /* BugFixContainerView.h */,
 				56D13B551A479D27001B2AC7 /* BugFixContainerView.m */,
-				560D1B61197BF62C00AE9390 /* AppDelegate.m */,
 				560D1B63197BF62C00AE9390 /* Main_iPhone.storyboard */,
-				560D1B66197BF62C00AE9390 /* Main_iPad.storyboard */,
 				560D1B69197BF62C00AE9390 /* ViewController.h */,
 				560D1B6A197BF62C00AE9390 /* ViewController.m */,
-				5606AFE41A47C770003F6E9E /* SettingsViewController.h */,
-				5606AFE51A47C770003F6E9E /* SettingsViewController.m */,
+				5606AFED1A480C54003F6E9E /* SettingViewController */,
 				568326BE19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.h */,
 				568326BF19912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m */,
 				568326B51990C43D00F6AC98 /* UIButton+Animation.h */,
@@ -393,19 +448,19 @@
 		56A79DE51980BC720066AA87 /* AdMob */ = {
 			isa = PBXGroup;
 			children = (
-				5660209A19AAE35F0078A367 /* GADAdMobExtras.h */,
-				5660209B19AAE35F0078A367 /* GADAdNetworkExtras.h */,
-				5660209C19AAE35F0078A367 /* GADAdSize.h */,
-				5660209D19AAE35F0078A367 /* GADBannerView.h */,
-				5660209E19AAE35F0078A367 /* GADBannerViewDelegate.h */,
-				5660209F19AAE35F0078A367 /* GADInAppPurchase.h */,
-				566020A019AAE35F0078A367 /* GADInAppPurchaseDelegate.h */,
-				566020A119AAE35F0078A367 /* GADInterstitial.h */,
-				566020A219AAE35F0078A367 /* GADInterstitialDelegate.h */,
-				566020A319AAE35F0078A367 /* GADModules.h */,
-				566020A419AAE35F0078A367 /* GADRequest.h */,
-				566020A519AAE35F0078A367 /* GADRequestError.h */,
-				566020A619AAE35F0078A367 /* libGoogleAdMobAds.a */,
+				5606B0061A49B72F003F6E9E /* GADAdMobExtras.h */,
+				5606B0071A49B72F003F6E9E /* GADAdNetworkExtras.h */,
+				5606B0081A49B72F003F6E9E /* GADAdSize.h */,
+				5606B0091A49B72F003F6E9E /* GADBannerView.h */,
+				5606B00A1A49B72F003F6E9E /* GADBannerViewDelegate.h */,
+				5606B00B1A49B72F003F6E9E /* GADInAppPurchase.h */,
+				5606B00C1A49B72F003F6E9E /* GADInAppPurchaseDelegate.h */,
+				5606B00D1A49B72F003F6E9E /* GADInterstitial.h */,
+				5606B00E1A49B72F003F6E9E /* GADInterstitialDelegate.h */,
+				5606B00F1A49B72F003F6E9E /* GADModules.h */,
+				5606B0101A49B72F003F6E9E /* GADRequest.h */,
+				5606B0111A49B72F003F6E9E /* GADRequestError.h */,
+				5606B0121A49B72F003F6E9E /* libGoogleAdMobAds.a */,
 			);
 			name = AdMob;
 			sourceTree = "<group>";
@@ -497,7 +552,6 @@
 				564E11CF19A4D05400637A0E /* pause.png in Resources */,
 				564E11B419A4C86D00637A0E /* libAdapterNend_readme.txt in Resources */,
 				564E11CB19A4D05400637A0E /* crash01.png in Resources */,
-				560D1B68197BF62C00AE9390 /* Main_iPad.storyboard in Resources */,
 				56A08C081999BC4600A99F26 /* roll13.mp3 in Resources */,
 				560D1B6D197BF62C00AE9390 /* Images.xcassets in Resources */,
 				560D1B65197BF62C00AE9390 /* Main_iPhone.storyboard in Resources */,
@@ -533,7 +587,9 @@
 			files = (
 				560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */,
 				568326C019912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m in Sources */,
+				5606AFEC1A480AC0003F6E9E /* BITableViewCellHaveFourItems.m in Sources */,
 				568326B71990C43D00F6AC98 /* UIButton+Animation.m in Sources */,
+				5606AFEB1A480AC0003F6E9E /* BIFeedbakAndActionCell.m in Sources */,
 				5606AFE61A47C770003F6E9E /* SettingsViewController.m in Sources */,
 				56D13B561A479D27001B2AC7 /* BugFixContainerView.m in Sources */,
 				560D1B6B197BF62C00AE9390 /* ViewController.m in Sources */,
@@ -576,14 +632,6 @@
 				560D1B64197BF62C00AE9390 /* Base */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		560D1B66197BF62C00AE9390 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				560D1B67197BF62C00AE9390 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		560D1B7C197BF62C00AE9390 /* InfoPlist.strings */ = {

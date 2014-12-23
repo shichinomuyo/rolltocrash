@@ -19,10 +19,11 @@
 #import "NADView.h"
 #import "AppDelegate.h"
 #import "BugFixContainerView.h"
+#import "GAITrackedViewController.h"
 #define MY_BANNER_UNIT_ID @"ca-app-pub-5959590649595305/5220821270"
 #define MY_INTERSTITIAL_UNIT_ID @"ca-app-pub-5959590649595305/4941619672"
 
-@interface ViewController : UIViewController<GADBannerViewDelegate,GADInterstitialDelegate,NADViewDelegate>{
+@interface ViewController : GAITrackedViewController<GADBannerViewDelegate,GADInterstitialDelegate,NADViewDelegate>{
     //【Ad】AdMobバナー：インスタンス変数として1つ宣言
     GADBannerView *bannerView_;
     

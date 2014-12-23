@@ -465,6 +465,8 @@
 
 
 - (void)viewWillAppear:(BOOL)animated{
+    // GoogleAnalystics導入にあたって必要
+    self.screenName = @"RollToCrash_Main";
     // 画面が表示されたら定期ロード再開
     [self.nadView resume];
     
