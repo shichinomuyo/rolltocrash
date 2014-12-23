@@ -17,6 +17,7 @@
 		5606B0201A49B86E003F6E9E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B01F1A49B86E003F6E9E /* libz.dylib */; };
 		5606B0221A49B9DE003F6E9E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B0211A49B9DE003F6E9E /* libsqlite3.dylib */; };
 		5606B0241A49BA77003F6E9E /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5606B0231A49BA77003F6E9E /* libsqlite3.0.dylib */; };
+		5606B02A1A49C0D6003F6E9E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5606B02C1A49C0D6003F6E9E /* Localizable.strings */; };
 		560D1B52197BF62C00AE9390 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B51197BF62C00AE9390 /* Foundation.framework */; };
 		560D1B54197BF62C00AE9390 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B53197BF62C00AE9390 /* CoreGraphics.framework */; };
 		560D1B56197BF62C00AE9390 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560D1B55197BF62C00AE9390 /* UIKit.framework */; };
@@ -108,6 +109,10 @@
 		5606B01F1A49B86E003F6E9E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		5606B0211A49B9DE003F6E9E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		5606B0231A49BA77003F6E9E /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		5606B0251A49C03F003F6E9E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5606B0261A49C03F003F6E9E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main_iPhone.strings; sourceTree = "<group>"; };
+		5606B0271A49C03F003F6E9E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5606B02B1A49C0D6003F6E9E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		560D1B4E197BF62C00AE9390 /* rollToCrash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rollToCrash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		560D1B51197BF62C00AE9390 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		560D1B53197BF62C00AE9390 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -320,6 +325,7 @@
 		560D1B58197BF62C00AE9390 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5606B02C1A49C0D6003F6E9E /* Localizable.strings */,
 				560D1B59197BF62C00AE9390 /* rollToCrash-Info.plist */,
 				560D1B5A197BF62C00AE9390 /* InfoPlist.strings */,
 				560D1B5D197BF62C00AE9390 /* main.m */,
@@ -532,6 +538,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 560D1B45197BF62C00AE9390;
 			productRefGroup = 560D1B4F197BF62C00AE9390 /* Products */;
@@ -565,6 +572,7 @@
 				564E11AF19A4C85700637A0E /* NADView_readme.txt in Resources */,
 				564E11CC19A4D05400637A0E /* crash02.png in Resources */,
 				5663193B19A8C9170086849C /* hitL2.png in Resources */,
+				5606B02A1A49C0D6003F6E9E /* Localizable.strings in Resources */,
 				560D1B5C197BF62C00AE9390 /* InfoPlist.strings in Resources */,
 				5663193E19A8C9170086849C /* hitL1.png in Resources */,
 			);
@@ -618,10 +626,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		5606B02C1A49C0D6003F6E9E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5606B02B1A49C0D6003F6E9E /* ja */,
+			);
+			name = Localizable.strings;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		560D1B5A197BF62C00AE9390 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				560D1B5B197BF62C00AE9390 /* en */,
+				5606B0251A49C03F003F6E9E /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -630,6 +648,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				560D1B64197BF62C00AE9390 /* Base */,
+				5606B0261A49C03F003F6E9E /* ja */,
 			);
 			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
@@ -638,6 +657,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				560D1B7D197BF62C00AE9390 /* en */,
+				5606B0271A49C03F003F6E9E /* ja */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

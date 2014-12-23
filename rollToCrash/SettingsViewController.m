@@ -181,7 +181,7 @@
 
 // actions
 - (void)actionPostActivity:(NSIndexPath *)indexPath{
-    NSString *localeTextToShare = [[NSString alloc] initWithFormat:NSLocalizedString(@"#INSTANT MASK NOW!", nil)];
+    NSString *localeTextToShare = [[NSString alloc] initWithFormat:NSLocalizedString(@"#RollToCrash", nil)];
     NSString *textToShare = localeTextToShare;
     NSString *urlString = @"http://itunes.apple.com/app/id912275000"; // RollToCrashのappstoreURL
     NSURL *url = [NSURL URLWithString:urlString];

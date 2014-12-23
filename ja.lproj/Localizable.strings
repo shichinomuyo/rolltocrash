@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  rollToCrash
+
+  Created by 七野祐太 on 2014/12/24.
+  Copyright (c) 2014年 shichino yuta. All rights reserved.
+*/
+
+// sectionName
+"Feedback/ShareThisApp" = "フィードバック/このアプリについて共有";
+"OtherApps" = "他のApp";
+
+// BISettingVC dataSourceFeedbackAndShare section:0
+"App Store review" = "Appストアレビューを書く";
+"Share This App" = "このアプリについて共有";
+
+// BISettingVC dataSourceOtherAppsDesc section:1
+"Make it easy,making a original mask!No more making a paper mask!" = "もう紙のマスクはいらない！簡単に体ものまねができるアプリです。";
+
+"InstantMask" = "体モノマナイザー";
+"Free:" = "無料:";
+
+"#RollToCrash" = "#ロールトゥクラッシュ";
