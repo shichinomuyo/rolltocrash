@@ -24,6 +24,11 @@
     
     // Initialize tracker. Replace with your tracking ID.
     [[GAI sharedInstance] trackerWithTrackingId:@"UA-54758390-2"];
+    
+    {
+    // ZucksバナービューのメディアIDの読み込みを行う
+    [[FluctSDK sharedInstance] setBannerConfiguration:FLUCT_MEDIA_ID_iPhone];
+    }
     return YES;
 }
 							

@@ -20,6 +20,7 @@
 #import "AppDelegate.h"
 #import "BugFixContainerView.h"
 #import "GAITrackedViewController.h"
+#import "FluctBannerView.h"
 #define MY_BANNER_UNIT_ID @"ca-app-pub-5959590649595305/5220821270"
 #define MY_INTERSTITIAL_UNIT_ID @"ca-app-pub-5959590649595305/4941619672"
 

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GAI.h"
+#import "FluctSDK.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

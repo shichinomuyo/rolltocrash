@@ -13,4 +13,7 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+    #define FLUCT_MEDIA_ID_iPhone     @"yv0qerfis3"
+    #define FLUCT_MEDIA_ID_iPad_left  @"0jj52r5e3r"
+    #define FLUCT_MEDIA_ID_iPad_right  @"zxsslns8z1"
 #endif

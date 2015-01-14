@@ -35,6 +35,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *altCtrlBtnForScaleDown;
 
+@property (weak, nonatomic) IBOutlet UIButton *btnSetting;
 
 - (IBAction)touchUpInsideCtrlBtn:(UIButton *)sender;
 - (IBAction)touchDownCtrlBtn:(UIButton *)sender;
@@ -49,6 +50,7 @@
 - (IBAction)touchDownBackgroundBtn:(UIButton *)sender;
 
 @property (weak, nonatomic) IBOutlet BugFixContainerView *bugFixContainerViewForSnare;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintVerticalSpaceBFVtoSuperView;
 
 
 @end
@@ -274,9 +276,6 @@
                                                              repeats:YES];
     
     
-    
-    
-    
     [timer invalidate];
     
 }
@@ -322,59 +321,85 @@
 }
 
 - (void)viewAdBanners{
-    // 【Ad】サイズを指定してAdMobインスタンスを生成
-    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-    
-    // 【Ad】AdMobのパブリッシャーIDを指定
-    bannerView_.adUnitID = MY_BANNER_UNIT_ID;
-    
-    
-    // 【Ad】AdMob広告を表示するViewController(自分自身)を指定し、ビューに広告を追加
-    bannerView_.rootViewController = self;
-    [self.view addSubview:bannerView_];
-    
-    // ビューの一番下に表示
-    [bannerView_ setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height/2)];
-    
-    // 【Ad】AdMob広告データの読み込みを要求
-    [bannerView_ loadRequest:[GADRequest request]];
-    // AdMobバナーの回転時のautosize
-    bannerView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    
-    // 【Ad】インタースティシャル広告の表示
-    interstitial_ = [[GADInterstitial alloc] init];
-    interstitial_.adUnitID = MY_INTERSTITIAL_UNIT_ID;
-    interstitial_.delegate = self;
-    [interstitial_ loadRequest:[GADRequest request]];
-    
-    //NADViewの作成
-    
-    
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
-        NSLog(@"iPhoneの処理");
-        self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-        [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2)];
-        // (3) ログ出力の指定
-        [self.nadView setIsOutputLog:YES];
-        // (4) set apiKey, spotId.
-//        [self.nadView setNendID:@"a6eca9dd074372c898dd1df549301f277c53f2b9" spotID:@"3172"]; // テスト用
-        [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
-        
+    {
+        // Zucks Banner
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){// iPhoneの場合は１つ
+            FluctBannerView *fluctBannerView;
+            fluctBannerView  = [[FluctBannerView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 50)];
+            [fluctBannerView setMediaID:FLUCT_MEDIA_ID_iPhone];
+            [self.view addSubview:fluctBannerView];
+        }
+        else{ // iPadの場合は2つ並べる。iPad用のサイズが用意されていないので。
+            NSLog(@"iPadの処理");
+            FluctBannerView *fluctBannerViewLeft;
+            fluctBannerViewLeft  = [[FluctBannerView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width/2, 100)];
+            [fluctBannerViewLeft setMediaID:FLUCT_MEDIA_ID_iPad_left];
+            [self.view addSubview:fluctBannerViewLeft];
+            
+            FluctBannerView *fluctBannerViewRight;
+            fluctBannerViewRight = [[FluctBannerView alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 20, self.view.frame.size.width/2, 100)];
+            [fluctBannerViewRight setMediaID:FLUCT_MEDIA_ID_iPad_right];
+            [self.view addSubview:fluctBannerViewRight];
+        }
     }
-    else{
-        NSLog(@"iPadの処理");
-        self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 728, 90)];
-        [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2)]; // ヘッダー
-        // (3) ログ出力の指定
-        [self.nadView setIsOutputLog:NO];
-        // (4) set apiKey, spotId.
-//      [self.nadView setNendID:@"2e0b9e0b3f40d952e6000f1a8c4d455fffc4ca3a" spotID:@"70999"]; // テスト用
-               [self.nadView setNendID:@"19d17a40ad277a000f27111f286dc6aaa0ad146b" spotID:@"220604"];
+    
+    {
+        // 【Ad】サイズを指定してAdMobインスタンスを生成
+        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
         
+        // 【Ad】AdMobのパブリッシャーIDを指定
+        bannerView_.adUnitID = MY_BANNER_UNIT_ID;
+        
+        
+        // 【Ad】AdMob広告を表示するViewController(自分自身)を指定し、ビューに広告を追加
+        bannerView_.rootViewController = self;
+        [self.view addSubview:bannerView_];
+        
+        // ビューの一番下に表示
+        [bannerView_ setCenter:CGPointMake(self.view.bounds.size.width/2, self.view.bounds.size.height - bannerView_.bounds.size.height/2)];
+        
+        // 【Ad】AdMob広告データの読み込みを要求
+        [bannerView_ loadRequest:[GADRequest request]];
+        // AdMobバナーの回転時のautosize
+        bannerView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+        
+        // 【Ad】インタースティシャル広告の表示
+        interstitial_ = [[GADInterstitial alloc] init];
+        interstitial_.adUnitID = MY_INTERSTITIAL_UNIT_ID;
+        interstitial_.delegate = self;
+        [interstitial_ loadRequest:[GADRequest request]];
     }
-    [self.nadView setDelegate:self]; //(5)
-    [self.nadView load]; //(6)
-    [self.view addSubview:self.nadView]; // 最初から表示する場合
+    
+    
+    {//NADViewの作成
+//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+//            NSLog(@"iPhoneの処理");
+//            self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+//            [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2 + 20)];
+//            // (3) ログ出力の指定
+//            [self.nadView setIsOutputLog:YES];
+//            // (4) set apiKey, spotId.
+//            //        [self.nadView setNendID:@"a6eca9dd074372c898dd1df549301f277c53f2b9" spotID:@"3172"]; // テスト用
+//            [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
+//            
+//        }
+//        else{
+//            NSLog(@"iPadの処理");
+//            self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 728, 90)];
+//            [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2 + 20)]; // ヘッダー
+//            // (3) ログ出力の指定
+//            [self.nadView setIsOutputLog:NO];
+//            // (4) set apiKey, spotId.
+//            //      [self.nadView setNendID:@"2e0b9e0b3f40d952e6000f1a8c4d455fffc4ca3a" spotID:@"70999"]; // テスト用
+//            [self.nadView setNendID:@"19d17a40ad277a000f27111f286dc6aaa0ad146b" spotID:@"220604"];
+//            
+//        }
+//        [self.nadView setDelegate:self]; //(5)
+//        [self.nadView load]; //(6)
+//        [self.view addSubview:self.nadView]; // 最初から表示する場合
+//
+//        
+    }
 }
 
 #pragma mark -
@@ -384,6 +409,32 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    CGRect rect = [[UIScreen mainScreen]bounds];
+    NSLog(@"rect.width:%.2f",rect.size.width);
+    // ドラムのtopとsuperViewのbottomの距離をスクリーンサイズにより調整
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+        NSLog(@"iPhoneの処理");
+        if (rect.size.height <= 568) {
+            // heights
+            // 4s 480
+            // 5/5s 568
+            self.constraintVerticalSpaceBFVtoSuperView.constant = 108.0;
+        } else if (rect.size.height <= 736){
+            // heights
+            // 6 667
+            // 6Plus 736
+            self.constraintVerticalSpaceBFVtoSuperView.constant = 216.0;
+            
+        }
+    }
+    else{
+        NSLog(@"iPadの処理");
+        // heights
+        // iPad2/iPad Air/iPad Retina 1024
+        // storyBoard上で212に設定
+    }
+
+
 
     //バックグラウンド時の対応
     
@@ -419,7 +470,7 @@
     
     
     // 広告表示
-    [self viewAdBanners];
+    [self viewAdBanners]; // SS撮影のためコメントアウト
     
     
     // (audioplayer)再生する効果音のパスを取得しインスタンス生成
@@ -471,6 +522,11 @@
     [self.nadView resume];
     
     [self.navigationController.navigationBar setHidden:1];
+
+}
+
+-(void)viewDidLayoutSubviews{
+
 }
 
 // ビューが表示されたときに実行される
@@ -483,7 +539,6 @@
 
     // 最初の１回だけ
     if (self.ctrlBtn.alpha == 0) {
-        [self.altCtrlBtnForScaleUp appearEmeraldWithScaleUp:nil]; // 0.4sec
         
         NSTimer *setIntervalToCtrlBtnAppear; // appearEmeraldWithScaleUpのアニメーション(0.4sec)待ち
         setIntervalToCtrlBtnAppear = [NSTimer scheduledTimerWithTimeInterval:0.4f
@@ -491,6 +546,7 @@
                                                                     selector:@selector(appearAfterInterval:)
                                                                     userInfo:setIntervalToCtrlBtnAppear
                                                                      repeats:NO];
+        [self.altCtrlBtnForScaleUp appearEmeraldWithScaleUp:nil]; // 0.4sec
     }
     
     [self greenRippleSetUp];
@@ -618,6 +674,8 @@
                                                                       repeats:NO];
         //pauseBtnの消失アニメーション
         [self.pauseBtn disappearWithRotateScaleDownSetDisable];
+        // settingBtn の出現アニメーション
+        [self.btnSetting appearWithRotateScaleUpSetEnable];
         
     } else {
         // ドラムロール停止中にctrlBtnが押されたとき
@@ -655,6 +713,11 @@
         if (self.pauseBtn.hidden == 1) {
             // 【アニメーション】pauseBtnを拡大/回転しながら表示
             [self.pauseBtn appearWithRotateScaleUpSetEnable];
+            
+        }
+        
+        if (self.btnSetting.hidden == 0) {
+            [self.btnSetting disappearWithRotateScaleDownSetDisable];
         }
     }
     
@@ -725,6 +788,9 @@
     //pauseBtnの消失アニメーション
     [self.pauseBtn disappearWithRotateScaleDownSetDisable];
     
+    if (self.btnSetting.hidden == 1) {
+        [self.btnSetting appearWithRotateScaleUpSetEnable];
+    }
     
     
     // 初期画面を呼び出す
@@ -845,49 +911,49 @@
     }
     else{
         NSLog(@"iPadの処理");
-        switch (fromInterfaceOrientation) {
-                
-                // ポートレイトから回転しランドスケープになったときの処理
-            case UIInterfaceOrientationPortrait:
-                // nend位置調整
-                [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2)];
-                // ctrlBtn自身と同座標のUIImageViewの位置調整
-                int adjustX = 360;
-                [self.ctrlBtn setCenter:CGPointMake(adjustX, self.view.bounds.size.height/2)];
-                [self.altCtrlBtnForScaleDown setCenter:self.ctrlBtn.center];
-                [self.altCtrlBtnForScaleUp setCenter:self.ctrlBtn.center];
-                [self.altCtrlBtnForCrashAnimation setCenter:self.ctrlBtn.center];
-                [greenCircle setCenter:self.ctrlBtn.center];
-                [redCircle setCenter:self.ctrlBtn.center];
-                
-                // pauseBtnの回転後の位置調整
-                [self.pauseBtn setCenter:CGPointMake(self.ctrlBtn.center.x + 380,self.view.bounds.size.height/2 )];
-                break;
-                
-                
-                // ランドスケープから回転しポートレイトになったときの処理
-            case UIInterfaceOrientationLandscapeLeft:
-            case UIInterfaceOrientationLandscapeRight:
-                // nend位置調整
-                [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2)];
-                if (!landscaped) {
-                    // ctrlBtn自身と同座標のUIImageViewの位置調整
-                    int adjustY = 396;
-                    [self.ctrlBtn setCenter:CGPointMake(self.view.bounds.size.width/2, adjustY)];
-                    [self.altCtrlBtnForScaleDown setCenter:self.ctrlBtn.center];
-                    [self.altCtrlBtnForScaleUp setCenter:self.ctrlBtn.center];
-                    [self.altCtrlBtnForCrashAnimation setCenter:self.ctrlBtn.center];
-                    [greenCircle setCenter:self.ctrlBtn.center];
-                    [redCircle setCenter:self.ctrlBtn.center];
-                    // pauseBtnの回転後の位置調整
-                    [self.pauseBtn setCenter:CGPointMake(self.view.bounds.size.width/2, self.ctrlBtn.center.y + 340)]; // ストーリーボード上でのctrlBtn.centerからの距離
-                }
-                
-                break;
-                
-            default:
-                break;
-        }
+//        switch (fromInterfaceOrientation) {
+//                
+//                // ポートレイトから回転しランドスケープになったときの処理
+//            case UIInterfaceOrientationPortrait:
+//                // nend位置調整
+//                [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2)];
+//                // ctrlBtn自身と同座標のUIImageViewの位置調整
+//                int adjustX = 360;
+//                [self.ctrlBtn setCenter:CGPointMake(adjustX, self.view.bounds.size.height/2)];
+//                [self.altCtrlBtnForScaleDown setCenter:self.ctrlBtn.center];
+//                [self.altCtrlBtnForScaleUp setCenter:self.ctrlBtn.center];
+//                [self.altCtrlBtnForCrashAnimation setCenter:self.ctrlBtn.center];
+//                [greenCircle setCenter:self.ctrlBtn.center];
+//                [redCircle setCenter:self.ctrlBtn.center];
+//                
+//                // pauseBtnの回転後の位置調整
+//                [self.pauseBtn setCenter:CGPointMake(self.ctrlBtn.center.x + 380,self.view.bounds.size.height/2 )];
+//                break;
+//                
+//                
+//                // ランドスケープから回転しポートレイトになったときの処理
+//            case UIInterfaceOrientationLandscapeLeft:
+//            case UIInterfaceOrientationLandscapeRight:
+//                // nend位置調整
+//                [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2)];
+//                if (!landscaped) {
+//                    // ctrlBtn自身と同座標のUIImageViewの位置調整
+//                    int adjustY = 396;
+//                    [self.ctrlBtn setCenter:CGPointMake(self.view.bounds.size.width/2, adjustY)];
+//                    [self.altCtrlBtnForScaleDown setCenter:self.ctrlBtn.center];
+//                    [self.altCtrlBtnForScaleUp setCenter:self.ctrlBtn.center];
+//                    [self.altCtrlBtnForCrashAnimation setCenter:self.ctrlBtn.center];
+//                    [greenCircle setCenter:self.ctrlBtn.center];
+//                    [redCircle setCenter:self.ctrlBtn.center];
+//                    // pauseBtnの回転後の位置調整
+//                    [self.pauseBtn setCenter:CGPointMake(self.view.bounds.size.width/2, self.ctrlBtn.center.y + 340)]; // ストーリーボード上でのctrlBtn.centerからの距離
+//                }
+//                
+//                break;
+//                
+//            default:
+//                break;
+//        }
 
     }
     
@@ -953,4 +1019,10 @@
     
     return YES;
 }
+
+//スクリーンショット撮影用
+//- (BOOL)prefersStatusBarHidden
+//{
+//    return YES;
+//}
 @end

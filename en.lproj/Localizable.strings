@@ -5,3 +5,18 @@
   Created by 七野祐太 on 2014/12/24.
   Copyright (c) 2014年 shichino yuta. All rights reserved.
 */
+// sectionName
+"Feedback/ShareThisApp" = "Feedback / Share This App";
+"OtherApps" = "Other Apps";
+
+// BISettingVC dataSourceFeedbackAndShare section:0
+"App Store review" = "App Store review";
+"Share This App" = "Share This App";
+
+// BISettingVC dataSourceOtherAppsDesc section:1
+"Make it easy,making a original mask!No more making a paper mask!" = "Make it easy,making a original mask!No more making a paper mask!";
+
+"InstantMask" = "InstantMask";
+"Free:" = "Free:";
+
+"#RollToCrash" = "#RollToCrash http://itunes.apple.com/app/id912275000";

@@ -113,8 +113,8 @@
             NSString *free = [[NSString alloc] initWithFormat:NSLocalizedString(@"Free:", nil)];
             [labelFee setText:free];
             
-            [labelDescription setAdjustsFontSizeToFitWidth:YES];
-            [labelDescription setLineBreakMode:NSLineBreakByClipping];
+//            [labelDescription setAdjustsFontSizeToFitWidth:YES];
+            [labelDescription setLineBreakMode:NSLineBreakByWordWrapping];
             [labelDescription setMinimumScaleFactor:4];
             [labelDescription setText:self.dataSourceOtherAppsDesc[indexPath.row]];
         }
