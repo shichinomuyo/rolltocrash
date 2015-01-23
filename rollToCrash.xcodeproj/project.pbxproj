@@ -37,6 +37,12 @@
 		56171DB519861067006B4552 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56171DB419861067006B4552 /* QuartzCore.framework */; };
 		564DB6EF1A64F696001A129F /* libFluctSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 564DB6EE1A64F696001A129F /* libFluctSDK.a */; };
 		564DB6F11A64F6C7001A129F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 564DB6F01A64F6C7001A129F /* libxml2.dylib */; };
+		564DB7001A70D039001A129F /* timpani.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 564DB6FF1A70D039001A129F /* timpani.mp3 */; };
+		564DB7151A70D82B001A129F /* Timpani1024DF.png in Resources */ = {isa = PBXBuildFile; fileRef = 564DB7101A70D82B001A129F /* Timpani1024DF.png */; };
+		564DB7161A70D82B001A129F /* Timpani1024hitL1.png in Resources */ = {isa = PBXBuildFile; fileRef = 564DB7111A70D82B001A129F /* Timpani1024hitL1.png */; };
+		564DB7171A70D82B001A129F /* Timpani1024hitL2.png in Resources */ = {isa = PBXBuildFile; fileRef = 564DB7121A70D82B001A129F /* Timpani1024hitL2.png */; };
+		564DB7181A70D82B001A129F /* Timpani1024hitR1.png in Resources */ = {isa = PBXBuildFile; fileRef = 564DB7131A70D82B001A129F /* Timpani1024hitR1.png */; };
+		564DB71B1A70D884001A129F /* Timpani1024hitR2.png in Resources */ = {isa = PBXBuildFile; fileRef = 564DB71A1A70D884001A129F /* Timpani1024hitR2.png */; };
 		564E11AE19A4C85700637A0E /* libNendAd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 564E11A719A4C85700637A0E /* libNendAd.a */; };
 		564E11AF19A4C85700637A0E /* NADView_readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 564E11AD19A4C85700637A0E /* NADView_readme.txt */; };
 		564E11B319A4C86D00637A0E /* libAdapterNend.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 564E11B119A4C86D00637A0E /* libAdapterNend.a */; };
@@ -143,6 +149,12 @@
 		564DB6EE1A64F696001A129F /* libFluctSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFluctSDK.a; sourceTree = "<group>"; };
 		564DB6F01A64F6C7001A129F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		564DB6F21A6504D8001A129F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		564DB6FF1A70D039001A129F /* timpani.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = timpani.mp3; sourceTree = "<group>"; };
+		564DB7101A70D82B001A129F /* Timpani1024DF.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Timpani1024DF.png; sourceTree = "<group>"; };
+		564DB7111A70D82B001A129F /* Timpani1024hitL1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Timpani1024hitL1.png; sourceTree = "<group>"; };
+		564DB7121A70D82B001A129F /* Timpani1024hitL2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Timpani1024hitL2.png; sourceTree = "<group>"; };
+		564DB7131A70D82B001A129F /* Timpani1024hitR1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Timpani1024hitR1.png; sourceTree = "<group>"; };
+		564DB71A1A70D884001A129F /* Timpani1024hitR2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Timpani1024hitR2.png; sourceTree = "<group>"; };
 		564E11A719A4C85700637A0E /* libNendAd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libNendAd.a; sourceTree = "<group>"; };
 		564E11A819A4C85700637A0E /* NADIconArrayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADIconArrayView.h; sourceTree = "<group>"; };
 		564E11A919A4C85700637A0E /* NADIconLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NADIconLoader.h; sourceTree = "<group>"; };
@@ -399,6 +411,18 @@
 			path = libs;
 			sourceTree = "<group>";
 		};
+		564DB70F1A70D82B001A129F /* timpani */ = {
+			isa = PBXGroup;
+			children = (
+				564DB71A1A70D884001A129F /* Timpani1024hitR2.png */,
+				564DB7101A70D82B001A129F /* Timpani1024DF.png */,
+				564DB7111A70D82B001A129F /* Timpani1024hitL1.png */,
+				564DB7121A70D82B001A129F /* Timpani1024hitL2.png */,
+				564DB7131A70D82B001A129F /* Timpani1024hitR1.png */,
+			);
+			path = timpani;
+			sourceTree = "<group>";
+		};
 		564E11A519A4C7FB00637A0E /* Nend */ = {
 			isa = PBXGroup;
 			children = (
@@ -456,6 +480,7 @@
 		5663193619A8C8E40086849C /* ctrlBtnImages_ver1.0 */ = {
 			isa = PBXGroup;
 			children = (
+				564DB70F1A70D82B001A129F /* timpani */,
 				5663193F19A8CA5E0086849C /* ctrlBtnDF.png */,
 				5663193719A8C9170086849C /* hitL2.png */,
 				5663193819A8C9170086849C /* hitR1.png */,
@@ -468,6 +493,7 @@
 		56A08C031999BC0C00A99F26 /* sound_ver1.3 */ = {
 			isa = PBXGroup;
 			children = (
+				564DB6FF1A70D039001A129F /* timpani.mp3 */,
 				56A08C051999BC4600A99F26 /* crash13.mp3 */,
 				56A08C061999BC4600A99F26 /* roll13.mp3 */,
 			);
@@ -595,17 +621,23 @@
 				560D1B65197BF62C00AE9390 /* Main_iPhone.storyboard in Resources */,
 				5663194019A8CA5E0086849C /* ctrlBtnDF.png in Resources */,
 				564E11CE19A4D05400637A0E /* crash03EMERALD.png in Resources */,
+				564DB7161A70D82B001A129F /* Timpani1024hitL1.png in Resources */,
 				5663193D19A8C9170086849C /* hitR2.png in Resources */,
+				564DB7171A70D82B001A129F /* Timpani1024hitL2.png in Resources */,
 				5692B1DE198F629D004169F2 /* .gitignore in Resources */,
 				564E11CD19A4D05400637A0E /* crash03.png in Resources */,
 				56A08C071999BC4600A99F26 /* crash13.mp3 in Resources */,
 				5663193C19A8C9170086849C /* hitR1.png in Resources */,
 				564E11AF19A4C85700637A0E /* NADView_readme.txt in Resources */,
+				564DB71B1A70D884001A129F /* Timpani1024hitR2.png in Resources */,
+				564DB7181A70D82B001A129F /* Timpani1024hitR1.png in Resources */,
 				564E11CC19A4D05400637A0E /* crash02.png in Resources */,
 				5663193B19A8C9170086849C /* hitL2.png in Resources */,
 				5606B02A1A49C0D6003F6E9E /* Localizable.strings in Resources */,
 				560D1B5C197BF62C00AE9390 /* InfoPlist.strings in Resources */,
 				5663193E19A8C9170086849C /* hitL1.png in Resources */,
+				564DB7151A70D82B001A129F /* Timpani1024DF.png in Resources */,
+				564DB7001A70D039001A129F /* timpani.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
