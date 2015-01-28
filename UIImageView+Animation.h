@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImageView (Animation)
-- (void)crashUIImageViewAnimation;
-- (void)appearEmeraldWithScaleUp:(NSTimer *)timer;
-- (void)appearALIZARINWithScaleUp:(NSTimer *)timer;
+- (void)crashUIImageViewAnimationCompletion:(void (^)(void))completion;
+- (void)appearEmeraldWithScaleUp:(UIImage *)image completion:(void (^)(void))completion;
+- (void)appearALIZARINWithScaleUp:(NSTimer *)timer completion:(void (^)(void))completion;
 - (void)disappearEmeraldWithScaleDown:(NSTimer *)timer;
-- (void)disappearALIZARINWithScaleUp:(NSTimer *)timer;
+- (void)disappearALIZARINWithScaleUp:(UIImage *)image completion:(void (^)(void))completion;
 @end

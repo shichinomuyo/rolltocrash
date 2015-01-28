@@ -22,12 +22,14 @@
     static CGPoint fixCenter = {0};
     [super layoutSubviews];
     if (CGPointEqualToPoint(fixCenter, CGPointZero)) {
-        fixCenter = [self.knobImageView1 center];
+                fixCenter = [self.knobImageView1 center];
     } else {
+        NSLog(@"fixCenter");
         self.knobImageView1.center = fixCenter;
         self.knobImageView2.center = fixCenter;
         self.knobImageView3.center = fixCenter;
         self.knobUIButton.center = fixCenter;
     }
+    NSLog(@"bugfixCV:self.knobUIBtn.frame:%.2f,%.2f,%.2f,%.2f",self.knobUIButton.frame.origin.x,self.knobUIButton.frame.origin.y,self.knobUIButton.frame.size.width,self.knobUIButton.frame.size.height);
 }
 @end

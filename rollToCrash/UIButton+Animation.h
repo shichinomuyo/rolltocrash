@@ -10,7 +10,7 @@
 
 @interface UIButton (Animation)
 - (void)appearWithRotateScaleUpSetEnable;
-- (void)disappearWithRotateScaleDownSetDisable;
+- (void)disappearWithRotateScaleDownSetDisableCompletion:(void (^)(void))completion;
 
 - (void)scaleUpBtn;
 - (void)scaleDownBtn;

@@ -62,6 +62,8 @@
                                                                                         [self setEnabled:1];
                                                                                         NSLog(@"%s",__PRETTY_FUNCTION__);
                                                                                         [self consoleLog];
+                                                                                        NSLog(@"scaleupedBtn.origin:%.2f,%.2f",self.frame.origin.x,self.frame.origin.y);
+                                                      
                                                                                     }];
                                                                }];
                                           }];
@@ -71,7 +73,7 @@
 
 
 // 回転しながら縮小して消える。
-- (void)disappearWithRotateScaleDownSetDisable{
+- (void)disappearWithRotateScaleDownSetDisableCompletion:(void (^)(void))completion{
     
     self.transform = CGAffineTransformIdentity;
     
@@ -113,6 +115,7 @@
                                                                                            [self setEnabled:0];
                                                                                            [self setHidden:1];
                                                                                            [self.superview setHidden:1]; // bugfixcontainerViewのこと
+                                                                                           completion();
                                                                                        }];
                                                                }];
                                           }];
@@ -364,12 +367,17 @@
 }
 
 - (void)appearAfterInterval:(NSTimer *)timer{
+    NSLog(@"%s",__PRETTY_FUNCTION__);
+    [self consoleLog];
     [self setHidden:0];
     [self setEnabled:1];
     [self setAlpha:1];
     [timer invalidate];
-    NSLog(@"%s",__PRETTY_FUNCTION__);
-    [self consoleLog];
+    NSLog(@"self.alpha:%.2f",self.alpha);
+    NSLog(@"ctrlBtn.hidden:%d",self.hidden);
+    NSLog(@"ctrlBtn.frame:%.2f,%.2f,%.2f,%.2f",self.frame.origin.x,self.frame.origin.y,self.frame.size.width,self.frame.size.height);
+    
+
 }
 
 

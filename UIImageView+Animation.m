@@ -10,7 +10,7 @@
 
 @implementation UIImageView (Animation)
 // 回転しながら拡大してギザギザになるアニメーション　1.09sec
-- (void)crashUIImageViewAnimation{
+- (void)crashUIImageViewAnimationCompletion:(void (^)(void))completion{
     self.transform = CGAffineTransformIdentity;
     [self setImage:[UIImage imageNamed:@"crash01.png"]];
     [self setHidden:0];
@@ -87,7 +87,7 @@
                                                                                                                                                        [UIView animateWithDuration:0.1f
                                                                                                                                                                              delay:0.0f
                                                                                                                                                                            options:UIViewAnimationOptionCurveEaseOut |UIViewAnimationOptionBeginFromCurrentState
-                                                                                                                                                                        animations:^{ // 丸に戻りかけ
+                                                                                                                                                                        animations:^{
                                                                                                                                                                             //                                                                                                                                                       self.transform =  CGAffineTransformConcat(self.transform, concat);
                                                                                                                                                                             [self setImage:[UIImage imageNamed:@"crash03.png"]];
                                                                                                                                                                             
@@ -95,43 +95,8 @@
                                                                                                                                                                             [self setAlpha:0.95];
                                                                                                                                                                             
                                                                                                                                                                         }completion:^(BOOL finished) {
-                                                                                                                                                                            [UIView animateWithDuration:0.1f
-                                                                                                                                                                                                  delay:0.0f
-                                                                                                                                                                                                options:UIViewAnimationOptionCurveEaseOut |UIViewAnimationOptionBeginFromCurrentState
-                                                                                                                                                                                             animations:^{ // エメラルド丸に戻る
-                                                                                                                                                                                                 //                                                                                                                                                       self.transform =  CGAffineTransformConcat(self.transform, concat);
-                                                                                                                                                                                                 
-                                                                                                                                                                                                 [self setImage:[UIImage imageNamed:@"ctrlBtnDF.png"]];
-                                                                                                                                                                                                 
-                                                                                                                                                                                                 [self setAlpha:1];
-                                                                                                                                                                                                 self.transform = CGAffineTransformIdentity;
-                                                                                                                                                                                                 self.transform = CGAffineTransformScale(self.transform, 1.05, 1.05);
-                                                                                                                                                                                             }completion:^(BOOL finished) {
-                                                                                                                                                                                                 
-                                                                                                                                                                                                 [UIView animateWithDuration:0.1f
-                                                                                                                                                                                                                       delay:0.0f
-                                                                                                                                                                                                                     options:UIViewAnimationOptionCurveEaseOut
-                                                                                                                                                                                                                  animations:^{
-                                                                                                                                                                                                                      self.transform = CGAffineTransformScale(self.transform, 1.05, 1.05);
-                                                                                                                                                                                                                  }
-                                                                                                                                                                                                                  completion:^(BOOL finished){
-                                                                                                                                                                                                                      [UIView animateWithDuration:0.07f
-                                                                                                                                                                                                                                            delay:0.0f
-                                                                                                                                                                                                                                          options:UIViewAnimationOptionCurveEaseOut
-                                                                                                                                                                                                                                       animations:^{
-                                                                                                                                                                                                                                           self.transform = CGAffineTransformIdentity;
-                                                                                                                                                                                                                                       }
-                                                                                                                                                                                                                                       completion:^(BOOL finished){
-                                                                                                                                                                                                                                           [self setHidden:1];
-                                                                                                                                                                                                                                           
-                                                                                                                                                                                                                                           
-                                                                                                                                                                                                                                           
-                                                                                                                                                                                                                                       }];
-                                                                                                                                                                                                                      
-                                                                                                                                                                                                                  }];
-                                                                                      
-                                                                                                                                                                                                 
-                                                                                                                                                                                             }];
+                                                                                                                                                                            [self setHidden:1];
+                                                                                                                                                                            completion();
                                                                                                                                                                         }];
                                                                                                                                                    }];
                                                                                                                                   
@@ -143,13 +108,14 @@
                                                                }];
                                           }];
                      }];
+    
 }
 
 
 // 拡大して現れる。ctrlBtnALIZARINの出現時のみに使用。0.4sec
-- (void)appearALIZARINWithScaleUp:(NSTimer *)timer{
+- (void)appearALIZARINWithScaleUp:(NSTimer *)timer completion:(void (^)(void))completion{
     self.transform = CGAffineTransformIdentity;
-    [self setImage:[UIImage imageNamed:@"hitR1.png"]];
+
     [self setHidden:0];
     
     self.transform = CGAffineTransformMakeScale(0.1, 0.1);
@@ -178,7 +144,7 @@
                                                                    [self setHidden:1];
                                                                    [timer invalidate];
                                                                    
-                                                                   
+                                                                   completion();
                                                                }];
                                               
                                               
@@ -187,9 +153,9 @@
                      }];
 }
 
-- (void)appearEmeraldWithScaleUp:(NSTimer *)timer{
+- (void)appearEmeraldWithScaleUp:(UIImage *)image completion:(void (^)(void))completion{
     self.transform = CGAffineTransformIdentity;
-    [self setImage:[UIImage imageNamed:@"ctrlBtnDF.png"]];
+    [self setImage:image];
     [self setHidden:0];
     [self.superview setHidden:0];// bugfixcontainerviewのこと
     
@@ -217,8 +183,8 @@
                                                                }
                                                                completion:^(BOOL finished){
                                                                    [self setHidden:1];
-                                                                   [timer invalidate];
-                                                                   
+
+                                                                   completion();
                                                                    
                                                                }];
                                               
@@ -230,9 +196,9 @@
 
 
 // 縮小して消える。ctrlBtnEmeraldの消失時のみに使用。
-- (void)disappearEmeraldWithScaleDown:(NSTimer *)timer{
+- (void)disappearEmeraldWithScaleDown:(NSTimer *)timer {
     self.transform = CGAffineTransformIdentity;
-    [self setImage:[UIImage imageNamed:@"ctrlBtnDF.png"]];
+
     [self setHidden:0];
     [UIView animateWithDuration:0.1f
                           delay:0.0f
@@ -269,9 +235,9 @@
 
 
 // 縮小して消える。ctrlBtnALIZARINの消失時のみに使用。
-- (void)disappearALIZARINWithScaleUp:(NSTimer *)timer{
+- (void)disappearALIZARINWithScaleUp:(UIImage *)image  completion:(void (^)(void))completion{
     self.transform = CGAffineTransformIdentity;
-    [self setImage:[UIImage imageNamed:@"hitR1.png"]];
+    [self setImage:image];
     [self setHidden:0];
     [UIView animateWithDuration:0.1f
                           delay:0.0f
@@ -295,9 +261,7 @@
                                                                }
                                                                completion:^(BOOL finished){
                                                                    [self setHidden:1];
-                                                                   [timer invalidate];
-                                                                   
-                                                                   
+                                                                   completion();
                                                                }];
                                               
                                               
