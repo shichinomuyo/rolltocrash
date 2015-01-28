@@ -19,8 +19,8 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *kScrollView;
 @property (weak, nonatomic) IBOutlet UIPageControl *kPageControl;
-@property (weak, nonatomic) IBOutlet kPageView *kContentViewSnare;
-@property (weak, nonatomic) IBOutlet kPageView *kContentViewTimpani;
+@property (weak, nonatomic) IBOutlet kContentView *kContentViewSnare;
+@property (weak, nonatomic) IBOutlet kContentView *kContentViewTimpani;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintTimpaniViewWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintTimpaniViewHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintSnareViewWidth;
@@ -91,37 +91,6 @@
         interstitial_.delegate = self;
         [interstitial_ loadRequest:[GADRequest request]];
     }
-    
-    
-    {//NADViewの作成
-//        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
-//            NSLog(@"iPhoneの処理");
-//            self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-//            [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2 + 20)];
-//            // (3) ログ出力の指定
-//            [self.nadView setIsOutputLog:YES];
-//            // (4) set apiKey, spotId.
-//            //        [self.nadView setNendID:@"a6eca9dd074372c898dd1df549301f277c53f2b9" spotID:@"3172"]; // テスト用
-//            [self.nadView setNendID:@"139154ca4d546a7370695f0ba43c9520730f9703" spotID:@"208229"];
-//            
-//        }
-//        else{
-//            NSLog(@"iPadの処理");
-//            self.nadView = [[NADView alloc] initWithFrame:CGRectMake(0, 0, 728, 90)];
-//            [self.nadView setCenter:CGPointMake(self.view.bounds.size.width/2, self.nadView.bounds.size.height/2 + 20)]; // ヘッダー
-//            // (3) ログ出力の指定
-//            [self.nadView setIsOutputLog:NO];
-//            // (4) set apiKey, spotId.
-//            //      [self.nadView setNendID:@"2e0b9e0b3f40d952e6000f1a8c4d455fffc4ca3a" spotID:@"70999"]; // テスト用
-//            [self.nadView setNendID:@"19d17a40ad277a000f27111f286dc6aaa0ad146b" spotID:@"220604"];
-//            
-//        }
-//        [self.nadView setDelegate:self]; //(5)
-//        [self.nadView load]; //(6)
-//        [self.view addSubview:self.nadView]; // 最初から表示する場合
-//
-//        
-    }
 }
 
 #pragma mark -
@@ -166,7 +135,7 @@
     
     // 広告表示
     [self viewAdBanners]; // SS撮影のためコメントアウト
-    
+    //
     NSArray *arraySnareImageNames = [NSArray arrayWithObjects:
                                      @"snare.png",
                                      @"hitL1.png",
@@ -195,8 +164,8 @@
     _kPageControl.numberOfPages = 2;
     _kPageControl.currentPage = 0;
     // dot color
-    _kPageControl.pageIndicatorTintColor = [UIColor grayColor];
-    _kPageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    _kPageControl.pageIndicatorTintColor = RGB(236, 240, 241);
+    _kPageControl.currentPageIndicatorTintColor = RGB(44, 62, 80);
     
     // scrollView設定
     _kScrollView.delegate = self;
@@ -204,8 +173,6 @@
     _kScrollView.pagingEnabled = YES;
     _kScrollView.showsHorizontalScrollIndicator = NO;
     _kScrollView.showsVerticalScrollIndicator = NO;
-    _kScrollView.backgroundColor = [UIColor blueColor];
-    
 
 }
 
@@ -255,15 +222,15 @@
 -(void)viewDidLayoutSubviews{
     NSLog(@"viewDidLayoutSubviews");
     CGRect viewBounds = [[UIScreen mainScreen] bounds];
+    // contentViewのwidthをデバイスのwidthに合わせる
     _constraintSnareViewWidth.constant = viewBounds.size.width;
     _constraintTimpaniViewWidth.constant = viewBounds.size.width;
+    // contentViewのheight(viewのbottom)をセッティングボタンのorigin.yに合わせる
     _constraintSnareHeight.constant = _containerViewBtnSetting.frame.origin.y;
     _constraintTimpaniViewHeight.constant = _containerViewBtnSetting.frame.origin.y;
 
     
     CGRect aPageFrame = _kContentViewSnare.frame;
-    NSLog(@"aPageFrame:%.2f,%.2f,%.2f,%.2f",aPageFrame.origin.x,aPageFrame.origin.y,aPageFrame.size.width,aPageFrame.size.height);
-    NSLog(@"snareview.frame:%.2f,%.2f,%.2f,%.2f",_kContentViewSnare.frame.origin.x,_kContentViewSnare.frame.origin.y,_kContentViewSnare.frame.size.width,_kContentViewSnare.frame.size.height);
     // scrollable content's width and height
     _kScrollView.contentSize = CGSizeMake(aPageFrame.size.width * pages.count, aPageFrame.size.height);
     NSLog(@"contentsize:%.2f,%.2f",_kScrollView.contentSize.width,_kScrollView.contentSize.height);

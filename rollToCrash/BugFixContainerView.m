@@ -30,6 +30,5 @@
         self.knobImageView3.center = fixCenter;
         self.knobUIButton.center = fixCenter;
     }
-    NSLog(@"bugfixCV:self.knobUIBtn.frame:%.2f,%.2f,%.2f,%.2f",self.knobUIButton.frame.origin.x,self.knobUIButton.frame.origin.y,self.knobUIButton.frame.size.width,self.knobUIButton.frame.size.height);
 }
 @end

@@ -37,7 +37,7 @@
 		56171DB519861067006B4552 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56171DB419861067006B4552 /* QuartzCore.framework */; };
 		562258A41A77D6F50037E776 /* kADMOBInterstitialSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 562258A31A77D6F50037E776 /* kADMOBInterstitialSingleton.m */; };
 		562258A71A77D7160037E776 /* NSObject+MyMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 562258A61A77D7160037E776 /* NSObject+MyMethod.m */; };
-		562258B11A7861980037E776 /* ScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 562258B01A7861980037E776 /* ScrollViewController.m */; };
+		562258B41A78B1920037E776 /* BugFixContainerViewForPauseBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 562258B31A78B1920037E776 /* BugFixContainerViewForPauseBtn.m */; };
 		564DB6EF1A64F696001A129F /* libFluctSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 564DB6EE1A64F696001A129F /* libFluctSDK.a */; };
 		564DB6F11A64F6C7001A129F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 564DB6F01A64F6C7001A129F /* libxml2.dylib */; };
 		564DB7001A70D039001A129F /* timpani.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 564DB6FF1A70D039001A129F /* timpani.mp3 */; };
@@ -46,8 +46,8 @@
 		564DB7171A70D82B001A129F /* Timpani1024hitL2.png in Resources */ = {isa = PBXBuildFile; fileRef = 564DB7121A70D82B001A129F /* Timpani1024hitL2.png */; };
 		564DB7181A70D82B001A129F /* Timpani1024hitR1.png in Resources */ = {isa = PBXBuildFile; fileRef = 564DB7131A70D82B001A129F /* Timpani1024hitR1.png */; };
 		564DB71B1A70D884001A129F /* Timpani1024hitR2.png in Resources */ = {isa = PBXBuildFile; fileRef = 564DB71A1A70D884001A129F /* Timpani1024hitR2.png */; };
-		564DB71D1A71F152001A129F /* kPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DB71C1A71F152001A129F /* kPageView.xib */; };
-		564DB7201A71F2C3001A129F /* kPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 564DB71F1A71F2C3001A129F /* kPageView.m */; };
+		564DB71D1A71F152001A129F /* kContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 564DB71C1A71F152001A129F /* kContentView.xib */; };
+		564DB7201A71F2C3001A129F /* kContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 564DB71F1A71F2C3001A129F /* kContentView.m */; };
 		564DB7231A75E1D9001A129F /* kNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 564DB7221A75E1D9001A129F /* kNavController.m */; };
 		564DB7261A75E282001A129F /* kPageVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 564DB7251A75E282001A129F /* kPageVC.m */; };
 		564DB7291A75F729001A129F /* ContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 564DB7281A75F729001A129F /* ContentViewController.m */; };
@@ -155,8 +155,8 @@
 		562258A31A77D6F50037E776 /* kADMOBInterstitialSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kADMOBInterstitialSingleton.m; sourceTree = "<group>"; };
 		562258A51A77D7160037E776 /* NSObject+MyMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MyMethod.h"; sourceTree = "<group>"; };
 		562258A61A77D7160037E776 /* NSObject+MyMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MyMethod.m"; sourceTree = "<group>"; };
-		562258AF1A7861980037E776 /* ScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollViewController.h; path = ../ScrollViewController.h; sourceTree = "<group>"; };
-		562258B01A7861980037E776 /* ScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollViewController.m; path = ../ScrollViewController.m; sourceTree = "<group>"; };
+		562258B21A78B1920037E776 /* BugFixContainerViewForPauseBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BugFixContainerViewForPauseBtn.h; sourceTree = "<group>"; };
+		562258B31A78B1920037E776 /* BugFixContainerViewForPauseBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BugFixContainerViewForPauseBtn.m; sourceTree = "<group>"; };
 		564DB6EB1A64F696001A129F /* FluctBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FluctBannerView.h; sourceTree = "<group>"; };
 		564DB6EC1A64F696001A129F /* FluctInterstitialView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FluctInterstitialView.h; sourceTree = "<group>"; };
 		564DB6ED1A64F696001A129F /* FluctSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FluctSDK.h; sourceTree = "<group>"; };
@@ -169,9 +169,9 @@
 		564DB7121A70D82B001A129F /* Timpani1024hitL2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Timpani1024hitL2.png; sourceTree = "<group>"; };
 		564DB7131A70D82B001A129F /* Timpani1024hitR1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Timpani1024hitR1.png; sourceTree = "<group>"; };
 		564DB71A1A70D884001A129F /* Timpani1024hitR2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Timpani1024hitR2.png; sourceTree = "<group>"; };
-		564DB71C1A71F152001A129F /* kPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = kPageView.xib; sourceTree = "<group>"; };
-		564DB71E1A71F2C3001A129F /* kPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kPageView.h; sourceTree = "<group>"; };
-		564DB71F1A71F2C3001A129F /* kPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kPageView.m; sourceTree = "<group>"; };
+		564DB71C1A71F152001A129F /* kContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = kContentView.xib; sourceTree = "<group>"; };
+		564DB71E1A71F2C3001A129F /* kContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kContentView.h; sourceTree = "<group>"; };
+		564DB71F1A71F2C3001A129F /* kContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kContentView.m; sourceTree = "<group>"; };
 		564DB7211A75E1D9001A129F /* kNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kNavController.h; sourceTree = "<group>"; };
 		564DB7221A75E1D9001A129F /* kNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kNavController.m; sourceTree = "<group>"; };
 		564DB7241A75E282001A129F /* kPageVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kPageVC.h; sourceTree = "<group>"; };
@@ -351,10 +351,7 @@
 				560D1B63197BF62C00AE9390 /* Main_iPhone.storyboard */,
 				562258A81A77D72A0037E776 /* MyClasses */,
 				562258A91A77DD950037E776 /* Root View Controller */,
-				560D1B69197BF62C00AE9390 /* ViewController.h */,
-				560D1B6A197BF62C00AE9390 /* ViewController.m */,
-				562258AF1A7861980037E776 /* ScrollViewController.h */,
-				562258B01A7861980037E776 /* ScrollViewController.m */,
+				562258B51A78B57F0037E776 /* No use on v1.2 */,
 				5606AFED1A480C54003F6E9E /* SettingViewController */,
 				560D1B6C197BF62C00AE9390 /* Images.xcassets */,
 				560D1B58197BF62C00AE9390 /* Supporting Files */,
@@ -397,6 +394,8 @@
 			children = (
 				56D13B541A479D27001B2AC7 /* BugFixContainerView.h */,
 				56D13B551A479D27001B2AC7 /* BugFixContainerView.m */,
+				562258B21A78B1920037E776 /* BugFixContainerViewForPauseBtn.h */,
+				562258B31A78B1920037E776 /* BugFixContainerViewForPauseBtn.m */,
 				562258A21A77D6F50037E776 /* kADMOBInterstitialSingleton.h */,
 				562258A31A77D6F50037E776 /* kADMOBInterstitialSingleton.m */,
 				562258A51A77D7160037E776 /* NSObject+MyMethod.h */,
@@ -418,11 +417,23 @@
 			children = (
 				564DB7211A75E1D9001A129F /* kNavController.h */,
 				564DB7221A75E1D9001A129F /* kNavController.m */,
+				560D1B69197BF62C00AE9390 /* ViewController.h */,
+				560D1B6A197BF62C00AE9390 /* ViewController.m */,
+				564DB72D1A762337001A129F /* kPageView */,
+			);
+			name = "Root View Controller";
+			sourceTree = "<group>";
+		};
+		562258B51A78B57F0037E776 /* No use on v1.2 */ = {
+			isa = PBXGroup;
+			children = (
 				564DB7241A75E282001A129F /* kPageVC.h */,
 				564DB7251A75E282001A129F /* kPageVC.m */,
 				564DB72E1A76234A001A129F /* ContentViewController */,
+				564DB7271A75F729001A129F /* ContentViewController.h */,
+				564DB7281A75F729001A129F /* ContentViewController.m */,
 			);
-			name = "Root View Controller";
+			name = "No use on v1.2";
 			sourceTree = "<group>";
 		};
 		563CFB0819A392C300F01180 /* images */ = {
@@ -476,9 +487,9 @@
 		564DB72D1A762337001A129F /* kPageView */ = {
 			isa = PBXGroup;
 			children = (
-				564DB71C1A71F152001A129F /* kPageView.xib */,
-				564DB71E1A71F2C3001A129F /* kPageView.h */,
-				564DB71F1A71F2C3001A129F /* kPageView.m */,
+				564DB71C1A71F152001A129F /* kContentView.xib */,
+				564DB71E1A71F2C3001A129F /* kContentView.h */,
+				564DB71F1A71F2C3001A129F /* kContentView.m */,
 			);
 			name = kPageView;
 			sourceTree = "<group>";
@@ -486,9 +497,6 @@
 		564DB72E1A76234A001A129F /* ContentViewController */ = {
 			isa = PBXGroup;
 			children = (
-				564DB7271A75F729001A129F /* ContentViewController.h */,
-				564DB7281A75F729001A129F /* ContentViewController.m */,
-				564DB72D1A762337001A129F /* kPageView */,
 			);
 			name = ContentViewController;
 			sourceTree = "<group>";
@@ -700,7 +708,7 @@
 				5663193C19A8C9170086849C /* hitR1.png in Resources */,
 				564E11AF19A4C85700637A0E /* NADView_readme.txt in Resources */,
 				564DB71B1A70D884001A129F /* Timpani1024hitR2.png in Resources */,
-				564DB71D1A71F152001A129F /* kPageView.xib in Resources */,
+				564DB71D1A71F152001A129F /* kContentView.xib in Resources */,
 				564DB7181A70D82B001A129F /* Timpani1024hitR1.png in Resources */,
 				564E11CC19A4D05400637A0E /* crash02.png in Resources */,
 				5663193B19A8C9170086849C /* hitL2.png in Resources */,
@@ -730,10 +738,10 @@
 				560392A6198C7C7500785494 /* ImageViewCircle.m in Sources */,
 				568326C019912C1700F6AC98 /* AVAudioPlayer+CustomControllers.m in Sources */,
 				5606AFEC1A480AC0003F6E9E /* BITableViewCellHaveFourItems.m in Sources */,
-				562258B11A7861980037E776 /* ScrollViewController.m in Sources */,
 				568326B71990C43D00F6AC98 /* UIButton+Animation.m in Sources */,
 				5606AFEB1A480AC0003F6E9E /* BIFeedbakAndActionCell.m in Sources */,
 				562258A71A77D7160037E776 /* NSObject+MyMethod.m in Sources */,
+				562258B41A78B1920037E776 /* BugFixContainerViewForPauseBtn.m in Sources */,
 				5606AFE61A47C770003F6E9E /* SettingsViewController.m in Sources */,
 				562258A41A77D6F50037E776 /* kADMOBInterstitialSingleton.m in Sources */,
 				56D13B561A479D27001B2AC7 /* BugFixContainerView.m in Sources */,
@@ -741,7 +749,7 @@
 				567855671994AC5500072827 /* UIImageView+Animation.m in Sources */,
 				564DB7231A75E1D9001A129F /* kNavController.m in Sources */,
 				564DB7291A75F729001A129F /* ContentViewController.m in Sources */,
-				564DB7201A71F2C3001A129F /* kPageView.m in Sources */,
+				564DB7201A71F2C3001A129F /* kContentView.m in Sources */,
 				560D1B62197BF62C00AE9390 /* AppDelegate.m in Sources */,
 				560D1B5E197BF62C00AE9390 /* main.m in Sources */,
 				564DB7261A75E282001A129F /* kPageVC.m in Sources */,
@@ -839,7 +847,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -872,7 +880,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

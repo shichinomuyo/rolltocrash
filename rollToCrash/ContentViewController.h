@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "kPageView.h"
+#import "kContentView.h"
 #import "GAITrackedViewController.h"
 
 @interface ContentViewController : GAITrackedViewController{
@@ -18,6 +18,6 @@
 @property NSString *caption;
 @property NSUInteger pageIndex;
 
-@property (strong, nonatomic) IBOutlet kPageView *kSnareView;
+@property (strong, nonatomic) IBOutlet kContentView *kSnareView;
 
 @end
