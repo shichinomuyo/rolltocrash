@@ -152,19 +152,19 @@
     [_kContentViewSnare setImages:arraySnareImageNames soundName:@"roll13" capcion:@"Snare"];
     [_kContentViewTimpani setImages:arrayTimpaniImageNames soundName:@"timpani" capcion:@"Timpani"];
     // pageControl
-    pages = [NSMutableArray array];
+    pages = [NSMutableArray array]; // v1.2で追加したけどページのカウントにしか使ってない
     [pages addObject:@{@"imageNames":arraySnareImageNames,
                        @"soundName":@"roll13",
                        @"caption":@"Snare Drum"}];
     [pages addObject:@{@"imageNames":arrayTimpaniImageNames,
                        @"soundName":@"timpani",
                        @"caption":@"Timpani"}];
-    
+
     // pageControl設定
-    _kPageControl.numberOfPages = 2;
+    _kPageControl.numberOfPages = pages.count;
     _kPageControl.currentPage = 0;
     // dot color
-    _kPageControl.pageIndicatorTintColor = RGB(236, 240, 241);
+    _kPageControl.pageIndicatorTintColor = [UIColor grayColor];
     _kPageControl.currentPageIndicatorTintColor = RGB(44, 62, 80);
     
     // scrollView設定
@@ -229,9 +229,9 @@
     _constraintSnareHeight.constant = _containerViewBtnSetting.frame.origin.y;
     _constraintTimpaniViewHeight.constant = _containerViewBtnSetting.frame.origin.y;
 
-    
-    CGRect aPageFrame = _kContentViewSnare.frame;
-    // scrollable content's width and height
+
+    CGRect aPageFrame = _kContentViewSnare.frame; // コンテンツ1ページ分のフレームを取得
+    // scrollable content's width and height　コンテントサイズのwidthをコンテンツ2ページ分に設定
     _kScrollView.contentSize = CGSizeMake(aPageFrame.size.width * pages.count, aPageFrame.size.height);
     NSLog(@"contentsize:%.2f,%.2f",_kScrollView.contentSize.width,_kScrollView.contentSize.height);
 

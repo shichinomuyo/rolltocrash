@@ -22,7 +22,7 @@
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AV5-cu-4jP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="228" y="-266.25"/>
+            <point key="canvasLocation" x="1584" y="159.75"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -337,7 +337,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="213" y="411.75"/>
+            <point key="canvasLocation" x="465" y="165.75"/>
         </scene>
         <!--Content View Controller-->
         <scene sceneID="pnE-1q-ohB">
@@ -393,7 +393,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AMH-se-jU3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="897" y="-266.25"/>
+            <point key="canvasLocation" x="2313" y="165.75"/>
         </scene>
         <!--Settings-->
         <scene sceneID="fp1-zz-irh">
@@ -623,7 +623,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TLJ-nW-in7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2238" y="-53.25"/>
+            <point key="canvasLocation" x="450" y="948.75"/>
         </scene>
         <!--K Nav Controller-->
         <scene sceneID="guh-fD-F2G">
@@ -651,6 +651,6 @@
         <image name="GearDarkBlue" width="44" height="44"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qgo-Np-PXy"/>
+        <segue reference="xFU-aA-NB9"/>
     </inferredMetricsTieBreakers>
 </document>
