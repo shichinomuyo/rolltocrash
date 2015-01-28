@@ -76,6 +76,8 @@
         // heights
         // iPad2/iPad Air/iPad Retina 1024
         // storyBoard上で212に設定
+        self.constraintVerticalSpaceBFVtoSuperView.constant = 216.0;
+        self.constraintVerticalSpaceBFVPauseBtntoSuperView.constant = 680;
     }
 
   

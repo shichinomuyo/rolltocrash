@@ -69,8 +69,7 @@
 @property (weak, nonatomic) IBOutlet BugFixContainerView *bugFixContainerViewForPuseBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintVerticalSpaceBFVtoSuperView;
 //-(id)initWithImageName:(NSArray *)imageNames soundName:(NSString *)soundName caption:(NSString *)caption;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintCenterXAlignmentBFCVPauseBtn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintVerticalSpaceBFVPauseBtntoSuperView;
 
 - (void)_init;
 + (instancetype)view;
