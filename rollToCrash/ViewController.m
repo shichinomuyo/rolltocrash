@@ -173,32 +173,39 @@
     _kScrollView.pagingEnabled = YES;
     _kScrollView.showsHorizontalScrollIndicator = NO;
     _kScrollView.showsVerticalScrollIndicator = NO;
+    
+    NSLog(@"_ScrollView.contentOffset.x:%.2f",_kScrollView.contentOffset.x);
 
+}
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{ // scrollViewDidScrollより先に１回呼ばれる
+    NSLog(@"scrollViewWillBeginDraggin");
+
+    if (_kPageControl.currentPage == 0) { // 移動元がスネアページ(currentPage = 0)のとき
+        // stop roll
+        [self.kContentViewSnare.greenCircle removeFromSuperview];
+        [self.kContentViewSnare stopAudioResetAnimation];
+    } else if (_kPageControl.currentPage == 1){ // 移動元がティンパニページ(currentPage = 1)のとき
+        [self.kContentViewTimpani.greenCircle removeFromSuperview];
+        // stop roll
+        [self.kContentViewTimpani stopAudioResetAnimation];
+    }
+    NSLog(@"scrollView.contentOffset.x:%.2f",scrollView.contentOffset.x);
 }
 
 // scrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
 //    NSLog(@"scrollViewDidScroll");
-
-}
-
--(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    NSLog(@"scrollViewWillBeginDraggin");
-    // get current page number
-    CGFloat pageWidth = _kScrollView.frame.size.width;
-    int pageNo = floor((_kScrollView.contentOffset.x - pageWidth/2)/pageWidth) + 1;
-    _kPageControl.currentPage = pageNo;
-    if (_kPageControl.currentPage == 0) {
-        // stop roll
-        [self.kContentViewSnare.greenCircle removeFromSuperview];
-        [self.kContentViewSnare stopAudioResetAnimation];
-    } else if (_kPageControl.currentPage == 1){
-        [self.kContentViewTimpani.greenCircle removeFromSuperview];
-        // stop roll
-        [self.kContentViewTimpani stopAudioResetAnimation];
-        
+    CGFloat pageWidth = scrollView.frame.size.width;
+    if (fmod(scrollView.contentOffset.x, pageWidth) == 0.0) {
+        int pageNum = scrollView.contentOffset.x / pageWidth;
+        _kPageControl.currentPage = pageNum;
+        NSLog(@"pageNum:%d",pageNum);
     }
+    NSLog(@"scrollView.contentOffset.x:%.2f",scrollView.contentOffset.x);
+
 }
+
+
 - (void)viewWillDisappear:(BOOL)animated{
     // 画面が隠れたらNend定期ロード中断
     [self.nadView pause];
