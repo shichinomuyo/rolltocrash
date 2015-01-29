@@ -19,5 +19,5 @@
 - (UIImage *)imageFillEllipseInRect;
 - (void)rippleAnimation;
 - (void)rippleAnimationReverse;
-- (void)circleAnimationFinish:(float)firstDuration;
+- (void)circleAnimationFinish:(float)firstDuration completion:(void (^)(void))completion;
 @end

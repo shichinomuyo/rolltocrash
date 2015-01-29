@@ -80,7 +80,8 @@
         self.constraintVerticalSpaceBFVPauseBtntoSuperView.constant = 680;
     }
 
-  
+    _greenCircle = nil;
+    _redCircle = nil;
 
     [self addSubview:__contentView];
 
@@ -95,6 +96,7 @@
 }
 
 - (void)setImages:(NSArray *)imageNames soundName:(NSString *)soundName capcion:(NSString *)caption{
+    NSLog(@"setImages soundName caption");
     // (audioplayer)再生する効果音のパスを取得しインスタンス生成
     [self initializeAVAudioPlayers:soundName];
     { // UIButtonに画像配列を設定
@@ -143,10 +145,10 @@
         [self.altCtrlBtnForScaleUp appearEmeraldWithScaleUp:_imageBtnDefault completion:^{
             NSLog(@"completionBlock");
             [_ctrlBtn appearAfterInterval:nil];
+           
             [self greenRippleSetUp];
-            
-            // ビューにimgViewCircleを描画
-            [self addSubview:greenCircle];
+
+           
             [self ctrlBtnGrennRippleAnimationStart];
         }]; // 0.4sec
         
@@ -254,6 +256,9 @@
     if (_rollPlayerTmp.isPlaying || _rollPlayerAlt.isPlaying) {
         // ドラムロール再生中にctrlBtnが押されたときクラッシュ再生
         
+        // _redCircleをビューから削除
+        [_redCircle removeFromSuperview];
+        
         // crash再生する度に再生回数を+1してNSUserDefaultsに保存
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSInteger i = [defaults integerForKey:@"KEY_countUpCrashPlayed"];
@@ -296,7 +301,9 @@
         [self.ctrlBtn setHidden:1];  // altCtrlBtnForCrashAnimationをそのまま拡大アニメーションすると拡大されすぎる問題があったのでctrlBtn.aphaを0にする。hiddenにするとviewDidAppearでの拡大アニメーションが再生されてしまう問題あり
         
         // 円のクラッシュ再生時のアニメーション
-        [lastCircle circleAnimationFinish:0.4];
+        [lastCircle circleAnimationFinish:0.4 completion:^{
+            [lastCircle removeFromSuperview];
+        }];
         
         // defaultの画像が回転しながら大きくなってくるアニメーション
         [self.altCtrlBtnForCrashAnimation crashUIImageViewAnimationCompletion:^{
@@ -304,8 +311,6 @@
                     [self.ctrlBtn appearAfterInterval:nil];
                 [self greenRippleSetUp];
                 
-                //    // ビューにimgViewCircleを描画
-                [self addSubview:greenCircle];
                 [self ctrlBtnGrennRippleAnimationStart];
                 [[kADMOBInterstitialSingleton sharedInstans] interstitialControll]; // 生成、表示の判断含め全部この中でやる
                 
@@ -320,7 +325,7 @@
         
     } else {
         // ドラムロール停止中にctrlBtnが押されたとき
-        
+        [_greenCircle removeFromSuperview];
         // ドラムロールを再生する
         [_rollPlayerTmp playRollStopCrash:_crashPlayer setVolumeZero:_rollPlayerAlt ];
         // playerControllを1.0秒間隔で呼び出すタイマーを作る
@@ -329,8 +334,6 @@
         
         // redCircle準備
         [self redRippleSetUp];
-        // ビューにimgViewCircleを描画
-        [self addSubview:redCircle];
         
         // ctrlBtnRedRippleAnimationStartするまでctrlBtnを隠す
         [self.ctrlBtn setHidden:1];
@@ -338,7 +341,7 @@
         // 赤いctrlBtnの拡大
         [self.altCtrlBtnForScaleUp appearALIZARINWithScaleUp:nil completion:^{
             [self.ctrlBtn appearAfterInterval:nil];
-                 [self ctrlBtnRedRippleAnimationStart:nil];
+            [self ctrlBtnRedRippleAnimationStart:nil];
             // 【アニメーション】ロールのアニメーションを再生する
             [self.ctrlBtn.imageView startAnimating];
         }]; // 0.4sec
@@ -390,6 +393,7 @@
 
 // ctrlBtnの下のpauseBtnを押した時に実行される処理を実装
 - (IBAction)touchUpInsidePauseBtn:(UIButton *)sender {
+    NSLog(@"touchUpInsidePauseBtn");
     // ドラムロールが再生中にpauseBtnが押されたとき
     // ループしているドラムロールを止める
     [_rollPlayerTmp stop];
@@ -420,12 +424,9 @@
         
     }];
     
-    
     // 初期画面を呼び出す
     [self greenRippleSetUp];
     
-    // ビューにimgViewCircleを描画
-    [self addSubview:greenCircle];
     [self ctrlBtnGrennRippleAnimationStart];
     
     
@@ -433,8 +434,10 @@
 
 - (void)stopAudioResetAnimation{
     if (_rollPlayerTmp.isPlaying || _rollPlayerAlt.isPlaying){
+        NSLog(@"stopAudioResetAnimationTrue");
         [self touchUpInsidePauseBtn:nil];
     }else{
+        NSLog(@"stopAudioResetAnimationFalse");
         // ループしているドラムロールを止める
         [_rollPlayerTmp stop];
         _rollPlayerTmp.currentTime = 0.0;
@@ -448,13 +451,8 @@
         
         // 【アニメーション】ロールのアニメーションを停止
         [self.ctrlBtn.imageView stopAnimating];
-        
         [self greenRippleSetUp];
-        
-        // ビューにimgViewCircleを描画
-        [self addSubview:greenCircle];
         [self ctrlBtnGrennRippleAnimationStart];
-
     }
 }
 
@@ -478,37 +476,45 @@
 - (void) greenRippleSetUp{
     NSLog(@"greenRippleSetUp");
     // デバイスがiphoneであるかそうでないかで分岐
+    UIColor *color;
+    CGFloat lineWidth;
+    CGFloat radius;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
         NSLog(@"iPhoneの処理");
         // ストロークカラーを緑に設定
-        UIColor *color = [UIColor colorWithRed:0.20 green:0.80 blue:0.40 alpha:1.0]; // EMERALD
+        color = [UIColor colorWithRed:0.20 green:0.80 blue:0.40 alpha:1.0]; // EMERALD
         // ストロークの太さを設定
-        CGFloat lineWidth = 2.5f;
+        lineWidth = 2.5f;
         // 半径を設定
-        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 0.95; //224
+        radius = (int)self.ctrlBtn.bounds.size.width * 0.95; //224
         // インスタンスを生成
-        greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+//        _greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
     }
     else{
         NSLog(@"iPadの処理");
         // ストロークカラーを緑に設定
-        UIColor *color = [UIColor colorWithRed:0.20 green:0.80 blue:0.40 alpha:1.0]; // EMERALD
+        color = [UIColor colorWithRed:0.20 green:0.80 blue:0.40 alpha:1.0]; // EMERALD
         // ストロークの太さを設定
-        CGFloat lineWidth = 10.0f;
+        lineWidth = 10.0f;
         // 半径を設定
-        CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 0.95; // 448
+        radius = (int)self.ctrlBtn.bounds.size.width * 0.95; // 448
         // インスタンスを生成
-        greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+        if (_greenCircle == nil) {
+//                   _greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+
+        }
     }
+    _greenCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
     
-    
-    [greenCircle setImage:[greenCircle imageFillEllipseInRect]];
+    [_greenCircle setImage:[_greenCircle imageFillEllipseInRect]];
     
     // イメージビューのセンターをctrlAudioPlayerBtn.centerと合わせる
-    [greenCircle setCenter:self.bugFixContainerViewForSnare.center];
+    [_greenCircle setCenter:self.bugFixContainerViewForSnare.center];
 
     // アニメーション再生まで隠しておく
-    [greenCircle setHidden:1];
+    [_greenCircle setHidden:1];
+    
+    [self addSubview:_greenCircle];
 }
 
 - (void)redRippleSetUp{
@@ -523,7 +529,7 @@
         // 半径を設定
         CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 1.2; // 286
         // インスタンスを生成
-        redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+        _redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
         
     }
     else{
@@ -535,17 +541,19 @@
         // 半径を設定
         CGFloat radius = (int)self.ctrlBtn.bounds.size.width * 1.2;// 542
         // インスタンスを生成
-        redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
+        _redCircle = [[ImageViewCircle alloc] initWithFrame:CGRectMake(0, 0, radius, radius) withColor:color withLineWidth:lineWidth];
     }
     
     
     
-    [redCircle setImage:[redCircle imageFillEllipseInRect]];
+    [_redCircle setImage:[_redCircle imageFillEllipseInRect]];
     
     // 円をctrlBtn.centerと合わせる
-    [redCircle setCenter:self.bugFixContainerViewForSnare.center];
+    [_redCircle setCenter:self.bugFixContainerViewForSnare.center];
     // ImageViewCircleをアニメーション開始までhiddenにする
-    [redCircle setHidden:1];
+    [_redCircle setHidden:1];
+    
+    [self addSubview:_redCircle];
 }
 
 - (void) ctrlBtnGrennRippleAnimationStart{
@@ -556,7 +564,7 @@
     // 円とctrlBtnのふわふわアニメーション
     // 【アニメーション】円の拡大アニメーションを3.0秒間隔で呼び出すタイマーを作る
     _rippleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0f
-                                                             target:greenCircle
+                                                             target:_greenCircle
                                                            selector:@selector(rippleAnimation)
                                                            userInfo:nil
                                                             repeats:YES];
@@ -578,7 +586,7 @@
     
     // 【アニメーション】円の縮小アニメーションを0.6秒間隔で呼び出すタイマーを作る
     _rippleAnimationTimer = [NSTimer scheduledTimerWithTimeInterval:0.6f
-                                                             target:redCircle
+                                                             target:_redCircle
                                                            selector:@selector(rippleAnimationReverse)
                                                            userInfo:nil
                                                             repeats:YES];

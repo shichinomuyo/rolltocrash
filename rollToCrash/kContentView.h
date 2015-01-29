@@ -22,8 +22,7 @@
     AVAudioPlayer *_rollPlayerTmp;
     AVAudioPlayer *_rollPlayerAlt;
     AVAudioPlayer *_crashPlayer;
-    ImageViewCircle *greenCircle;
-    ImageViewCircle *redCircle;
+
     // タイマー
     NSTimer *_playTimer; // AVAudioPlayerコントロール用
     // アニメーションタイマー
@@ -38,6 +37,8 @@
     
     UIImage *_imageBtnDefault;
 }
+@property ImageViewCircle *greenCircle;
+@property ImageViewCircle *redCircle;
 @property (strong, nonatomic) IBOutlet UIView* _contentView;
 @property (weak, nonatomic) IBOutlet UILabel *labelCaption;
 @property (weak, nonatomic) IBOutlet UIButton *ctrlBtn;

@@ -99,7 +99,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    NSLog(@"viewDidLoad");
     //バックグラウンド時の対応
     
     if (&UIApplicationDidEnterBackgroundNotification) {
@@ -178,21 +178,27 @@
 
 // scrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    NSLog(@"scrollViewDidScroll");
 
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    NSLog(@"scrollViewWillBeginDraggin");
     // get current page number
     CGFloat pageWidth = _kScrollView.frame.size.width;
     int pageNo = floor((_kScrollView.contentOffset.x - pageWidth/2)/pageWidth) + 1;
     _kPageControl.currentPage = pageNo;
     if (_kPageControl.currentPage == 0) {
         // stop roll
+        [self.kContentViewSnare.greenCircle removeFromSuperview];
         [self.kContentViewSnare stopAudioResetAnimation];
     } else if (_kPageControl.currentPage == 1){
+        [self.kContentViewTimpani.greenCircle removeFromSuperview];
         // stop roll
         [self.kContentViewTimpani stopAudioResetAnimation];
+        
     }
 }
-
-
 - (void)viewWillDisappear:(BOOL)animated{
     // 画面が隠れたらNend定期ロード中断
     [self.nadView pause];
@@ -214,9 +220,6 @@
     [self.nadView resume];
     
     [self.navigationController.navigationBar setHidden:1];
-
-    
-
 }
 
 -(void)viewDidLayoutSubviews{
@@ -230,9 +233,9 @@
     _constraintTimpaniViewHeight.constant = _containerViewBtnSetting.frame.origin.y;
 
 
-    CGRect aPageFrame = _kContentViewSnare.frame; // コンテンツ1ページ分のフレームを取得
+    // コンテンツ1ページ分のフレームは_constraintSnareViewWidth.constant
     // scrollable content's width and height　コンテントサイズのwidthをコンテンツ2ページ分に設定
-    _kScrollView.contentSize = CGSizeMake(aPageFrame.size.width * pages.count, aPageFrame.size.height);
+    _kScrollView.contentSize = CGSizeMake(_constraintSnareViewWidth.constant * pages.count, _constraintSnareViewWidth.constant);
     NSLog(@"contentsize:%.2f,%.2f",_kScrollView.contentSize.width,_kScrollView.contentSize.height);
 
 }

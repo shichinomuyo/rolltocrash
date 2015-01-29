@@ -13,8 +13,10 @@
 @synthesize myColor;
 @synthesize myLineWidth;
 
+
 - (id)initWithFrame:(CGRect)frame
 {
+    NSLog(@"initWithFrame");
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -26,6 +28,7 @@
 {
     self = [super initWithFrame:frame];
     if (self != nil) {
+        NSLog(@"circleInitWithFrame");
         // 初期化
         myColor = color;
         myLineWidth = lineWidth;
@@ -47,7 +50,6 @@
 
 // 円を描画するメソッド
 -(UIImage *)imageFillEllipseInRect{
-    
     UIImage *img = nil;
     CGSize ookisa = CGSizeMake(self.frame.size.width, self.frame.size.height);
     CGRect rect;
@@ -133,7 +135,7 @@
 }
 
 // 1倍の円から2倍への拡大アニメーション
--(void)circleAnimationFinish:(float)firstDuration{
+-(void)circleAnimationFinish:(float)firstDuration completion:(void (^)(void))completion{
     // transform初期化
     self.transform = CGAffineTransformIdentity;
     self.transform = CGAffineTransformIdentity;
@@ -154,6 +156,7 @@
                      }
                      completion:^(BOOL finished){
                          self.transform = CGAffineTransformIdentity;
+                         completion();
                          
                      }];
     
