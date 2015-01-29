@@ -59,14 +59,21 @@
             // 4s 480
             // 5/5s 568
             self.constraintVerticalSpaceBFVtoSuperView.constant = 108.0;
-
-
+            
+            if (rect.size.height <= 480) {
+                NSLog(@"4s");
+                self.constraintVerticalSpaceBFVtoSuperView.constant = 98.0;
+                [_bugFixContainerViewForPuseBtn setHidden:1];
+                [_pauseBtn setHidden:1];
+                self.constraintVerticalSpaceBFVPauseBtntoSuperView.constant = 320;
+            }
             NSLog(@"AdjustConstraint");
         } else if (rect.size.height <= 736){
             // heights
             // 6 667
             // 6Plus 736
-            self.constraintVerticalSpaceBFVtoSuperView.constant = 216.0;
+            self.constraintVerticalSpaceBFVtoSuperView.constant = 160.0;
+            self.constraintVerticalSpaceBFVPauseBtntoSuperView.constant = 420;
 
             
         }

@@ -37,6 +37,7 @@
     rollPlayer_alt.currentTime = 0.0;
     
     // クラッシュを再生する
+    [self setVolume:0.7];
     [self play];
 }
 
